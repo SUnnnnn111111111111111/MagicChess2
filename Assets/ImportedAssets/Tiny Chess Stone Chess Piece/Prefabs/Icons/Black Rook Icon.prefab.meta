@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 2939ec6a2e1a67543b5f5ee2f887b6bf
+timeCreated: 1518943621
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112537
+  packageName: Tiny Chess - Stone Chess Piece
+  packageVersion: 1.0
+  assetPath: Assets/Tiny Chess Stone Chess Piece/Prefabs/Icons/Black Rook Icon.prefab
+  uploadId: 232113

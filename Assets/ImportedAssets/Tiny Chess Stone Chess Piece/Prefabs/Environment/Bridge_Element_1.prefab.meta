@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 4070279820fd8cf45abb350380694c52
+timeCreated: 1516873095
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112537
+  packageName: Tiny Chess - Stone Chess Piece
+  packageVersion: 1.0
+  assetPath: Assets/Tiny Chess Stone Chess Piece/Prefabs/Environment/Bridge_Element_1.prefab
+  uploadId: 232113

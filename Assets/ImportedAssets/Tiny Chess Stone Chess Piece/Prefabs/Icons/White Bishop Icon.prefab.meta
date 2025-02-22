@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: d09bc902a9a8c2148a52e8563fe22485
+timeCreated: 1518943611
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112537
+  packageName: Tiny Chess - Stone Chess Piece
+  packageVersion: 1.0
+  assetPath: Assets/Tiny Chess Stone Chess Piece/Prefabs/Icons/White Bishop Icon.prefab
+  uploadId: 232113

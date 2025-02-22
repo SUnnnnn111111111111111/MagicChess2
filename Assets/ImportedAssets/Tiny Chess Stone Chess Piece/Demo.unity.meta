@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 46410c3e9e9919043bed62934e10c5f4
+timeCreated: 1518940743
+licenseType: Store
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112537
+  packageName: Tiny Chess - Stone Chess Piece
+  packageVersion: 1.0
+  assetPath: Assets/Tiny Chess Stone Chess Piece/Demo.unity
+  uploadId: 232113

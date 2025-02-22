@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 2156d065a457b084e80f9e488a434e66
+timeCreated: 1517475499
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112537
+  packageName: Tiny Chess - Stone Chess Piece
+  packageVersion: 1.0
+  assetPath: Assets/Tiny Chess Stone Chess Piece/Materials/Environment/Black Flag.mat
+  uploadId: 232113

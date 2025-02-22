@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 7ccfa6040a39dc14286995c5f77b2a2e
+timeCreated: 1516775160
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112537
+  packageName: Tiny Chess - Stone Chess Piece
+  packageVersion: 1.0
+  assetPath: Assets/Tiny Chess Stone Chess Piece/Materials/Environment/Stone Bridge.mat
+  uploadId: 232113

@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 8cb80f9e8daf7dc4b944bac0d8071caf
+timeCreated: 1518851744
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112537
+  packageName: Tiny Chess - Stone Chess Piece
+  packageVersion: 1.0
+  assetPath: Assets/Tiny Chess Stone Chess Piece/Materials/Chess Piece/Stone Black
+    Pawn mtl.mat
+  uploadId: 232113

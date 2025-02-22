@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 18daad8374bd4c1448810837ce81b5a2
+timeCreated: 1518943606
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112537
+  packageName: Tiny Chess - Stone Chess Piece
+  packageVersion: 1.0
+  assetPath: Assets/Tiny Chess Stone Chess Piece/Prefabs/Icons/White Horse Icon.prefab
+  uploadId: 232113

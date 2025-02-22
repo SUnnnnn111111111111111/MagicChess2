@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 0bd9b4747be9a8d45a0bc55057116f45
+timeCreated: 1517475881
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 112537
+  packageName: Tiny Chess - Stone Chess Piece
+  packageVersion: 1.0
+  assetPath: Assets/Tiny Chess Stone Chess Piece/Prefabs/Environment/Flagpole White.prefab
+  uploadId: 232113
