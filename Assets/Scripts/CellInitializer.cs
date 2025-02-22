@@ -2,12 +2,10 @@ using UnityEngine;
 
 public class CellInitializer : MonoBehaviour
 {
-    public CellStorage CellStorage; // Ссылка на хранилище клеток
-    public float CellSize = 2.0f; // Размер клетки (шаг)
+    public CellStorage CellStorage;
 
     void Start()
     {
-        CellStorage.CellSize = CellSize; // Устанавливаем размер клетки
         InitializeCells();
     }
 
@@ -17,14 +15,12 @@ public class CellInitializer : MonoBehaviour
 
         foreach (CellView cellView in cellViews)
         {
-            Vector3Int cellPosition = CalculateCellPosition(cellView.transform.position);
+            Vector3Int cellPosition = Vector3Int.RoundToInt(cellView.transform.position);
             Debug.Log($"Инициализация клетки на позиции {cellPosition}.");
 
             CellData cellData = new CellData
             {
-                Position = cellPosition,
-                IsOccupied = false,
-                OccupyingPiece = null
+                Position = cellPosition
             };
 
             cellView.Initialize(cellData);
@@ -32,14 +28,6 @@ public class CellInitializer : MonoBehaviour
         }
 
         ConnectCells();
-    }
-
-    Vector3Int CalculateCellPosition(Vector3 worldPosition)
-    {
-        int x = Mathf.RoundToInt(worldPosition.x / CellSize);
-        int y = Mathf.RoundToInt(worldPosition.y / CellSize);
-        int z = Mathf.RoundToInt(worldPosition.z / CellSize);
-        return new Vector3Int(x, y, z);
     }
 
     void ConnectCells()
@@ -63,9 +51,10 @@ public class CellInitializer : MonoBehaviour
         foreach (var offset in neighborOffsets)
         {
             Vector3Int neighborPosition = cellData.Position + offset;
-            if (CellStorage.AllCells.ContainsKey(neighborPosition))
+            CellData neighbor = CellStorage.GetCellData(neighborPosition);
+            if (neighbor != null)
             {
-                cellData.Neighbors.Add(CellStorage.AllCells[neighborPosition]);
+                cellData.Neighbors.Add(neighbor);
             }
         }
     }

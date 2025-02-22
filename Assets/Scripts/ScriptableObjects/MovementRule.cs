@@ -4,12 +4,12 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "MovementRule", menuName = "Chess/MovementRule")]
 public class MovementRule : ScriptableObject
 {
-    public List<Vector3Int> Offsets; // Список смещений для хода фигуры
+    public List<Vector3> Offsets; // Список смещений для хода фигуры
 
-    public List<Vector3Int> GetPossibleMoves(Vector3Int currentPosition)
+    public List<Vector3> GetPossibleMoves(Vector3 currentPosition)
     {
-        List<Vector3Int> possibleMoves = new List<Vector3Int>();
-        foreach (Vector3Int offset in Offsets)
+        List<Vector3> possibleMoves = new List<Vector3>();
+        foreach (Vector3 offset in Offsets)
         {
             possibleMoves.Add(currentPosition + offset);
         }

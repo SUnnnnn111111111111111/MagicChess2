@@ -3,28 +3,13 @@ using UnityEngine;
 
 public class PieceStorage : MonoBehaviour
 {
-    public static PieceStorage Instance; // Синглтон
-
-    public Dictionary<Vector3Int, GameObject> AllPieces { get; private set; } = new Dictionary<Vector3Int, GameObject>();
+    public Dictionary<Vector3, GameObject> AllPieces { get; private set; } = new Dictionary<Vector3, GameObject>();
 
     [SerializeField]
-    private List<GameObject> pieceObjects = new List<GameObject>(); // Список GameObject фигур для отображения в инспекторе
-
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this; // Инициализация синглтона
-        }
-        else
-        {
-            Debug.LogError("Обнаружено несколько экземпляров PieceStorage! Убедитесь, что на сцене только один PieceStorage.");
-            Destroy(gameObject);
-        }
-    }
+    private List<GameObject> pieceObjects = new List<GameObject>(); // Список GameObject фигур
 
     // Регистрация фигуры
-    public void RegisterPiece(GameObject piece, Vector3Int position, CellData cellData)
+    public void RegisterPiece(GameObject piece, Vector3 position, CellData cellData)
     {
         if (piece == null)
         {
@@ -45,45 +30,30 @@ public class PieceStorage : MonoBehaviour
         }
 
         AllPieces[position] = piece;
-        pieceObjects.Add(piece); // Добавляем GameObject в список для отображения в инспекторе
-        cellData.IsOccupied = true;
-        cellData.OccupyingPiece = piece;
+        pieceObjects.Add(piece);
+        cellData.OccupiedBy = piece;
         Debug.Log($"Фигура {piece.name} зарегистрирована на позиции {position}.");
     }
 
     // Удаление фигуры
-    public void UnregisterPiece(Vector3Int position)
+    public void UnregisterPiece(Vector3 position)
     {
         if (AllPieces.ContainsKey(position))
         {
             GameObject piece = AllPieces[position];
-            pieceObjects.Remove(piece); // Удаляем GameObject из списка
+            pieceObjects.Remove(piece);
             AllPieces.Remove(position);
-
-            CellData cellData = CellStorage.Instance.GetCellData(position);
-            if (cellData != null)
-            {
-                cellData.IsOccupied = false;
-                cellData.OccupyingPiece = null;
-            }
-
             Debug.Log($"Фигура удалена с позиции {position}.");
         }
     }
 
     // Получение фигуры по позиции
-    public GameObject GetPieceAtPosition(Vector3Int position)
+    public GameObject GetPieceAtPosition(Vector3 position)
     {
         if (AllPieces.ContainsKey(position))
         {
             return AllPieces[position];
         }
         return null;
-    }
-
-    // Проверка, занята ли клетка
-    public bool IsCellOccupied(Vector3Int position)
-    {
-        return AllPieces.ContainsKey(position);
     }
 }

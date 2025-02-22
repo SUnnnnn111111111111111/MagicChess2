@@ -7,7 +7,8 @@ public class CellView : MonoBehaviour
 
     void Start()
     {
-        cellRenderer = GetComponent<Renderer>();
+        // Получаем Renderer из дочернего объекта
+        cellRenderer = GetComponentInChildren<Renderer>();
         UpdateVisuals();
     }
 
