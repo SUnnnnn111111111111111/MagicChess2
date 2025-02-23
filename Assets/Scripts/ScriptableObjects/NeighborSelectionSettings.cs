@@ -81,14 +81,14 @@ public class NeighborSelectionSettings : ScriptableObject
                     }
                     break;
                 case NeighborType.KnightMove:
-                    offsets.Add(new Vector2Int(6, 1));
-                    offsets.Add(new Vector2Int(6, -1));
-                    offsets.Add(new Vector2Int(-6, 1));
-                    offsets.Add(new Vector2Int(-6, -1));
-                    offsets.Add(new Vector2Int(1, 6));
-                    offsets.Add(new Vector2Int(1, -6));
-                    offsets.Add(new Vector2Int(-1, 6));
-                    offsets.Add(new Vector2Int(-1, -6));
+                    offsets.Add(new Vector2Int(4, 2));
+                    offsets.Add(new Vector2Int(4, -2));
+                    offsets.Add(new Vector2Int(-4, 2));
+                    offsets.Add(new Vector2Int(-4, -2));
+                    offsets.Add(new Vector2Int(2, 4));
+                    offsets.Add(new Vector2Int(2, -4));
+                    offsets.Add(new Vector2Int(-2, 4));
+                    offsets.Add(new Vector2Int(-2, -4));
                     break;
             }
         }
