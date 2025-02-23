@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: KingNeighborSelectionSettings
   m_EditorClassIdentifier: 
   neighborRules:
-  - neighborType: 0
-    maxDistance: 1
+  - neighborType: 4
+    maxDistance: 2

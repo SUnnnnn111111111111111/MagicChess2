@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BishopNeighborSelectionSettings
   m_EditorClassIdentifier: 
   neighborRules:
-  - neighborType: 1
-    maxDistance: 8
+  - neighborType: 3
+    maxDistance: 16

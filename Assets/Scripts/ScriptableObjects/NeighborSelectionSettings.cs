@@ -4,13 +4,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NeighborSelectionSettings", menuName = "Chess/NeighborSelectionSettings")]
 public class NeighborSelectionSettings : ScriptableObject
 {
-    public enum NeighborType { Horizontal, Vertical, HorizontalVertical, Diagonal, HorizontalVerticalDiagonal, KnightMove }
+    public enum NeighborType { Horizontal, Vertical, HorizontalVertical, Diagonal, HorizontalVerticalDiagonal, WhitePawn, BlackPawn, KnightMove }
 
     [System.Serializable]
     public class NeighborRule
     {
         public NeighborType neighborType;
-        public int maxDistance = 1;
+        public int maxDistance = 2;
     }
 
     public List<NeighborRule> neighborRules = new List<NeighborRule>();
@@ -68,15 +68,27 @@ public class NeighborSelectionSettings : ScriptableObject
                         offsets.Add(new Vector2Int(-i, i));
                     }
                     break;
+                case NeighborType.WhitePawn:
+                    for (int i = 1; i <= rule.maxDistance; i++)
+                    {
+                        offsets.Add(new Vector2Int(0, i));
+                    }
+                    break;
+                case NeighborType.BlackPawn:
+                    for (int i = 1; i <= rule.maxDistance; i++)
+                    {
+                        offsets.Add(new Vector2Int(0, -i));
+                    }
+                    break;
                 case NeighborType.KnightMove:
-                    offsets.Add(new Vector2Int(2, 1));
-                    offsets.Add(new Vector2Int(2, -1));
-                    offsets.Add(new Vector2Int(-2, 1));
-                    offsets.Add(new Vector2Int(-2, -1));
-                    offsets.Add(new Vector2Int(1, 2));
-                    offsets.Add(new Vector2Int(1, -2));
-                    offsets.Add(new Vector2Int(-1, 2));
-                    offsets.Add(new Vector2Int(-1, -2));
+                    offsets.Add(new Vector2Int(6, 1));
+                    offsets.Add(new Vector2Int(6, -1));
+                    offsets.Add(new Vector2Int(-6, 1));
+                    offsets.Add(new Vector2Int(-6, -1));
+                    offsets.Add(new Vector2Int(1, 6));
+                    offsets.Add(new Vector2Int(1, -6));
+                    offsets.Add(new Vector2Int(-1, 6));
+                    offsets.Add(new Vector2Int(-1, -6));
                     break;
             }
         }

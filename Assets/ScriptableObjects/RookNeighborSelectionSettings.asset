@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: RookNeighborSelectionSettings
   m_EditorClassIdentifier: 
   neighborRules:
-  - neighborType: 0
-    maxDistance: 8
+  - neighborType: 2
+    maxDistance: 16
