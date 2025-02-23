@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
         set
         {
             selectedFigure = value;
-            Debug.Log(selectedFigure != null ? $"✅ Выбрана фигура: {selectedFigure.name}" : "⚠️ Фигура снята с выбора.");
+            // Debug.Log(selectedFigure != null ? $"✅ Выбрана фигура: {selectedFigure.name}" : "⚠️ Фигура снята с выбора.");
         }
     }
 

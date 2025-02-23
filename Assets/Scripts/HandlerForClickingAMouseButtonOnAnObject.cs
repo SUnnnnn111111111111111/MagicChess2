@@ -9,11 +9,11 @@ public class HandlerForClickingAMouseButtonOnAnObject : MonoBehaviour
 
     private void Start()
     {
-        figure = GetComponentInParent<Figure>(); // 🟢 Ищем Figure у родителя
+        figure = GetComponentInParent<Figure>();
 
         if (figure == null)
         {
-            Debug.LogWarning($"⚠️ {gameObject.name} (HandlerForClickingAMouseButtonOnAnObject) не нашёл Figure!");
+            // Debug.LogWarning($" {gameObject.name} (HandlerForClickingAMouseButtonOnAnObject) не нашёл Figure!");
         }
     }
 
@@ -30,7 +30,7 @@ public class HandlerForClickingAMouseButtonOnAnObject : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("⚠️ Клик по объекту, но фигура не найдена!");
+            // Debug.LogWarning(" Клик по объекту, но фигура не найдена!");
         }
     }
 }

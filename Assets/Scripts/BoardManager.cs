@@ -45,6 +45,6 @@ public class BoardManager : MonoBehaviour
             tile.SetNeighbors(neighbors);
         }
 
-        Debug.Log($"✅ Все клетки инициализированы: {tiles.Count} шт.");
+        // Debug.Log($" Все клетки инициализированы: {tiles.Count} шт.");
     }
 }

@@ -8,7 +8,7 @@ public class Figure : MonoBehaviour
 
     private void Start()
     {
-        // Ожидаем 0.1 секунды перед установкой клетки (чтобы дать BoardManager зарегистрировать клетки)
+        // Даем время BoardManager зарегистрировать все клетки перед поиском
         Invoke(nameof(LateStart), 0.1f);
     }
 
@@ -41,11 +41,33 @@ public class Figure : MonoBehaviour
 
     public void MoveToTile(Tile targetTile)
     {
-        if (targetTile == null) return;
+        if (targetTile == null)
+        {
+            Debug.LogWarning($"⚠️ {gameObject.name} → Попытка хода на несуществующую клетку!");
+            return;
+        }
+
+        if (!targetTile.IsHighlighted) // 🚀 Теперь можно ходить только на доступные клетки
+        {
+            Debug.LogWarning($"⛔ {gameObject.name} → Клетка {targetTile.name} не является доступной для хода!");
+            return;
+        }
 
         transform.position = targetTile.transform.position;
         currentTile = targetTile;
+        
+        // 🟢 Сбрасываем hover-подсветку на всех клетках перед ходом
         HighlightController.Instance.ClearHighlights();
+
+        // 🟢 Вызываем ResetHoverEffect() у `TileHoverHandler` новой клетки
+        TileHoverHandler hoverHandler = targetTile.GetComponentInChildren<TileHoverHandler>();
+        if (hoverHandler != null)
+        {
+            hoverHandler.ResetHoverEffect();
+        }
+
         GameManager.Instance.SelectedFigure = null;
+
+        Debug.Log($"✅ {gameObject.name} переместился на {targetTile.name}");
     }
 }

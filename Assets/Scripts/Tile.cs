@@ -6,10 +6,22 @@ public class Tile : MonoBehaviour
     public Vector2Int Position { get; private set; }
     public List<Tile> Neighbors { get; private set; } = new List<Tile>();
 
+    [SerializeField] private GameObject highlightObject; // 🔵 Основная подсветка
+    public bool IsHighlighted { get; private set; } = false; // 🚀 Теперь `Figure` проверяет этот флаг
+
     private void Start()
     {
         Position = new Vector2Int((int)transform.position.x, (int)transform.position.z);
         BoardManager.Instance.RegisterTile(this, Position);
+
+        if (highlightObject == null)
+        {
+            Debug.LogWarning($"⚠️ [Tile] {name} → Не назначен объект подсветки (HighlightAvailableNeighbourTiles)!");
+        }
+        else
+        {
+            highlightObject.SetActive(false); // 🔴 Отключаем по умолчанию
+        }
     }
 
     public void SetNeighbors(List<Tile> neighbors)
@@ -29,16 +41,26 @@ public class Tile : MonoBehaviour
         return result;
     }
 
+    public GameObject GetHighlightObject()
+    {
+        return highlightObject;
+    }
+
+    public void SetHighlighted(bool state)
+    {
+        if (highlightObject != null)
+        {
+            highlightObject.SetActive(state);
+            IsHighlighted = state;
+            Debug.Log($"✅ [Tile] {name} → Основная подсветка {(state ? "Включена" : "Выключена")}");
+        }
+    }
+
     private void OnMouseDown()
     {
         if (GameManager.Instance.SelectedFigure != null)
         {
-            Debug.Log($"🏁 Клик по клетке: {Position}");
             GameManager.Instance.SelectedFigure.MoveToTile(this);
-        }
-        else
-        {
-            Debug.LogWarning("⚠️ Клик по клетке, но фигура не выбрана!");
         }
     }
 }

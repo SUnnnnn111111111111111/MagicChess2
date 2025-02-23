@@ -13,33 +13,46 @@ public class HighlightController : MonoBehaviour
 
     public void HighlightTiles(List<Tile> tilesToHighlight)
     {
-        ClearHighlights();
+        ClearHighlights(); // Убираем старую подсветку
+
         foreach (var tile in tilesToHighlight)
         {
-            Renderer tileRenderer = tile.GetComponentInChildren<Renderer>(); // 🟢 Ищем Renderer в дочерних объектах
-            if (tileRenderer != null)
+            GameObject highlightObject = tile.GetHighlightObject();
+            if (highlightObject != null)
             {
-                tileRenderer.material.color = Color.yellow;
+                highlightObject.SetActive(true); // 🟢 Включаем подсветку доступных ходов
+                tile.SetHighlighted(true); // 🚀 Теперь Figure может проверить этот флаг
                 highlightedTiles.Add(tile);
+                Debug.Log($"✅ [Highlight] Подсвечена клетка {tile.name}");
             }
             else
             {
-                Debug.LogWarning($"⚠️ У клетки {tile.name} нет Renderer!");
+                Debug.LogWarning($"⚠️ [Highlight] У клетки {tile.name} не назначен объект подсветки!");
             }
         }
-        Debug.Log($"✅ Подсвечено {highlightedTiles.Count} клеток");
+        Debug.Log($"🔆 [Highlight] Подсвечено {highlightedTiles.Count} клеток");
     }
 
     public void ClearHighlights()
     {
         foreach (var tile in highlightedTiles)
         {
-            Renderer tileRenderer = tile.GetComponentInChildren<Renderer>(); // 🟢 Ищем Renderer в дочерних объектах
-            if (tileRenderer != null)
+            GameObject highlightObject = tile.GetHighlightObject();
+            if (highlightObject != null)
             {
-                tileRenderer.material.color = Color.white;
+                highlightObject.SetActive(false); // 🔴 Выключаем подсветку доступных ходов
+                tile.SetHighlighted(false);
+                Debug.Log($"❌ [Highlight] Убрана подсветка у {tile.name}");
+            }
+
+            // 🟢 Также сбрасываем Hover-подсветку
+            TileHoverHandler hoverHandler = tile.GetComponentInChildren<TileHoverHandler>();
+            if (hoverHandler != null)
+            {
+                hoverHandler.ResetHoverEffect();
             }
         }
         highlightedTiles.Clear();
     }
+
 }
