@@ -18,11 +18,11 @@ public class Figure : MonoBehaviour
 
         if (currentTile == null)
         {
-            Debug.LogWarning($"⚠️ Фигура {gameObject.name} не смогла найти свою клетку!");
+            // Debug.LogWarning($"⚠️ Фигура {gameObject.name} не смогла найти свою клетку!");
         }
         else
         {
-            Debug.Log($"✅ Фигура {gameObject.name} стоит на клетке {currentTile.Position}");
+            // Debug.Log($"✅ Фигура {gameObject.name} стоит на клетке {currentTile.Position}");
         }
     }
 
@@ -35,7 +35,7 @@ public class Figure : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"⚠️ Фигура {gameObject.name} не смогла подсветить ходы: текущая клетка не найдена!");
+            // Debug.LogWarning($"⚠️ Фигура {gameObject.name} не смогла подсветить ходы: текущая клетка не найдена!");
         }
     }
 
@@ -43,13 +43,13 @@ public class Figure : MonoBehaviour
     {
         if (targetTile == null)
         {
-            Debug.LogWarning($"⚠️ {gameObject.name} → Попытка хода на несуществующую клетку!");
+            // Debug.LogWarning($"⚠️ {gameObject.name} → Попытка хода на несуществующую клетку!");
             return;
         }
 
         if (!targetTile.IsHighlighted) // 🚀 Теперь можно ходить только на доступные клетки
         {
-            Debug.LogWarning($"⛔ {gameObject.name} → Клетка {targetTile.name} не является доступной для хода!");
+            // Debug.LogWarning($"⛔ {gameObject.name} → Клетка {targetTile.name} не является доступной для хода!");
             return;
         }
 
@@ -68,6 +68,6 @@ public class Figure : MonoBehaviour
 
         GameManager.Instance.SelectedFigure = null;
 
-        Debug.Log($"✅ {gameObject.name} переместился на {targetTile.name}");
+        // Debug.Log($"✅ {gameObject.name} переместился на {targetTile.name}");
     }
 }

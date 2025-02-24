@@ -4,33 +4,12 @@ using UltEvents;
 public class HandlerForClickingAMouseButtonOnAnObject : MonoBehaviour
 {
     public bool isActive;
-    [SerializeField] private UltEvent WhenClickOnAnObject;
-    private Figure figure;
+    [SerializeField] private UltEvent  WhenClickOnAnObject;
 
-    private void Start()
+
+    void OnMouseDown()
     {
-        figure = GetComponentInParent<Figure>();
-
-        if (figure == null)
-        {
-            // Debug.LogWarning($" {gameObject.name} (HandlerForClickingAMouseButtonOnAnObject) не нашёл Figure!");
-        }
-    }
-
-    private void OnMouseDown()
-    {
-        if (!isActive) return;
-
+        if(isActive)
         WhenClickOnAnObject.Invoke();
-
-        if (figure != null)
-        {
-            GameManager.Instance.SelectedFigure = figure;
-            figure.HighlightAvailableMoves();
-        }
-        else
-        {
-            // Debug.LogWarning(" Клик по объекту, но фигура не найдена!");
-        }
     }
 }

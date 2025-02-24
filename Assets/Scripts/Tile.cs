@@ -16,7 +16,7 @@ public class Tile : MonoBehaviour
 
         if (highlightObject == null)
         {
-            Debug.LogWarning($"⚠️ [Tile] {name} → Не назначен объект подсветки (HighlightAvailableNeighbourTiles)!");
+            // Debug.LogWarning($"⚠️ [Tile] {name} → Не назначен объект подсветки (HighlightAvailableNeighbourTiles)!");
         }
         else
         {
@@ -52,7 +52,7 @@ public class Tile : MonoBehaviour
         {
             highlightObject.SetActive(state);
             IsHighlighted = state;
-            Debug.Log($"✅ [Tile] {name} → Основная подсветка {(state ? "Включена" : "Выключена")}");
+            // Debug.Log($"✅ [Tile] {name} → Основная подсветка {(state ? "Включена" : "Выключена")}");
         }
     }
 

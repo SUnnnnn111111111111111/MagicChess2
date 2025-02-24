@@ -23,14 +23,14 @@ public class HighlightController : MonoBehaviour
                 highlightObject.SetActive(true); // 🟢 Включаем подсветку доступных ходов
                 tile.SetHighlighted(true); // 🚀 Теперь Figure может проверить этот флаг
                 highlightedTiles.Add(tile);
-                Debug.Log($"✅ [Highlight] Подсвечена клетка {tile.name}");
+                // Debug.Log($"✅ [Highlight] Подсвечена клетка {tile.name}");
             }
             else
             {
-                Debug.LogWarning($"⚠️ [Highlight] У клетки {tile.name} не назначен объект подсветки!");
+                // Debug.LogWarning($"⚠️ [Highlight] У клетки {tile.name} не назначен объект подсветки!");
             }
         }
-        Debug.Log($"🔆 [Highlight] Подсвечено {highlightedTiles.Count} клеток");
+        // Debug.Log($"🔆 [Highlight] Подсвечено {highlightedTiles.Count} клеток");
     }
 
     public void ClearHighlights()
@@ -42,7 +42,7 @@ public class HighlightController : MonoBehaviour
             {
                 highlightObject.SetActive(false); // 🔴 Выключаем подсветку доступных ходов
                 tile.SetHighlighted(false);
-                Debug.Log($"❌ [Highlight] Убрана подсветка у {tile.name}");
+                // Debug.Log($"❌ [Highlight] Убрана подсветка у {tile.name}");
             }
 
             // 🟢 Также сбрасываем Hover-подсветку
