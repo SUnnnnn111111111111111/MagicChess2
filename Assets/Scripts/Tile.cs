@@ -6,22 +6,24 @@ public class Tile : MonoBehaviour
     public Vector2Int Position { get; private set; }
     public List<Tile> Neighbors { get; private set; } = new List<Tile>();
 
-    [SerializeField] private GameObject highlightObject; // 🔵 Основная подсветка
-    public bool IsHighlighted { get; private set; } = false; // 🚀 Теперь `Figure` проверяет этот флаг
+    [SerializeField] private GameObject highlightObject;
+    [SerializeField] private GameObject enemyHighlightObject;
+    
+    [SerializeField] private int teamAffiliation = -1; // -1: пусто, 0: белая, 1: черная
+    public int TeamAffiliation => teamAffiliation;
+
+    public bool IsHighlighted { get; private set; } = false;
 
     private void Start()
     {
         Position = new Vector2Int((int)transform.position.x, (int)transform.position.z);
-        BoardManager.Instance.RegisterTile(this, Position);
+        TileManager.Instance.RegisterTile(this, Position);
 
-        if (highlightObject == null)
-        {
-            // Debug.LogWarning($"⚠️ [Tile] {name} → Не назначен объект подсветки (HighlightAvailableNeighbourTiles)!");
-        }
-        else
-        {
-            highlightObject.SetActive(false); // 🔴 Отключаем по умолчанию
-        }
+        if (highlightObject != null)
+            highlightObject.SetActive(false);
+
+        if (enemyHighlightObject != null)
+            enemyHighlightObject.SetActive(false);
     }
 
     public void SetNeighbors(List<Tile> neighbors)
@@ -34,11 +36,16 @@ public class Tile : MonoBehaviour
         List<Tile> result = new List<Tile>();
         foreach (var offset in settings.GetOffsets())
         {
-            Tile neighbor = BoardManager.Instance.GetTileAt(Position + offset);
+            Tile neighbor = TileManager.Instance.GetTileAt(Position + offset);
             if (neighbor != null)
                 result.Add(neighbor);
         }
         return result;
+    }
+
+    public void SetBlackTeamAffiliation(int affiliation)
+    {
+        teamAffiliation = affiliation;
     }
 
     public GameObject GetHighlightObject()
@@ -52,7 +59,22 @@ public class Tile : MonoBehaviour
         {
             highlightObject.SetActive(state);
             IsHighlighted = state;
-            // Debug.Log($"✅ [Tile] {name} → Основная подсветка {(state ? "Включена" : "Выключена")}");
+        }
+    }
+
+    public void HighlightEnemy()
+    {
+        if (enemyHighlightObject != null)
+        {
+            enemyHighlightObject.SetActive(true);
+        }
+    }
+
+    public void ResetEnemyHighlight()
+    {
+        if (enemyHighlightObject != null)
+        {
+            enemyHighlightObject.SetActive(false);
         }
     }
 

@@ -5217,6 +5217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52902fda56450a4fb6cb954f88da837, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blackTeamAffiliation: 0
   neighborSelectionSettings: {fileID: 0}
 --- !u!1 &7736452806140158231
 GameObject:
