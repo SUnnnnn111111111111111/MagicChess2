@@ -175,17 +175,6 @@ MonoBehaviour:
         _Z: 1.1
         _W: 0
         _Object: {fileID: 0}
-    - _Target: {fileID: 450095292764287870}
-      _MemberName: SetActive
-      _PersistentArguments:
-      - _Type: 1
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
   OnRemovingMouseHover:
     _PersistentCalls:
     - _Target: {fileID: 3976626427086284549}
@@ -197,17 +186,6 @@ MonoBehaviour:
         _X: 1
         _Y: 1
         _Z: 1
-        _W: 0
-        _Object: {fileID: 0}
-    - _Target: {fileID: 450095292764287870}
-      _MemberName: SetActive
-      _PersistentArguments:
-      - _Type: 1
-        _Int: 0
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
         _W: 0
         _Object: {fileID: 0}
 --- !u!1 &2554840870046549271
@@ -1025,7 +1003,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 1.5
+      value: 1
       mode: 0
       spread: 0
       speed:
