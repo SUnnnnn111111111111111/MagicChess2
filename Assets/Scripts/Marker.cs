@@ -3,5 +3,5 @@ using UnityEngine;
 
 public class TaskMarker : MonoBehaviour
 {
-    public Task task;
+    [SerializeField] private Task task;
 }

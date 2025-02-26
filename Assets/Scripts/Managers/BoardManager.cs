@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class TileManager : MonoBehaviour
+public class BoardManager : MonoBehaviour
 {
-    public static TileManager Instance { get; private set; }
+    public static BoardManager Instance { get; private set; }
 
     private Dictionary<Vector2Int, Tile> tiles = new Dictionary<Vector2Int, Tile>();
 

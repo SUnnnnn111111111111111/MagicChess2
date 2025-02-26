@@ -5090,9 +5090,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightObject: {fileID: 790792054133794789}
-  enemyHighlightObject: {fileID: 6803103403524892050}
-  hoverHighlightObject: {fileID: 147848337690046289}
-  teamAffiliation: -1
 --- !u!1 &4767043416448978697
 GameObject:
   m_ObjectHideFlags: 0
