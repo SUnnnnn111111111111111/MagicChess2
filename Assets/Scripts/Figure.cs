@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+
 public class Figure : MonoBehaviour
 {
     public NeighborSelectionSettings neighborSelectionSettings;
@@ -16,9 +17,9 @@ public class Figure : MonoBehaviour
     {
         currentTile = BoardManager.Instance.GetTileAt(new Vector2Int((int)transform.position.x, (int)transform.position.z));
 
-        if (currentTile == null)
+        if (currentTile != null)
         {
-            // Debug.LogWarning($"⚠️ Фигура {gameObject.name} не смогла найти свою клетку!");
+            currentTile.SetOccupied(true);
         }
         else
         {
@@ -28,46 +29,86 @@ public class Figure : MonoBehaviour
 
     public void HighlightAvailableMoves()
     {
-        if (currentTile != null)
+        if (currentTile == null) return;
+
+        List<Tile> availableMoves = new List<Tile>();
+        List<Tile> possibleMoves = currentTile.GetNeighbors(neighborSelectionSettings);
+
+        // Группируем клетки по направлению (по осям X, Z и диагоналям)
+        Dictionary<Vector2Int, List<Tile>> directionalMoves = new Dictionary<Vector2Int, List<Tile>>();
+
+        foreach (var offset in neighborSelectionSettings.GetOffsets())
         {
-            List<Tile> availableMoves = currentTile.GetNeighbors(neighborSelectionSettings);
-            HighlightController.Instance.HighlightTiles(availableMoves);
+            directionalMoves[offset] = new List<Tile>();
         }
-        else
+
+        foreach (var tile in possibleMoves)
         {
-            // Debug.LogWarning($"⚠️ Фигура {gameObject.name} не смогла подсветить ходы: текущая клетка не найдена!");
+            Vector2Int direction = GetDirection(tile.Position, currentTile.Position);
+            if (directionalMoves.ContainsKey(direction))
+            {
+                directionalMoves[direction].Add(tile);
+            }
         }
+
+        // Проверяем каждое направление на наличие преграды
+        foreach (var entry in directionalMoves)
+        {
+            bool foundObstacle = false;
+            foreach (var tile in entry.Value)
+            {
+                if (foundObstacle) break; // Если нашли препятствие, дальше не проверяем
+
+                if (tile.IsOccupied)
+                {
+                    foundObstacle = true; // Преграда найдена, дальше клетки не подсвечиваем
+                }
+                else
+                {
+                    availableMoves.Add(tile);
+                }
+            }
+        }
+
+        HighlightController.Instance.HighlightTiles(availableMoves);
     }
+
+    private Vector2Int GetDirection(Vector2Int from, Vector2Int to)
+    {
+        Vector2Int diff = to - from;
+        return new Vector2Int(
+            diff.x == 0 ? 0 : diff.x / Mathf.Abs(diff.x), 
+            diff.y == 0 ? 0 : diff.y / Mathf.Abs(diff.y)
+        );
+    }
+
+
 
     public void MoveToTile(Tile targetTile)
     {
-        if (targetTile == null)
+        if (targetTile == null || targetTile.IsOccupied)
         {
-            // Debug.LogWarning($"⚠️ {gameObject.name} → Попытка хода на несуществующую клетку!");
+            // Запрет перемещения на занятые клетки
             return;
         }
 
-        if (!targetTile.IsHighlighted) // 🚀 Теперь можно ходить только на доступные клетки
+        if (!targetTile.IsHighlighted)
         {
-            // Debug.LogWarning($"⛔ {gameObject.name} → Клетка {targetTile.name} не является доступной для хода!");
             return;
         }
 
+        // Освобождаем текущую клетку
+        currentTile.SetOccupied(false);
+
+        // Двигаем фигуру
         transform.position = targetTile.transform.position;
         currentTile = targetTile;
-        
-        // 🟢 Сбрасываем hover-подсветку на всех клетках перед ходом
+
+        // Занимаем новую клетку
+        currentTile.SetOccupied(true);
+
         HighlightController.Instance.ClearHighlights();
-
-        // 🟢 Вызываем ResetHoverEffect() у `TileHoverHandler` новой клетки
-        TileHoverHandler hoverHandler = targetTile.GetComponentInChildren<TileHoverHandler>();
-        if (hoverHandler != null)
-        {
-            hoverHandler.ResetHoverEffect();
-        }
-
         GameManager.Instance.SelectedFigure = null;
-
-        // Debug.Log($"✅ {gameObject.name} переместился на {targetTile.name}");
     }
+
 }

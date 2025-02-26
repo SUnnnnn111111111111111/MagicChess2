@@ -5,6 +5,7 @@ public class Tile : MonoBehaviour
 {
     public Vector2Int Position { get; private set; }
     public List<Tile> Neighbors { get; private set; } = new List<Tile>();
+    public bool IsOccupied { get; private set; } = false;
 
     [SerializeField] private GameObject highlightObject; // 🔵 Основная подсветка
     public bool IsHighlighted { get; private set; } = false; // 🚀 Теперь `Figure` проверяет этот флаг
@@ -54,6 +55,11 @@ public class Tile : MonoBehaviour
             IsHighlighted = state;
             // Debug.Log($"✅ [Tile] {name} → Основная подсветка {(state ? "Включена" : "Выключена")}");
         }
+    }
+
+    public void SetOccupied(bool occupied)
+    {
+        IsOccupied = occupied;
     }
 
     private void OnMouseDown()
