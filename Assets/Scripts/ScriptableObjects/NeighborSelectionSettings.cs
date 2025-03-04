@@ -1,10 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum NeighborType
+{
+    Horizontal, 
+    Vertical, 
+    HorizontalVertical, 
+    Diagonal, 
+    HorizontalVerticalDiagonal, 
+    WhitePawn, 
+    BlackPawn, 
+    KnightMove
+}
 [CreateAssetMenu(fileName = "NeighborSelectionSettings", menuName = "Chess/NeighborSelectionSettings")]
 public class NeighborSelectionSettings : ScriptableObject
 {
-    public enum NeighborType { Horizontal, Vertical, HorizontalVertical, Diagonal, HorizontalVerticalDiagonal, WhitePawn, BlackPawn, KnightMove }
+    
 
     [System.Serializable]
     public class NeighborRule

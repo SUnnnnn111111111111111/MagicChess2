@@ -13,24 +13,18 @@ public class HighlightController : MonoBehaviour
 
     public void HighlightTiles(List<Tile> tilesToHighlight)
     {
-        ClearHighlights(); // Убираем старую подсветку
+        ClearHighlights(); 
 
         foreach (var tile in tilesToHighlight)
         {
             GameObject highlightObject = tile.GetHighlightObject();
             if (highlightObject != null)
             {
-                highlightObject.SetActive(true); // 🟢 Включаем подсветку доступных ходов
-                tile.SetHighlighted(true); // 🚀 Теперь Figure может проверить этот флаг
+                highlightObject.SetActive(true); 
+                tile.SetHighlighted(true); 
                 highlightedTiles.Add(tile);
-                // Debug.Log($"✅ [Highlight] Подсвечена клетка {tile.name}");
-            }
-            else
-            {
-                // Debug.LogWarning($"⚠️ [Highlight] У клетки {tile.name} не назначен объект подсветки!");
             }
         }
-        // Debug.Log($"🔆 [Highlight] Подсвечено {highlightedTiles.Count} клеток");
     }
 
     public void ClearHighlights()
@@ -40,12 +34,10 @@ public class HighlightController : MonoBehaviour
             GameObject highlightObject = tile.GetHighlightObject();
             if (highlightObject != null)
             {
-                highlightObject.SetActive(false); // 🔴 Выключаем подсветку доступных ходов
+                highlightObject.SetActive(false);
                 tile.SetHighlighted(false);
-                // Debug.Log($"❌ [Highlight] Убрана подсветка у {tile.name}");
             }
-
-            // 🟢 Также сбрасываем Hover-подсветку
+            
             TileHoverHandler hoverHandler = tile.GetComponentInChildren<TileHoverHandler>();
             if (hoverHandler != null)
             {
@@ -54,5 +46,4 @@ public class HighlightController : MonoBehaviour
         }
         highlightedTiles.Clear();
     }
-
 }
