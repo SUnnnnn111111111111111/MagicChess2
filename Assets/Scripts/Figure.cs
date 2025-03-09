@@ -4,6 +4,7 @@ using System;
 
 public class Figure : MonoBehaviour
 {
+    public bool whiteTeamAffiliation;
     public NeighborSelectionSettings neighborSelectionSettings;
     private Tile currentTile;
 
