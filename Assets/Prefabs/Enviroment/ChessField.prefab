@@ -12968,6 +12968,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SettingsButton
       objectReference: {fileID: 0}
+    - target: {fileID: 6954326400638148026, guid: 424d40a9db2d6624f982394273ebbd3e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8322848117955661869, guid: 424d40a9db2d6624f982394273ebbd3e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -22
@@ -15199,6 +15203,10 @@ PrefabInstance:
     - target: {fileID: 6954326400638148026, guid: 1b243d98241667c468f45dcf81624ee3, type: 3}
       propertyPath: m_Name
       value: ReloadSceneButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 6954326400638148026, guid: 1b243d98241667c468f45dcf81624ee3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8322848117955661869, guid: 1b243d98241667c468f45dcf81624ee3, type: 3}
       propertyPath: m_LocalPosition.x

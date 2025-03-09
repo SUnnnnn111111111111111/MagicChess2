@@ -9,7 +9,6 @@ public class Figure : MonoBehaviour
 
     private void Start()
     {
-        // Даем время BoardManager зарегистрировать все клетки перед поиском
         Invoke(nameof(LateStart), 0.1f);
     }
 
