@@ -1,12 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System;
 
 public class Figure : MonoBehaviour
 {
-    public bool whiteTeamAffiliation;
-    public NeighborSelectionSettings neighborSelectionSettings;
-    private Tile currentTile;
+    public bool whiteTeamAffiliation; 
+    public NeighborSelectionSettings neighborSelectionSettings; 
+    private Tile currentTile; 
 
     private void Start()
     {
@@ -19,7 +18,7 @@ public class Figure : MonoBehaviour
 
         if (currentTile != null)
         {
-            currentTile.SetOccupied(true);
+            currentTile.SetOccupyingFigure(this);
             Debug.Log($"✅ Фигура {gameObject.name} зарегистрирована на клетке {currentTile.Position}");
         }
         else
@@ -27,103 +26,115 @@ public class Figure : MonoBehaviour
             Debug.LogWarning($"⚠️ Фигура {gameObject.name} не нашла свою текущую клетку!");
         }
     }
-
+    
     public void HighlightAvailableMoves()
-{
-    if (currentTile == null)
     {
-        Debug.LogWarning($"⚠️ Фигура {gameObject.name} не может найти текущую клетку, ходы не просчитаны!");
-        return;
-    }
-
-    List<Tile> availableMoves = new List<Tile>();
-    List<Tile> possibleMoves = currentTile.GetNeighbors(neighborSelectionSettings);
-
-    Debug.Log($"🔍 Фигура {gameObject.name} нашла {possibleMoves.Count} возможных ходов.");
-
-    // Отладочный лог для проверки возможных ходов
-    foreach (var tile in possibleMoves)
-    {
-        Debug.Log($"🔍 Проверка клетки {tile.Position} для {gameObject.name}. Занята: {tile.IsOccupied}, Подсвечена: {tile.IsHighlighted}");
-    }
-
-    // Обработка ходов для пешки
-    if (neighborSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.WhitePawn || rule.neighborType == NeighborType.BlackPawn))
-    {
-        foreach (var tile in possibleMoves)
+        if (currentTile == null)
         {
-            // Пешка может двигаться только на пустые клетки вперед
-            if (!tile.IsOccupied)
-            {
-                availableMoves.Add(tile);
-                Debug.Log($"✅ Клетка {tile.Position} добавлена в список доступных ходов для пешки.");
-            }
-        }
-    }
-    // Обработка ходов для коня
-    else if (neighborSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.KnightMove))
-    {
-        foreach (var tile in possibleMoves)
-        {
-            // Конь может ходить на любую клетку, если она не занята
-            if (!tile.IsOccupied)
-            {
-                availableMoves.Add(tile);
-                Debug.Log($"✅ Клетка {tile.Position} добавлена в список доступных ходов для коня.");
-            }
-        }
-    }
-    // Обработка ходов для других фигур
-    else
-    {
-        Dictionary<Vector2Int, List<Tile>> directionalMoves = new Dictionary<Vector2Int, List<Tile>>();
-
-        // Группируем клетки по направлениям
-        foreach (var offset in neighborSelectionSettings.GetOffsets())
-        {
-            directionalMoves[offset] = new List<Tile>();
+            Debug.LogWarning($"⚠️ Фигура {gameObject.name} не может найти текущую клетку, ходы не просчитаны!");
+            return;
         }
 
-        foreach (var tile in possibleMoves)
-        {
-            Vector2Int direction = GetDirection(tile.Position, currentTile.Position);
-            if (directionalMoves.ContainsKey(direction))
-            {
-                directionalMoves[direction].Add(tile);
-            }
-        }
+        List<Tile> availableMoves = new List<Tile>(); 
+        List<Tile> enemyMoves = new List<Tile>(); 
+        List<Tile> possibleMoves = currentTile.GetNeighbors(neighborSelectionSettings); 
 
-        // Проверяем клетки в каждом направлении
-        foreach (var entry in directionalMoves)
+        Debug.Log($"🔍 Фигура {gameObject.name} нашла {possibleMoves.Count} возможных ходов.");
+
+        // Логика для пешки
+        if (neighborSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.WhitePawn || rule.neighborType == NeighborType.BlackPawn))
         {
-            bool foundObstacle = false;
-            foreach (var tile in entry.Value)
+            foreach (var tile in possibleMoves)
             {
-                if (foundObstacle)
+                if (tile == null) continue; 
+                
+                if (tile.OccupyingFigure == null)
                 {
-                    Debug.Log($"🚧 Преграда найдена, клетка {tile.Position} больше не проверяется.");
-                    break;
-                }
-
-                if (tile.IsOccupied)
-                {
-                    foundObstacle = true;
-                    Debug.Log($"🚧 Клетка {tile.Position} занята другой фигурой.");
-                }
-                else
-                {
-                    Debug.Log($"🔎 Проверка клетки {tile.Position} для {gameObject.name}. Занята: {tile.IsOccupied}, Подсвечена: {tile.IsHighlighted}");
                     availableMoves.Add(tile);
-                    Debug.Log($"✅ Клетка {tile.Position} добавлена в список доступных ходов.");
+                    Debug.Log($"✅ Клетка {tile.Position} добавлена в список доступных ходов для пешки.");
+                }
+                else if (tile.OccupyingFigure != null && tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation)
+                {
+                    enemyMoves.Add(tile);
+                    Debug.Log($"✅ Клетка {tile.Position} добавлена в список вражеских ходов для пешки.");
                 }
             }
         }
+        // Логика для коня
+        else if (neighborSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.KnightMove))
+        {
+            foreach (var tile in possibleMoves)
+            {
+                if (tile == null) continue;
+                
+                if (tile.OccupyingFigure == null)
+                {
+                    availableMoves.Add(tile);
+                    Debug.Log($"✅ Клетка {tile.Position} добавлена в список доступных ходов для коня.");
+                }
+                else if (tile.OccupyingFigure != null && tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation)
+                {
+                    enemyMoves.Add(tile);
+                    Debug.Log($"✅ Клетка {tile.Position} добавлена в список вражеских ходов для коня.");
+                }
+            }
+        }
+        // Логика для других фигур (ладья, слон, ферзь, король)
+        else
+        {
+            Dictionary<Vector2Int, List<Tile>> directionalMoves = new Dictionary<Vector2Int, List<Tile>>();
+            
+            foreach (var offset in neighborSelectionSettings.GetOffsets())
+            {
+                directionalMoves[offset] = new List<Tile>();
+            }
+
+            foreach (var tile in possibleMoves)
+            {
+                if (tile == null) continue; 
+
+                Vector2Int direction = GetDirection(tile.Position, currentTile.Position);
+                if (directionalMoves.ContainsKey(direction))
+                {
+                    directionalMoves[direction].Add(tile);
+                }
+            }
+
+            foreach (var entry in directionalMoves)
+            {
+                bool foundObstacle = false;
+                foreach (var tile in entry.Value)
+                {
+                    if (foundObstacle)
+                    {
+                        Debug.Log($"🚧 Преграда найдена, клетка {tile.Position} больше не проверяется.");
+                        break;
+                    }
+
+                    if (tile.OccupyingFigure != null)
+                    {
+                        if (tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation)
+                        {
+                            enemyMoves.Add(tile);
+                            Debug.Log($"✅ Клетка {tile.Position} добавлена в список вражеских ходов.");
+                        }
+                        foundObstacle = true;
+                        Debug.Log($"🚧 Клетка {tile.Position} занята другой фигурой.");
+                    }
+                    else
+                    {
+                        availableMoves.Add(tile);
+                        Debug.Log($"✅ Клетка {tile.Position} добавлена в список доступных ходов.");
+                    }
+                }
+            }
+        }
+
+        Debug.Log($"✨ Фигура {gameObject.name} подсветила {availableMoves.Count} клеток и {enemyMoves.Count} вражеских клеток.");
+        HighlightController.Instance.HighlightAvailableTiles(availableMoves);
+        HighlightController.Instance.HighlightEnemyTiles(enemyMoves);
     }
-
-    Debug.Log($"✨ Фигура {gameObject.name} подсветила {availableMoves.Count} клеток.");
-    HighlightController.Instance.HighlightTiles(availableMoves);
-}
-
+    
     private Vector2Int GetDirection(Vector2Int from, Vector2Int to)
     {
         Vector2Int diff = to - from;
@@ -132,7 +143,7 @@ public class Figure : MonoBehaviour
             diff.y == 0 ? 0 : diff.y / Mathf.Abs(diff.y)
         );
     }
-
+    
     public void MoveToTile(Tile targetTile)
     {
         if (targetTile == null)
@@ -140,10 +151,10 @@ public class Figure : MonoBehaviour
             Debug.LogWarning($"⚠️ Фигура {gameObject.name} не может двигаться: цель null!");
             return;
         }
-        
-        if (targetTile.IsOccupied)
+
+        if (targetTile.OccupyingFigure != null && targetTile.OccupyingFigure.whiteTeamAffiliation == whiteTeamAffiliation)
         {
-            Debug.LogWarning($"⚠️ Фигура {gameObject.name} не может двигаться: клетка {targetTile.Position} занята!");
+            Debug.LogWarning($"⚠️ Фигура {gameObject.name} не может двигаться: клетка {targetTile.Position} занята своей фигурой!");
             return;
         }
 
@@ -155,10 +166,11 @@ public class Figure : MonoBehaviour
 
         Debug.Log($"🔄 Фигура {gameObject.name} перемещается на клетку {targetTile.Position}.");
 
-        currentTile.SetOccupied(false);
+        currentTile.SetOccupyingFigure(null);
+
         transform.position = targetTile.transform.position;
         currentTile = targetTile;
-        currentTile.SetOccupied(true);
+        currentTile.SetOccupyingFigure(this);
 
         Debug.Log($"✅ Фигура {gameObject.name} завершила перемещение.");
 

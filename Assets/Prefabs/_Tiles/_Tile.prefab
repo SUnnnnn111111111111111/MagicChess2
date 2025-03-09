@@ -5089,7 +5089,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ea4106926f888742b167256b2885c88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightObject: {fileID: 790792054133794789}
+  highlightAvailableTile: {fileID: 790792054133794789}
+  highlightEnemyTile: {fileID: 6803103403524892050}
 --- !u!1 &4767043416448978697
 GameObject:
   m_ObjectHideFlags: 0

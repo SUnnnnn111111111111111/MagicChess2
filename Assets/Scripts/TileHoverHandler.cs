@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class TileHoverHandler : MonoBehaviour
 {
-    [SerializeField] private GameObject highlightObject; // 🔵 Основная подсветка доступных ходов
-    [SerializeField] private GameObject hoverHighlightObject; // 🔵 Подсветка при наведении
+    [SerializeField] private GameObject highlightObject; 
+    [SerializeField] private GameObject hoverHighlightObject; 
 
     private Tile parentTile;
 

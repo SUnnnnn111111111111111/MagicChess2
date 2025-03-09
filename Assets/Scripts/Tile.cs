@@ -1,27 +1,25 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Serialization;
 
 public class Tile : MonoBehaviour
 {
     public Vector2Int Position { get; private set; }
     public List<Tile> Neighbors { get; private set; } = new List<Tile>();
-    public bool IsOccupied { get; private set; } = false;
+    public Figure OccupyingFigure { get; private set; } = null; 
 
-    [SerializeField] private GameObject highlightObject; // 🔵 Основная подсветка
-    public bool IsHighlighted { get; private set; } = false; // 🚀 Теперь `Figure` проверяет этот флаг
+    [SerializeField] private GameObject highlightAvailableTile;
+    [SerializeField] private GameObject highlightEnemyTile;
+    public bool IsHighlighted { get; private set; } = false;
 
     private void Start()
     {
         Position = new Vector2Int((int)transform.position.x, (int)transform.position.z);
         BoardManager.Instance.RegisterTile(this, Position);
 
-        if (highlightObject == null)
+        if (highlightAvailableTile != null)
         {
-            // Debug.LogWarning($"⚠️ [Tile] {name} → Не назначен объект подсветки (HighlightAvailableNeighbourTiles)!");
-        }
-        else
-        {
-            highlightObject.SetActive(false); // 🔴 Отключаем по умолчанию
+            highlightAvailableTile.SetActive(false);
         }
     }
 
@@ -42,24 +40,29 @@ public class Tile : MonoBehaviour
         return result;
     }
 
-    public GameObject GetHighlightObject()
+    public GameObject GetAvailableHighlightObject()
     {
-        return highlightObject;
+        return highlightAvailableTile;
+    }
+
+    public GameObject GetEnemyHighlightObject()
+    {
+        return highlightEnemyTile;
     }
 
     public void SetHighlighted(bool state)
     {
-        if (highlightObject != null)
+        if (highlightAvailableTile != null)
         {
-            highlightObject.SetActive(state);
+            highlightAvailableTile.SetActive(state);
             IsHighlighted = state;
-            // Debug.Log($"✅ [Tile] {name} → Основная подсветка {(state ? "Включена" : "Выключена")}");
         }
     }
+    
 
-    public void SetOccupied(bool occupied)
+    public void SetOccupyingFigure(Figure figure)
     {
-        IsOccupied = occupied;
+        OccupyingFigure = figure;
     }
 
     private void OnMouseDown()
@@ -70,3 +73,4 @@ public class Tile : MonoBehaviour
         }
     }
 }
+

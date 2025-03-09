@@ -11,13 +11,13 @@ public class HighlightController : MonoBehaviour
         Instance = this;
     }
 
-    public void HighlightTiles(List<Tile> tilesToHighlight)
+    public void HighlightAvailableTiles(List<Tile> tilesToHighlight)
     {
         ClearHighlights(); 
 
         foreach (var tile in tilesToHighlight)
         {
-            GameObject highlightObject = tile.GetHighlightObject();
+            GameObject highlightObject = tile.GetAvailableHighlightObject();
             if (highlightObject != null)
             {
                 highlightObject.SetActive(true); 
@@ -26,15 +26,32 @@ public class HighlightController : MonoBehaviour
             }
         }
     }
+    
+    public void HighlightEnemyTiles(List<Tile> tilesToHighlight)
+    {
+        foreach (var tile in tilesToHighlight)
+        {
+            GameObject highlightObject = tile.GetEnemyHighlightObject(); 
+            if (highlightObject != null)
+            {
+                highlightObject.SetActive(true);
+                tile.SetHighlighted(true);
+                highlightedTiles.Add(tile);
+            }
+        }
+    }
+
 
     public void ClearHighlights()
     {
         foreach (var tile in highlightedTiles)
         {
-            GameObject highlightObject = tile.GetHighlightObject();
-            if (highlightObject != null)
+            GameObject highlightAvailableTile = tile.GetAvailableHighlightObject();
+            GameObject highlightEnemyTile = tile.GetEnemyHighlightObject();
+            if (highlightAvailableTile != null)
             {
-                highlightObject.SetActive(false);
+                highlightAvailableTile.SetActive(false);
+                highlightEnemyTile.SetActive(false);
                 tile.SetHighlighted(false);
             }
             
