@@ -26,7 +26,6 @@ public class HandlerForClickingAMouseButtonOnAnFigureObject : MonoBehaviour
         if (figure != null)
         {
             GameManager.Instance.SelectedFigure = figure;
-            figure.HighlightAvailableToMoveTiles();
         }
     }
 }

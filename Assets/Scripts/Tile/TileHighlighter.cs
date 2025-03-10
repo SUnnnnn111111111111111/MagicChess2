@@ -1,37 +1,31 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class HighlightController : MonoBehaviour
+public class TileHighlighter
 {
-    public static HighlightController Instance { get; private set; }
     private List<Tile> highlightedTiles = new List<Tile>();
-
-    private void Awake()
-    {
-        Instance = this;
-    }
 
     public void HighlightAvailableTiles(List<Tile> tilesToHighlight)
     {
-        ClearHighlights(); 
+        ClearHighlights();
 
         foreach (var tile in tilesToHighlight)
         {
             GameObject highlightObject = tile.GetAvailableHighlightObject();
             if (highlightObject != null)
             {
-                highlightObject.SetActive(true); 
-                tile.SetHighlighted(true); 
+                highlightObject.SetActive(true);
+                tile.SetHighlighted(true);
                 highlightedTiles.Add(tile);
             }
         }
     }
-    
+
     public void HighlightEnemyTiles(List<Tile> tilesToHighlight)
     {
         foreach (var tile in tilesToHighlight)
         {
-            GameObject highlightObject = tile.GetEnemyHighlightObject(); 
+            GameObject highlightObject = tile.GetEnemyHighlightObject();
             if (highlightObject != null)
             {
                 highlightObject.SetActive(true);
@@ -55,11 +49,11 @@ public class HighlightController : MonoBehaviour
             GameObject highlightEnemyTile = tile.GetEnemyHighlightObject();
             if (highlightAvailableTile != null)
             {
-                if (highlightAvailableTile != null) highlightAvailableTile.SetActive(false);
+                highlightAvailableTile.SetActive(false);
                 if (highlightEnemyTile != null) highlightEnemyTile.SetActive(false);
                 tile.SetHighlighted(false);
             }
-            
+
             TileHoverHandler hoverHandler = tile.GetComponentInChildren<TileHoverHandler>();
             if (hoverHandler != null)
             {
