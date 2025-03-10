@@ -1,29 +1,32 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class TileHoverHandler : MonoBehaviour
 {
-    [SerializeField] private GameObject highlightObject; 
-    [SerializeField] private GameObject hoverHighlightObject; 
+    [SerializeField] private GameObject hoverHighlightTile; 
+    [SerializeField] private GameObject highlightEmptyTile; 
+    [SerializeField] private GameObject highlightEnemyTile;
 
     private Tile parentTile;
+    private bool wasEnemyHighlighted;
 
     private void Start()
     {
         parentTile = GetComponentInParent<Tile>();
 
-        if (highlightObject == null)
+        if (highlightEmptyTile == null)
         {
-            Debug.LogWarning($"⚠️ [TileHoverHandler] {name} → Не назначен объект подсветки (HighlightAvailableNeighbourTiles)!");
+            Debug.LogWarning($"⚠️ [TileHoverHandler] {name} → Не назначен объект (highlightEmptyTile)!");
         }
 
-        if (hoverHighlightObject == null)
+        if (hoverHighlightTile == null)
         {
-            Debug.LogWarning($"⚠️ [TileHoverHandler] {name} → Не назначен объект hover-подсветки!");
+            Debug.LogWarning($"⚠️ [TileHoverHandler] {name} → Не назначен объект (hoverHighlightTile)!");
         }
-        
-        if (hoverHighlightObject != null)
+
+        if (highlightEnemyTile == null)
         {
-            hoverHighlightObject.SetActive(false);
+            Debug.LogWarning($"⚠️ [TileHoverHandler] {name} → Не назначен объект (highlightEnemyTile)!");
         }
     }
 
@@ -31,33 +34,46 @@ public class TileHoverHandler : MonoBehaviour
     {
         if (parentTile != null && parentTile.IsHighlighted)
         {
-            if (highlightObject != null)
+            if (highlightEnemyTile != null && highlightEnemyTile.activeSelf)
             {
-                highlightObject.SetActive(false); 
+                wasEnemyHighlighted = true; 
+                highlightEnemyTile.SetActive(false);
+            }
+            else if (highlightEmptyTile != null && highlightEmptyTile.activeSelf)
+            {
+                wasEnemyHighlighted = false; 
+                highlightEmptyTile.SetActive(false);
             }
 
-            if (hoverHighlightObject != null)
+            if (hoverHighlightTile != null)
             {
-                hoverHighlightObject.SetActive(true); 
+                hoverHighlightTile.SetActive(true);
             }
         }
     }
 
     private void OnMouseExit()
     {
-        ResetHoverEffect(); 
+        ResetHoverEffect();
     }
 
     public void ResetHoverEffect()
     {
-        if (hoverHighlightObject != null)
+        if (hoverHighlightTile != null)
         {
-            hoverHighlightObject.SetActive(false); 
+            hoverHighlightTile.SetActive(false);
         }
 
-        if (highlightObject != null && parentTile.IsHighlighted)
+        if (parentTile != null && parentTile.IsHighlighted)
         {
-            highlightObject.SetActive(true); 
+            if (wasEnemyHighlighted && highlightEnemyTile != null)
+            {
+                highlightEnemyTile.SetActive(true); 
+            }
+            else if (!wasEnemyHighlighted && highlightEmptyTile != null)
+            {
+                highlightEmptyTile.SetActive(true); 
+            }
         }
     }
 }

@@ -37,10 +37,15 @@ public class HighlightController : MonoBehaviour
                 highlightObject.SetActive(true);
                 tile.SetHighlighted(true);
                 highlightedTiles.Add(tile);
+
+                GameObject availableHighlightObject = tile.GetAvailableHighlightObject();
+                if (availableHighlightObject != null)
+                {
+                    availableHighlightObject.SetActive(false);
+                }
             }
         }
     }
-
 
     public void ClearHighlights()
     {

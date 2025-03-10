@@ -27,104 +27,106 @@ public class Figure : MonoBehaviour
         }
     }
     
-    public void HighlightAvailableToMoveTiles()
+public void HighlightAvailableToMoveTiles()
+{
+    if (currentTile == null)
     {
-        if (currentTile == null)
-        {
-            Debug.LogWarning($"⚠️ Фигура {gameObject.name} не может найти текущую клетку, ходы не просчитаны!");
-            return;
-        }
-
-        List<Tile> emptyTiles = new List<Tile>(); 
-        List<Tile> enemyTiles = new List<Tile>(); 
-        List<Tile> possibleToMoveTiles = currentTile.GetNeighbors(neighborSelectionSettings); 
-
-
-        // Логика для пешки
-        if (neighborSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.WhitePawn || rule.neighborType == NeighborType.BlackPawn))
-        {
-            foreach (var tile in possibleToMoveTiles)
-            {
-                if (tile == null) continue; 
-                
-                if (tile.OccupyingFigure == null)
-                {
-                    emptyTiles.Add(tile);
-                }
-                else if (tile.OccupyingFigure != null && tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation)
-                {
-                    enemyTiles.Add(tile);
-                }
-            }
-        }
-        // Логика для коня
-        else if (neighborSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.KnightMove))
-        {
-            foreach (var tile in possibleToMoveTiles)
-            {
-                if (tile == null) continue;
-                
-                if (tile.OccupyingFigure == null)
-                {
-                    emptyTiles.Add(tile);
-                }
-                else if (tile.OccupyingFigure != null && tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation)
-                {
-                    enemyTiles.Add(tile);
-                }
-            }
-        }
-        // Логика для других фигур (ладья, слон, ферзь, король)
-        else
-        {
-            Dictionary<Vector2Int, List<Tile>> directionalMoves = new Dictionary<Vector2Int, List<Tile>>();
-            
-            foreach (var offset in neighborSelectionSettings.GetOffsets())
-            {
-                directionalMoves[offset] = new List<Tile>();
-            }
-
-            foreach (var tile in possibleToMoveTiles)
-            {
-                if (tile == null) continue; 
-
-                Vector2Int direction = GetDirection(tile.Position, currentTile.Position);
-                if (directionalMoves.ContainsKey(direction))
-                {
-                    directionalMoves[direction].Add(tile);
-                }
-            }
-
-            foreach (var entry in directionalMoves)
-            {
-                bool foundObstacle = false;
-                foreach (var tile in entry.Value)
-                {
-                    if (foundObstacle)
-                    {
-                        break;
-                    }
-
-                    if (tile.OccupyingFigure != null)
-                    {
-                        if (tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation)
-                        {
-                            enemyTiles.Add(tile);
-                        }
-                        foundObstacle = true;
-                    }
-                    else
-                    {
-                        emptyTiles.Add(tile);
-                    }
-                }
-            }
-        }
-
-        Debug.Log($"✨ Фигура {gameObject.name} подсветила {emptyTiles.Count} клеток и {enemyTiles.Count} вражеских клеток.");
-        HighlightController.Instance.HighlightAvailableTiles(emptyTiles);
-        HighlightController.Instance.HighlightEnemyTiles(enemyTiles);
+        Debug.LogWarning($"⚠️ Фигура {gameObject.name} не может найти текущую клетку, ходы не просчитаны!");
+        return;
     }
+
+    List<Tile> emptyTiles = new List<Tile>(); 
+    List<Tile> enemyTiles = new List<Tile>(); 
+    List<Tile> possibleToMoveTiles = currentTile.GetNeighbors(neighborSelectionSettings); 
+
+    // Логика для пешки
+    if (neighborSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.WhitePawn || rule.neighborType == NeighborType.BlackPawn))
+    {
+        foreach (var tile in possibleToMoveTiles)
+        {
+            if (tile == null) continue; 
+            
+            if (tile.OccupyingFigure == null)
+            {
+                emptyTiles.Add(tile);
+            }
+            else if (tile.OccupyingFigure != null && tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation)
+            {
+                enemyTiles.Add(tile);
+            }
+        }
+    }
+    // Логика для коня
+    else if (neighborSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.KnightMove))
+    {
+        foreach (var tile in possibleToMoveTiles)
+        {
+            if (tile == null) continue;
+            
+            if (tile.OccupyingFigure == null)
+            {
+                emptyTiles.Add(tile);
+            }
+            else if (tile.OccupyingFigure != null && tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation)
+            {
+                enemyTiles.Add(tile);
+            }
+        }
+    }
+    // Логика для других фигур (ладья, слон, ферзь, король)
+    else
+    {
+        Dictionary<Vector2Int, List<Tile>> directionalMoves = new Dictionary<Vector2Int, List<Tile>>();
+        
+        foreach (var offset in neighborSelectionSettings.GetOffsets())
+        {
+            directionalMoves[offset] = new List<Tile>();
+        }
+
+        foreach (var tile in possibleToMoveTiles)
+        {
+            if (tile == null) continue; 
+
+            Vector2Int direction = GetDirection(tile.Position, currentTile.Position);
+            if (directionalMoves.ContainsKey(direction))
+            {
+                directionalMoves[direction].Add(tile);
+            }
+        }
+
+        foreach (var entry in directionalMoves)
+        {
+            bool foundObstacle = false;
+            foreach (var tile in entry.Value)
+            {
+                if (foundObstacle)
+                {
+                    break;
+                }
+
+                if (tile.OccupyingFigure != null)
+                {
+                    if (tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation)
+                    {
+                        enemyTiles.Add(tile);
+                    }
+                    foundObstacle = true;
+                }
+                else
+                {
+                    emptyTiles.Add(tile);
+                }
+            }
+        }
+    }
+
+    // Удаляем из emptyTiles те клетки, которые уже есть в enemyTiles
+    emptyTiles.RemoveAll(tile => enemyTiles.Contains(tile));
+
+    Debug.Log($"✨ Фигура {gameObject.name} подсветила {emptyTiles.Count} клеток и {enemyTiles.Count} вражеских клеток.");
+    HighlightController.Instance.HighlightAvailableTiles(emptyTiles);
+    HighlightController.Instance.HighlightEnemyTiles(enemyTiles);
+}
     
     private Vector2Int GetDirection(Vector2Int from, Vector2Int to)
     {
