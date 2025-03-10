@@ -4,7 +4,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [SerializeField] private Figure selectedFigure; // Видно в инспекторе
+    [SerializeField] private Figure selectedFigure; 
 
     public Figure SelectedFigure
     {
@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
         set
         {
             selectedFigure = value;
-            // Debug.Log(selectedFigure != null ? $"✅ Выбрана фигура: {selectedFigure.name}" : "⚠️ Фигура снята с выбора.");
         }
     }
 

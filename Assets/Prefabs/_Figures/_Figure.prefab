@@ -219,7 +219,7 @@ MonoBehaviour:
   WhenClickOnAnObject:
     _PersistentCalls:
     - _Target: {fileID: 5098165892479961486}
-      _MemberName: HighlightAvailableMoves
+      _MemberName: HighlightAvailableToMoveTiles
       _PersistentArguments: []
 --- !u!114 &7053951710455516815
 MonoBehaviour:
@@ -515,6 +515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52902fda56450a4fb6cb954f88da837, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  whiteTeamAffiliation: 0
   neighborSelectionSettings: {fileID: 0}
 --- !u!1 &7736452806140158231
 GameObject:

@@ -19,7 +19,7 @@ public class Figure : MonoBehaviour
         if (currentTile != null)
         {
             currentTile.SetOccupyingFigure(this);
-            Debug.Log($"✅ Фигура {gameObject.name} зарегистрирована на клетке {currentTile.Position}");
+            // Debug.Log($"✅ Фигура {gameObject.name} зарегистрирована на клетке {currentTile.Position}");
         }
         else
         {
@@ -27,7 +27,7 @@ public class Figure : MonoBehaviour
         }
     }
     
-    public void HighlightAvailableMoves()
+    public void HighlightAvailableToMoveTiles()
     {
         if (currentTile == null)
         {
@@ -35,47 +35,42 @@ public class Figure : MonoBehaviour
             return;
         }
 
-        List<Tile> availableMoves = new List<Tile>(); 
-        List<Tile> enemyMoves = new List<Tile>(); 
-        List<Tile> possibleMoves = currentTile.GetNeighbors(neighborSelectionSettings); 
+        List<Tile> emptyTiles = new List<Tile>(); 
+        List<Tile> enemyTiles = new List<Tile>(); 
+        List<Tile> possibleToMoveTiles = currentTile.GetNeighbors(neighborSelectionSettings); 
 
-        Debug.Log($"🔍 Фигура {gameObject.name} нашла {possibleMoves.Count} возможных ходов.");
 
         // Логика для пешки
         if (neighborSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.WhitePawn || rule.neighborType == NeighborType.BlackPawn))
         {
-            foreach (var tile in possibleMoves)
+            foreach (var tile in possibleToMoveTiles)
             {
                 if (tile == null) continue; 
                 
                 if (tile.OccupyingFigure == null)
                 {
-                    availableMoves.Add(tile);
-                    Debug.Log($"✅ Клетка {tile.Position} добавлена в список доступных ходов для пешки.");
+                    emptyTiles.Add(tile);
                 }
                 else if (tile.OccupyingFigure != null && tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation)
                 {
-                    enemyMoves.Add(tile);
-                    Debug.Log($"✅ Клетка {tile.Position} добавлена в список вражеских ходов для пешки.");
+                    enemyTiles.Add(tile);
                 }
             }
         }
         // Логика для коня
         else if (neighborSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.KnightMove))
         {
-            foreach (var tile in possibleMoves)
+            foreach (var tile in possibleToMoveTiles)
             {
                 if (tile == null) continue;
                 
                 if (tile.OccupyingFigure == null)
                 {
-                    availableMoves.Add(tile);
-                    Debug.Log($"✅ Клетка {tile.Position} добавлена в список доступных ходов для коня.");
+                    emptyTiles.Add(tile);
                 }
                 else if (tile.OccupyingFigure != null && tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation)
                 {
-                    enemyMoves.Add(tile);
-                    Debug.Log($"✅ Клетка {tile.Position} добавлена в список вражеских ходов для коня.");
+                    enemyTiles.Add(tile);
                 }
             }
         }
@@ -89,7 +84,7 @@ public class Figure : MonoBehaviour
                 directionalMoves[offset] = new List<Tile>();
             }
 
-            foreach (var tile in possibleMoves)
+            foreach (var tile in possibleToMoveTiles)
             {
                 if (tile == null) continue; 
 
@@ -107,7 +102,6 @@ public class Figure : MonoBehaviour
                 {
                     if (foundObstacle)
                     {
-                        Debug.Log($"🚧 Преграда найдена, клетка {tile.Position} больше не проверяется.");
                         break;
                     }
 
@@ -115,24 +109,21 @@ public class Figure : MonoBehaviour
                     {
                         if (tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation)
                         {
-                            enemyMoves.Add(tile);
-                            Debug.Log($"✅ Клетка {tile.Position} добавлена в список вражеских ходов.");
+                            enemyTiles.Add(tile);
                         }
                         foundObstacle = true;
-                        Debug.Log($"🚧 Клетка {tile.Position} занята другой фигурой.");
                     }
                     else
                     {
-                        availableMoves.Add(tile);
-                        Debug.Log($"✅ Клетка {tile.Position} добавлена в список доступных ходов.");
+                        emptyTiles.Add(tile);
                     }
                 }
             }
         }
 
-        Debug.Log($"✨ Фигура {gameObject.name} подсветила {availableMoves.Count} клеток и {enemyMoves.Count} вражеских клеток.");
-        HighlightController.Instance.HighlightAvailableTiles(availableMoves);
-        HighlightController.Instance.HighlightEnemyTiles(enemyMoves);
+        Debug.Log($"✨ Фигура {gameObject.name} подсветила {emptyTiles.Count} клеток и {enemyTiles.Count} вражеских клеток.");
+        HighlightController.Instance.HighlightAvailableTiles(emptyTiles);
+        HighlightController.Instance.HighlightEnemyTiles(enemyTiles);
     }
     
     private Vector2Int GetDirection(Vector2Int from, Vector2Int to)

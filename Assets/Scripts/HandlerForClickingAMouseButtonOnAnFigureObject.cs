@@ -26,11 +26,7 @@ public class HandlerForClickingAMouseButtonOnAnFigureObject : MonoBehaviour
         if (figure != null)
         {
             GameManager.Instance.SelectedFigure = figure;
-            figure.HighlightAvailableMoves();
-        }
-        else
-        {
-            // Debug.LogWarning(" Клик по объекту, но фигура не найдена!");
+            figure.HighlightAvailableToMoveTiles();
         }
     }
 }

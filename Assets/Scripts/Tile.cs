@@ -7,19 +7,20 @@ public class Tile : MonoBehaviour
     public Vector2Int Position { get; private set; }
     public List<Tile> Neighbors { get; private set; } = new List<Tile>();
     public Figure OccupyingFigure { get; private set; } = null; 
-
-    [SerializeField] private GameObject highlightAvailableTile;
-    [SerializeField] private GameObject highlightEnemyTile;
     public bool IsHighlighted { get; private set; } = false;
+
+    [SerializeField] private GameObject highlightEmptyTile;
+    [SerializeField] private GameObject highlightEnemyTile;
+    
 
     private void Start()
     {
         Position = new Vector2Int((int)transform.position.x, (int)transform.position.z);
         BoardManager.Instance.RegisterTile(this, Position);
 
-        if (highlightAvailableTile != null)
+        if (highlightEmptyTile != null)
         {
-            highlightAvailableTile.SetActive(false);
+            highlightEmptyTile.SetActive(false);
         }
     }
 
@@ -42,7 +43,7 @@ public class Tile : MonoBehaviour
 
     public GameObject GetAvailableHighlightObject()
     {
-        return highlightAvailableTile;
+        return highlightEmptyTile;
     }
 
     public GameObject GetEnemyHighlightObject()
@@ -52,9 +53,9 @@ public class Tile : MonoBehaviour
 
     public void SetHighlighted(bool state)
     {
-        if (highlightAvailableTile != null)
+        if (highlightEmptyTile != null)
         {
-            highlightAvailableTile.SetActive(state);
+            highlightEmptyTile.SetActive(state);
             IsHighlighted = state;
         }
     }

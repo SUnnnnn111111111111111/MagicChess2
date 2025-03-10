@@ -7,7 +7,7 @@ public class BoardManager : MonoBehaviour
 
     private Dictionary<Vector2Int, Tile> tiles = new Dictionary<Vector2Int, Tile>();
 
-    [SerializeField] private List<GameObject> registeredTiles = new List<GameObject>(); // Список клеток в инспекторе
+    [SerializeField] private List<GameObject> registeredTiles = new List<GameObject>(); 
 
     private void Awake()
     {
@@ -17,7 +17,7 @@ public class BoardManager : MonoBehaviour
     public void RegisterTile(Tile tile, Vector2Int position)
     {
         tiles[position] = tile;
-        registeredTiles.Add(tile.gameObject); // Добавляем в список для отображения в Inspector
+        registeredTiles.Add(tile.gameObject); 
     }
 
     public Tile GetTileAt(Vector2Int position)
