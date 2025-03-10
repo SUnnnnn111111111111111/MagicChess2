@@ -50,8 +50,8 @@ public class HighlightController : MonoBehaviour
             GameObject highlightEnemyTile = tile.GetEnemyHighlightObject();
             if (highlightAvailableTile != null)
             {
-                highlightAvailableTile.SetActive(false);
-                highlightEnemyTile.SetActive(false);
+                if (highlightAvailableTile != null) highlightAvailableTile.SetActive(false);
+                if (highlightEnemyTile != null) highlightEnemyTile.SetActive(false);
                 tile.SetHighlighted(false);
             }
             
