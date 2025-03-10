@@ -25,7 +25,14 @@ public class HandlerForClickingAMouseButtonOnAnFigureObject : MonoBehaviour
 
         if (figure != null)
         {
-            GameManager.Instance.SelectedFigure = figure;
+            if (GameManager.Instance.SelectedFigure == figure)
+            {
+                GameManager.Instance.ResetSelection();
+            }
+            else
+            {
+                GameManager.Instance.SelectedFigure = figure;
+            }
         }
     }
 }

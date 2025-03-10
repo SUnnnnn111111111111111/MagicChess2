@@ -4,7 +4,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    private Figure selectedFigure;
+    [SerializeField] private Figure selectedFigure;
 
     public Figure SelectedFigure
     {
