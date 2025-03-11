@@ -70,7 +70,11 @@ public class Tile : MonoBehaviour
     {
         if (GameManager.Instance.SelectedFigure != null)
         {
-            GameManager.Instance.SelectedFigure.MoveToTile(this);
+            FigureMover mover = GameManager.Instance.SelectedFigure.GetComponent<FigureMover>();
+            if (mover != null)
+            {
+                mover.MoveToTile(this);
+            }
         }
     }
 }

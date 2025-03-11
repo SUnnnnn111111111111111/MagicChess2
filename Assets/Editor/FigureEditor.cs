@@ -18,9 +18,9 @@ public class FigureEditor : Editor
         EditorGUILayout.LabelField("Is Selected", isSelected ? "Yes" : "No");
         
         EditorGUILayout.LabelField("Current Tile", figure.GetCurrentTilePosition());
+        EditorGUILayout.LabelField("Current Tile IsHighlighted", figure.IsHighlighted().ToString());
         EditorGUILayout.LabelField("Available Moves", figure.GetAvailableMovesCount().ToString());
-        EditorGUILayout.LabelField("Current Tile Is Highlighted", figure.IsHighlighted().ToString());
-
+        
         
         if (GUILayout.Button("Highlight Available Moves"))
         {

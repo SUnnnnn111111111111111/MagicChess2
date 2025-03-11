@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,13 +8,15 @@ public class Figure : MonoBehaviour
     public NeighborSelectionSettings neighborSelectionSettings; 
     
     [Header("Death Animation")]
-    [SerializeField] private GameObject deathAnimationObject; 
-    [SerializeField] private float deathDelay = 1.0f; 
+    public GameObject deathAnimationObject; 
+    public float deathDelay = 1.0f; 
     
     private Tile currentTile; 
+    private FigureMover figureMover;
 
     private void Start()
     {
+        figureMover = GetComponent<FigureMover>();
         Invoke(nameof(LateStart), 0.1f);
     }
 
@@ -69,59 +70,8 @@ public class Figure : MonoBehaviour
         }
     }
     
-    public void MoveToTile(Tile targetTile)
-    {
-        if (targetTile == null)
-        {
-            return;
-        }
-
-        if (targetTile.OccupyingFigure != null && targetTile.OccupyingFigure.whiteTeamAffiliation == whiteTeamAffiliation)
-        {
-            return;
-        }
-
-        if (!targetTile.IsHighlighted)
-        {
-            return;
-        }
-
-        Debug.Log($"🔄 Фигура {gameObject.name} перемещается на клетку {targetTile.Position}.");
-        
-        if (targetTile.OccupyingFigure != null && targetTile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation)
-        {
-            Debug.Log($"✅ Фигура {targetTile.OccupyingFigure.name} атакована.");
-            StartCoroutine(DestroyEnemyFigure(targetTile.OccupyingFigure, targetTile.transform.position)); 
-        }
-
-        currentTile.SetOccupyingFigure(null);
-
-        transform.position = targetTile.transform.position;
-        currentTile = targetTile;
-        currentTile.SetOccupyingFigure(this);
-
-        Debug.Log($"✅ Фигура {gameObject.name} завершила перемещение.");
-
-        HighlightTilesController.Instance.ClearHighlights();
-        GameManager.Instance.SelectedFigure = null;
-    }
-    
-    private IEnumerator DestroyEnemyFigure(Figure enemyFigure, Vector3 deathPosition)
-    {
-        if (deathAnimationObject != null)
-        {
-            Debug.Log($"✅ Фигура {enemyFigure.gameObject.name} запустила анимацию смерти.");
-            enemyFigure.deathAnimationObject.SetActive(true);
-        }
-        
-        yield return new WaitForSeconds(deathDelay);
-        
-        if (enemyFigure != null)
-        {
-            Destroy(enemyFigure.gameObject);
-            Debug.Log($"✅ Фигура {enemyFigure.gameObject.name} уничтожена.");
-        }
-    }
+    public Tile GetCurrentTile() => currentTile;
+    public void SetCurrentTile(Tile tile) => currentTile = tile;
     
     public string GetCurrentTilePosition()
     {
