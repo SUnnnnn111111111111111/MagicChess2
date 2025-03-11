@@ -10,29 +10,37 @@ public class FigureEditor : Editor
 
         Figure figure = (Figure)target;
 
-        
+        if (figure == null)
+        {
+            EditorGUILayout.HelpBox("Ошибка: Объект Figure не найден!", MessageType.Error);
+            return;
+        }
+
         EditorGUILayout.Space();
-        EditorGUILayout.LabelField("Debug Info", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("Debug info", EditorStyles.boldLabel);
         
-        bool isSelected = GameManager.Instance.SelectedFigure == figure;
-        EditorGUILayout.LabelField("Is Selected", isSelected ? "Yes" : "No");
-        
-        EditorGUILayout.LabelField("Current Tile", figure.GetCurrentTilePosition());
-        EditorGUILayout.LabelField("Current Tile IsHighlighted", figure.IsHighlighted().ToString());
-        EditorGUILayout.LabelField("Available Moves", figure.GetAvailableMovesCount().ToString());
-        
-        
-        if (GUILayout.Button("Highlight Available Moves"))
+        bool isSelected = GameManager.Instance != null && GameManager.Instance.SelectedFigure == figure;
+        EditorGUILayout.LabelField("Is selected", isSelected ? "Yes" : "No");
+
+        string currentTilePosition = figure.GetCurrentTilePosition() ?? "None";
+        EditorGUILayout.LabelField("Current tile", currentTilePosition);
+
+        bool isHighlighted = figure.GetCurrentTile() != null && figure.IsHighlighted();
+        EditorGUILayout.LabelField("Current tile IsHighlighted", isHighlighted.ToString());
+
+        int availableMoves = figure.GetAvailableMovesCount();
+        EditorGUILayout.LabelField("Available moves", availableMoves.ToString());
+
+        if (GUILayout.Button("Highlight available moves"))
         {
             figure.HighlightAvailableToMoveTiles();
         }
-        
-        if (GUILayout.Button("Destroy This Figure"))
+
+        if (GUILayout.Button("Destroy this figure"))
         {
             DestroyImmediate(figure.gameObject);
         }
 
-        
         if (GUI.changed)
         {
             EditorUtility.SetDirty(figure);
