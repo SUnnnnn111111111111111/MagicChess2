@@ -8,6 +8,7 @@ public class BoardManager : MonoBehaviour
     private Dictionary<Vector2Int, Tile> tiles = new Dictionary<Vector2Int, Tile>();
 
     [SerializeField] private List<GameObject> registeredTiles = new List<GameObject>(); 
+    private NeighborUpdater neighborUpdater = new NeighborUpdater();
 
     private void Awake()
     {
@@ -18,6 +19,7 @@ public class BoardManager : MonoBehaviour
     {
         tiles[position] = tile;
         registeredTiles.Add(tile.gameObject); 
+        // Debug.Log($" Все клетки инициализированы: {tiles.Count} шт.");
     }
 
     public Tile GetTileAt(Vector2Int position)
@@ -28,23 +30,6 @@ public class BoardManager : MonoBehaviour
 
     public void UpdateNeighbors()
     {
-        foreach (var tile in tiles.Values)
-        {
-            List<Tile> neighbors = new List<Tile>();
-            foreach (var offset in new List<Vector2Int> {
-                new Vector2Int(1, 0), new Vector2Int(-1, 0),
-                new Vector2Int(0, 1), new Vector2Int(0, -1),
-                new Vector2Int(1, 1), new Vector2Int(-1, -1),
-                new Vector2Int(1, -1), new Vector2Int(-1, 1)
-            })
-            {
-                Tile neighbor = GetTileAt(tile.Position + offset);
-                if (neighbor != null)
-                    neighbors.Add(neighbor);
-            }
-            tile.SetNeighbors(neighbors);
-        }
-
-        // Debug.Log($" Все клетки инициализированы: {tiles.Count} шт.");
+        neighborUpdater.UpdateNeighbors(tiles);
     }
 }
