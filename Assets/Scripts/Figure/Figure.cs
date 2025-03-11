@@ -9,8 +9,8 @@ public class Figure : MonoBehaviour
     public NeighborSelectionSettings neighborSelectionSettings; 
     
     [Header("Death Animation")]
-    [SerializeField] private GameObject deathAnimationObject; // Дочерний объект для анимации смерти
-    [SerializeField] private float deathDelay = 1.0f; // Задержка перед уничтожением фигуры
+    [SerializeField] private GameObject deathAnimationObject; 
+    [SerializeField] private float deathDelay = 1.0f; 
     
     private Tile currentTile; 
 
@@ -108,21 +108,36 @@ public class Figure : MonoBehaviour
     
     private IEnumerator DestroyEnemyFigure(Figure enemyFigure, Vector3 deathPosition)
     {
-        // Активируем анимацию смерти
         if (deathAnimationObject != null)
         {
             Debug.Log($"✅ Фигура {enemyFigure.gameObject.name} запустила анимацию смерти.");
             enemyFigure.deathAnimationObject.SetActive(true);
         }
-
-        // Ждем указанное время перед уничтожением фигуры
+        
         yield return new WaitForSeconds(deathDelay);
-
-        // Уничтожаем вражескую фигуру
+        
         if (enemyFigure != null)
         {
             Destroy(enemyFigure.gameObject);
             Debug.Log($"✅ Фигура {enemyFigure.gameObject.name} уничтожена.");
         }
+    }
+    
+    public string GetCurrentTilePosition()
+    {
+        return currentTile != null ? currentTile.Position.ToString() : "None";
+    }
+
+    public int GetAvailableMovesCount()
+    {
+        if (currentTile == null) return 0;
+    
+        MoveCalculator moveCalculator = GetMoveCalculator();
+        return moveCalculator.CalculateMoves(currentTile, neighborSelectionSettings, whiteTeamAffiliation).Count;
+    }
+
+    public bool IsHighlighted()
+    {
+        return currentTile != null && currentTile.IsHighlighted;
     }
 }
