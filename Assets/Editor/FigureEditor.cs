@@ -19,7 +19,7 @@ public class FigureEditor : Editor
         
         EditorGUILayout.LabelField("Current Tile", figure.GetCurrentTilePosition());
         EditorGUILayout.LabelField("Available Moves", figure.GetAvailableMovesCount().ToString());
-        EditorGUILayout.LabelField("Is Highlighted", figure.IsHighlighted().ToString());
+        EditorGUILayout.LabelField("Current Tile Is Highlighted", figure.IsHighlighted().ToString());
 
         
         if (GUILayout.Button("Highlight Available Moves"))
