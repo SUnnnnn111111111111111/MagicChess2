@@ -517,6 +517,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whiteTeamAffiliation: 0
   neighborSelectionSettings: {fileID: 0}
+  deathAnimationObject: {fileID: 6546587658793596054}
+  deathDelay: 1.5
 --- !u!1 &7736452806140158231
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,7 +568,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2768840182967908368
 Transform:
   m_ObjectHideFlags: 0

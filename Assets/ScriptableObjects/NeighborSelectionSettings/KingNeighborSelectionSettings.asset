@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   neighborRules:
   - neighborType: 4
-    maxDistance: 4
+    maxDistance: 2
