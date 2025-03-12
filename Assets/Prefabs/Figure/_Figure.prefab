@@ -5590,17 +5590,17 @@ MonoBehaviour:
       - _Type: 7
         _Int: 0
         _String: 
-        _X: -1.5
+        _X: -3
         _Y: 0
-        _Z: -1.5
+        _Z: -3
         _W: 0
         _Object: {fileID: 0}
       - _Type: 7
         _Int: 0
         _String: 
-        _X: 1.5
+        _X: 3
         _Y: 0
-        _Z: 1.5
+        _Z: 3
         _W: 0
         _Object: {fileID: 0}
     - _Target: {fileID: 7737048328236438736}
@@ -5609,17 +5609,17 @@ MonoBehaviour:
       - _Type: 7
         _Int: 0
         _String: 
-        _X: -1.5
+        _X: -3
         _Y: 0
-        _Z: -1.5
+        _Z: -3
         _W: 0
         _Object: {fileID: 0}
       - _Type: 7
         _Int: 0
         _String: 
-        _X: 1.5
+        _X: 3
         _Y: 0
-        _Z: 1.5
+        _Z: 3
         _W: 0
         _Object: {fileID: 0}
     - _Target: {fileID: 5599895365636028911}
@@ -5628,17 +5628,17 @@ MonoBehaviour:
       - _Type: 7
         _Int: 0
         _String: 
-        _X: -1.5
+        _X: -3
         _Y: 0
-        _Z: -1.5
+        _Z: -3
         _W: 0
         _Object: {fileID: 0}
       - _Type: 7
         _Int: 0
         _String: 
-        _X: 1.5
+        _X: 3
         _Y: 0
-        _Z: 1.5
+        _Z: 3
         _W: 0
         _Object: {fileID: 0}
     - _Target: {fileID: 2290361210098708884}
@@ -5647,17 +5647,17 @@ MonoBehaviour:
       - _Type: 7
         _Int: 0
         _String: 
-        _X: -1.5
+        _X: -3
         _Y: 0
-        _Z: -1.5
+        _Z: -3
         _W: 0
         _Object: {fileID: 0}
       - _Type: 7
         _Int: 0
         _String: 
-        _X: 1.5
+        _X: 3
         _Y: 0
-        _Z: 1.5
+        _Z: 3
         _W: 0
         _Object: {fileID: 0}
     - _Target: {fileID: 7341944857070078931}
@@ -5666,17 +5666,17 @@ MonoBehaviour:
       - _Type: 7
         _Int: 0
         _String: 
-        _X: -1.5
+        _X: -3
         _Y: 0
-        _Z: -1.5
+        _Z: -3
         _W: 0
         _Object: {fileID: 0}
       - _Type: 7
         _Int: 0
         _String: 
-        _X: 1.5
+        _X: 3
         _Y: 0
-        _Z: 1.5
+        _Z: 3
         _W: 0
         _Object: {fileID: 0}
   WhenTurnedOff:

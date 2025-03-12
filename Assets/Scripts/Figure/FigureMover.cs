@@ -61,6 +61,8 @@ public class FigureMover : MonoBehaviour
 
         HighlightTilesController.Instance.ClearHighlights();
         GameManager.Instance.SelectedFigure = null;
+        figure.CurrentTile = targetTile; 
+        targetTile.SetOccupyingFigure(figure);
         
         figure.transform.DOLookAt(lookAtPosition, rotateDuration, AxisConstraint.Y)
             .OnComplete(() =>
@@ -69,9 +71,6 @@ public class FigureMover : MonoBehaviour
                     .SetEase(moveEase) 
                     .OnComplete(() =>
                     {
-                        figure.CurrentTile = targetTile; 
-                        targetTile.SetOccupyingFigure(figure);
-
                         figure.transform.DORotateQuaternion(originalRotation, rotateDuration);
                     });
             });
