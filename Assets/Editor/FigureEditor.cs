@@ -25,7 +25,7 @@ public class FigureEditor : Editor
         string currentTilePosition = figure.GetCurrentTilePosition() ?? "None";
         EditorGUILayout.LabelField("Current tile", currentTilePosition);
 
-        bool isHighlighted = figure.GetCurrentTile() != null && figure.IsHighlighted();
+        bool isHighlighted = figure.CurrentTile != null && figure.IsCurrentTileHighlighted();
         EditorGUILayout.LabelField("Current tile IsHighlighted", isHighlighted.ToString());
 
         int availableMoves = figure.GetAvailableMovesCount();

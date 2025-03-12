@@ -46,8 +46,9 @@ public class FigureMover : MonoBehaviour
                 Destroy(targetTile.OccupyingFigure.gameObject);
             }
         }
-
-        Tile currentTile = figure.GetCurrentTile();
+        
+        
+        Tile currentTile = figure.CurrentTile;
         if (currentTile != null)
         {
             currentTile.SetOccupyingFigure(null);
@@ -63,12 +64,11 @@ public class FigureMover : MonoBehaviour
         figure.transform.DOLookAt(lookAtPosition, rotateDuration, AxisConstraint.Y)
             .OnComplete(() =>
             {
-                
                 figure.transform.DOJump(targetTile.transform.position, jumpPower, jumpCount, moveDuration)
                     .SetEase(moveEase) 
                     .OnComplete(() =>
                     {
-                        figure.SetCurrentTile(targetTile);
+                        figure.CurrentTile = targetTile; 
                         targetTile.SetOccupyingFigure(figure);
 
                         figure.transform.DORotateQuaternion(originalRotation, rotateDuration);

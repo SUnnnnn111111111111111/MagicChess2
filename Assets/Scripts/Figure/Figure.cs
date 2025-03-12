@@ -11,8 +11,9 @@ public class Figure : MonoBehaviour
     public GameObject deathAnimationObject; 
     public float deathDelay = 1.0f; 
     
-    private Tile currentTile; 
     private FigureMover figureMover;
+    
+    public Tile CurrentTile { get; set; } 
 
     private void Start()
     {
@@ -22,11 +23,11 @@ public class Figure : MonoBehaviour
 
     private void LateStart()
     {
-        currentTile = BoardManager.Instance.GetTileAt(new Vector2Int((int)transform.position.x, (int)transform.position.z));
+        CurrentTile = BoardManager.Instance.GetTileAt(new Vector2Int((int)transform.position.x, (int)transform.position.z));
 
-        if (currentTile != null)
+        if (CurrentTile != null)
         {
-            currentTile.SetOccupyingFigure(this);
+            CurrentTile.SetOccupyingFigure(this);
             // Debug.Log($"✅ Фигура {gameObject.name} зарегистрирована на клетке {currentTile.Position}");
         }
         else
@@ -37,14 +38,14 @@ public class Figure : MonoBehaviour
     
     public void HighlightAvailableToMoveTiles()
     {
-        if (currentTile == null)
+        if (CurrentTile == null)
         {
             Debug.LogWarning($"⚠️ Фигура {gameObject.name} не может найти текущую клетку, ходы не просчитаны!");
             return;
         }
 
         MoveCalculator moveCalculator = GetMoveCalculator();
-        List<Tile> moves = moveCalculator.CalculateMoves(currentTile, neighborSelectionSettings, whiteTeamAffiliation);
+        List<Tile> moves = moveCalculator.CalculateMoves(CurrentTile, neighborSelectionSettings, whiteTeamAffiliation);
 
         List<Tile> emptyTiles = moves.Where(tile => tile.OccupyingFigure == null).ToList();
         List<Tile> enemyTiles = moves.Where(tile => tile.OccupyingFigure != null && tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation).ToList();
@@ -70,24 +71,14 @@ public class Figure : MonoBehaviour
         }
     }
     
-    public Tile GetCurrentTile() => currentTile;
-    public void SetCurrentTile(Tile tile) => currentTile = tile;
-    
-    public string GetCurrentTilePosition()
-    {
-        return currentTile != null ? currentTile.Position.ToString() : "None";
-    }
 
     public int GetAvailableMovesCount()
     {
-        if (currentTile == null) return 0;
-    
-        MoveCalculator moveCalculator = GetMoveCalculator();
-        return moveCalculator.CalculateMoves(currentTile, neighborSelectionSettings, whiteTeamAffiliation).Count;
+        if (CurrentTile == null) return 0;
+        return GetMoveCalculator().CalculateMoves(CurrentTile, neighborSelectionSettings, whiteTeamAffiliation).Count;
     }
 
-    public bool IsHighlighted()
-    {
-        return currentTile != null && currentTile.IsHighlighted;
-    }
+    public bool IsCurrentTileHighlighted() => CurrentTile?.IsHighlighted ?? false;
+    
+    public string GetCurrentTilePosition() => CurrentTile?.Position.ToString() ?? "None";
 }
