@@ -40,7 +40,16 @@ namespace CameraController
 
             if (_dragEnabled && Input.GetMouseButton(1))
             {
-                return Input.mousePositionDelta * _camera.orthographicSize * 0.01f;
+                // Получаем изменение позиции мыши
+                Vector2 mouseDelta = Input.mousePositionDelta;
+
+                // Преобразуем изменение позиции мыши в мировые координаты
+                Vector3 moveDelta = _camera.transform.right * mouseDelta.x + _camera.transform.up * mouseDelta.y;
+
+                // Учитываем ортографический размер камеры (если камера ортографическая)
+                moveDelta *= _camera.orthographicSize * 0.01f;
+
+                return moveDelta;
             }
             
             return Vector3.zero;

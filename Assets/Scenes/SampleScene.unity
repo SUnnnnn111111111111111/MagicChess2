@@ -567,7 +567,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2007110423}
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: 45, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -644,7 +644,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _properties:
     _pivot: {fileID: 330585546}
-    _moveSpeed: 0.35
+    _moveSpeed: 0.5
     _smoothingFactor: 0.2
   _groundMask:
     serializedVersion: 2
