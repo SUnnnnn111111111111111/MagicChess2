@@ -24,6 +24,20 @@ public class MoveTweenner : MonoBehaviour
         targetTransform.DOLocalMove(newLocalPosition, durationOfMove);
     }
 
+    public void LaunchTweenerInLocalRandomCoordinates(Vector3 minOffset, Vector3 maxOffset)
+    {
+        Vector3 randomOffset = new Vector3(
+            UnityEngine.Random.Range(minOffset.x, maxOffset.x),
+            UnityEngine.Random.Range(minOffset.y, maxOffset.y),
+            UnityEngine.Random.Range(minOffset.z, maxOffset.z)
+        );
+        
+        Vector3 newLocalPosition = targetTransform.localPosition + randomOffset;
+        
+        targetTransform.DOLocalMove(newLocalPosition, durationOfMove)
+            .SetEase(curve)
+            .OnComplete(CompleteTheTweener);
+    }
 
     private void CompleteTheTweener()
     {
