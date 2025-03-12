@@ -60,6 +60,7 @@ public class FigureMover : MonoBehaviour
         Vector3 lookAtPosition = figure.transform.position + direction;
 
         HighlightTilesController.Instance.ClearHighlights();
+        GameManager.Instance.SelectedFigure = null;
         
         figure.transform.DOLookAt(lookAtPosition, rotateDuration, AxisConstraint.Y)
             .OnComplete(() =>
@@ -72,8 +73,6 @@ public class FigureMover : MonoBehaviour
                         targetTile.SetOccupyingFigure(figure);
 
                         figure.transform.DORotateQuaternion(originalRotation, rotateDuration);
-
-                        GameManager.Instance.SelectedFigure = null;
                     });
             });
     }
