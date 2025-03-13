@@ -57,11 +57,15 @@ public class Figure : MonoBehaviour
     
     private MoveCalculator GetMoveCalculator()
     {
-        if (neighborSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.WhitePawn || rule.neighborType == NeighborType.BlackPawn))
+        if (neighborSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.Rectangle))
+        {
+            return new RectangleMoveCalculator();
+        }
+        else if (neighborSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.PawnWhite || rule.neighborType == NeighborType.PawnBlack))
         {
             return new PawnMoveCalculator();
         }
-        else if (neighborSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.KnightMove))
+        else if (neighborSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.Knight))
         {
             return new KnightMoveCalculator();
         }

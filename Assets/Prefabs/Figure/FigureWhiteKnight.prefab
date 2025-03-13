@@ -532,30 +532,6 @@ PrefabInstance:
       propertyPath: neighborSelectionSettings
       value: 
       objectReference: {fileID: 11400000, guid: d41e9e4214913394389b9371cab16597, type: 2}
-    - target: {fileID: 5456830216088499238, guid: 3974e57b782cd7c42918cd62eeb899d4, type: 3}
-      propertyPath: WhenTurnedOn._PersistentCalls.Array.data[0]._PersistentArguments.Array.data[0]._Y
-      value: -0.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 5456830216088499238, guid: 3974e57b782cd7c42918cd62eeb899d4, type: 3}
-      propertyPath: WhenTurnedOn._PersistentCalls.Array.data[0]._PersistentArguments.Array.data[1]._Y
-      value: -0.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 5456830216088499238, guid: 3974e57b782cd7c42918cd62eeb899d4, type: 3}
-      propertyPath: WhenTurnedOn._PersistentCalls.Array.data[1]._PersistentArguments.Array.data[0]._Y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5456830216088499238, guid: 3974e57b782cd7c42918cd62eeb899d4, type: 3}
-      propertyPath: WhenTurnedOn._PersistentCalls.Array.data[1]._PersistentArguments.Array.data[1]._Y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5456830216088499238, guid: 3974e57b782cd7c42918cd62eeb899d4, type: 3}
-      propertyPath: WhenTurnedOn._PersistentCalls.Array.data[2]._PersistentArguments.Array.data[0]._Y
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 5456830216088499238, guid: 3974e57b782cd7c42918cd62eeb899d4, type: 3}
-      propertyPath: WhenTurnedOn._PersistentCalls.Array.data[2]._PersistentArguments.Array.data[1]._Y
-      value: 0.25
-      objectReference: {fileID: 0}
     - target: {fileID: 7341690228429134874, guid: 3974e57b782cd7c42918cd62eeb899d4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

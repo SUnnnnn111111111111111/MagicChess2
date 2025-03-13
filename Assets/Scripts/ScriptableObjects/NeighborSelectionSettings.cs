@@ -3,14 +3,15 @@ using UnityEngine;
 
 public enum NeighborType
 {
+    Rectangle,
     Horizontal, 
     Vertical, 
     HorizontalVertical, 
     Diagonal, 
     HorizontalVerticalDiagonal, 
-    WhitePawn, 
-    BlackPawn, 
-    KnightMove
+    PawnWhite, 
+    PawnBlack, 
+    Knight
 }
 [CreateAssetMenu(fileName = "NeighborSelectionSettings", menuName = "Chess/NeighborSelectionSettings")]
 public class NeighborSelectionSettings : ScriptableObject
@@ -22,6 +23,8 @@ public class NeighborSelectionSettings : ScriptableObject
     {
         public NeighborType neighborType;
         public int maxDistance = 2;
+        public int rectangleWidth = 0;
+        public int rectangleHeight = 0;
     }
 
     public List<NeighborRule> neighborRules = new List<NeighborRule>();
@@ -34,8 +37,23 @@ public class NeighborSelectionSettings : ScriptableObject
         {
             switch (rule.neighborType)
             {
+                case NeighborType.Rectangle:
+                    for (int x = 0; x <= rule.rectangleWidth; x++)
+                    {
+                        for (int y = 0; y <= rule.rectangleHeight; y++)
+                        {
+                            if (x != 0 || y != 0) // Исключаем центральную клетку
+                            {
+                                offsets.Add(new Vector2Int(x, y));
+                                offsets.Add(new Vector2Int(-x, y));
+                                offsets.Add(new Vector2Int(x, -y));
+                                offsets.Add(new Vector2Int(-x, -y));
+                            }
+                        }
+                    }
+                    break;
                 case NeighborType.Horizontal:
-                    for (int i = 1; i <= rule.maxDistance; i++)
+                    for (int i = 1; i <= rule.maxDistance; i++) 
                     {
                         offsets.Add(new Vector2Int(i, 0));
                         offsets.Add(new Vector2Int(-i, 0));
@@ -79,19 +97,19 @@ public class NeighborSelectionSettings : ScriptableObject
                         offsets.Add(new Vector2Int(-i, i));
                     }
                     break;
-                case NeighborType.WhitePawn:
+                case NeighborType.PawnWhite:
                     for (int i = 1; i <= rule.maxDistance; i++)
                     {
                         offsets.Add(new Vector2Int(0, i));
                     }
                     break;
-                case NeighborType.BlackPawn:
+                case NeighborType.PawnBlack:
                     for (int i = 1; i <= rule.maxDistance; i++)
                     {
                         offsets.Add(new Vector2Int(0, -i));
                     }
                     break;
-                case NeighborType.KnightMove:
+                case NeighborType.Knight:
                     offsets.Add(new Vector2Int(4, 2));
                     offsets.Add(new Vector2Int(4, -2));
                     offsets.Add(new Vector2Int(-4, 2));
