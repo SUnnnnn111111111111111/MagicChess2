@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 687958583178354197, guid: d34d9bba6d6493240a51ff1d0e349bb5, type: 3}
+      propertyPath: m_Name
+      value: FogOfWar
+      objectReference: {fileID: 0}
     - target: {fileID: 3991768648576384060, guid: d34d9bba6d6493240a51ff1d0e349bb5, type: 3}
       propertyPath: m_Name
       value: BlackTile

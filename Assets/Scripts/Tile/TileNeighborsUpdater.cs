@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class NeighborUpdater
+public class TileNeighborUpdater
 {
     public void UpdateNeighbors(Dictionary<Vector2Int, Tile> tiles)
     {

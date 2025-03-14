@@ -228,7 +228,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 2, z: 1}
+  m_Size: {x: 1, y: 3, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &8049444515374112108
 MonoBehaviour:
@@ -6290,6 +6290,7 @@ MonoBehaviour:
   neighborSelectionSettings: {fileID: 0}
   deathAnimationObject: {fileID: 6546587658793596054}
   deathDelay: 2
+  fogOfWarDispersionRadius: 6
 --- !u!114 &8818771738053839986
 MonoBehaviour:
   m_ObjectHideFlags: 0

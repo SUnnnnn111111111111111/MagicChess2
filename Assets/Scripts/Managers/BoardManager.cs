@@ -8,7 +8,7 @@ public class BoardManager : MonoBehaviour
     private Dictionary<Vector2Int, Tile> tiles = new Dictionary<Vector2Int, Tile>();
 
     [SerializeField] private List<GameObject> registeredTiles = new List<GameObject>(); 
-    private NeighborUpdater neighborUpdater = new NeighborUpdater();
+    private TileNeighborUpdater _tileNeighborUpdater = new TileNeighborUpdater();
 
     private void Awake()
     {
@@ -30,6 +30,6 @@ public class BoardManager : MonoBehaviour
 
     public void UpdateNeighbors()
     {
-        neighborUpdater.UpdateNeighbors(tiles);
+        _tileNeighborUpdater.UpdateNeighbors(tiles);
     }
 }
