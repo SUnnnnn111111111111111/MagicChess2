@@ -8,9 +8,11 @@ public class Tile : MonoBehaviour
     public List<Tile> Neighbors { get; private set; } = new List<Tile>();
     public Figure OccupyingFigure { get; private set; } = null; 
     public bool IsHighlighted { get; private set; } = false;
-
+    public bool HiddenByFog { get; private set; } = true;
+    
     [SerializeField] private GameObject highlightEmptyTile;
     [SerializeField] private GameObject highlightEnemyTile;
+    [SerializeField] private GameObject fogOfWarEffect;
     
 
     private void Start()
@@ -22,6 +24,7 @@ public class Tile : MonoBehaviour
         {
             highlightEmptyTile.SetActive(false);
         }
+        SetHiddenByFog(true);
     }
 
     public void SetNeighbors(List<Tile> neighbors)
@@ -59,15 +62,23 @@ public class Tile : MonoBehaviour
             IsHighlighted = state;
         }
     }
-    
 
     public void SetOccupyingFigure(Figure figure)
     {
         OccupyingFigure = figure;
     }
+    
+    public void SetHiddenByFog(bool value)
+    {
+        HiddenByFog = value;
+        if (fogOfWarEffect != null)
+            fogOfWarEffect.SetActive(value);
+    }
 
     private void OnMouseDown()
     {
+        if (HiddenByFog) return;
+        
         if (GameManager.Instance.SelectedFigure != null)
         {
             FigureMover mover = GameManager.Instance.SelectedFigure.GetComponent<FigureMover>();

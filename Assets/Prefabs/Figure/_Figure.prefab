@@ -6014,6 +6014,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7023474846671390340}
   - component: {fileID: 590004787502206809}
+  - component: {fileID: 8807062567607736782}
   m_Layer: 0
   m_Name: Point Light
   m_TagString: Untagged
@@ -6101,6 +6102,29 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &8807062567607736782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5210557909929430970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &5464585801191591838
 GameObject:
   m_ObjectHideFlags: 0
@@ -6288,9 +6312,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whiteTeamAffiliation: 0
   neighborSelectionSettings: {fileID: 0}
+  fogNeighborSelectionSettings: {fileID: 11400000, guid: 92845ff1f5826fb46a8af581b1c10e02, type: 2}
   deathAnimationObject: {fileID: 6546587658793596054}
   deathDelay: 2
-  fogOfWarDispersionRadius: 6
 --- !u!114 &8818771738053839986
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ public class Figure : MonoBehaviour
 {
     public bool whiteTeamAffiliation; 
     public NeighborSelectionSettings neighborSelectionSettings; 
+    public NeighborSelectionSettings fogNeighborSelectionSettings;
     
     [Header("Death Animation")]
     public GameObject deathAnimationObject; 
@@ -13,7 +15,9 @@ public class Figure : MonoBehaviour
     
     private FigureMover figureMover;
     
+    public Vector2Int Position { get; private set; }
     public Tile CurrentTile { get; set; } 
+    
 
     private void Start()
     {
@@ -24,18 +28,27 @@ public class Figure : MonoBehaviour
     private void LateStart()
     {
         CurrentTile = BoardManager.Instance.GetTileAt(new Vector2Int((int)transform.position.x, (int)transform.position.z));
+        
+        Position = new Vector2Int((int)transform.position.x, (int)transform.position.z);
+        BoardManager.Instance.RegisterFigure(this, Position);
 
         if (CurrentTile != null)
         {
             CurrentTile.SetOccupyingFigure(this);
-            // Debug.Log($"✅ Фигура {gameObject.name} зарегистрирована на клетке {currentTile.Position}");
         }
         else
         {
             Debug.LogWarning($"⚠️ Фигура {gameObject.name} не нашла свою текущую клетку!");
         }
+        
+        BoardManager.Instance.UpdateFogOfWar(this);
     }
-    
+
+    private void OnDestroy()
+    {
+        BoardManager.Instance.UnregisterFigure(this);
+    }
+
     public void HighlightAvailableToMoveTiles()
     {
         if (CurrentTile == null)
@@ -46,9 +59,16 @@ public class Figure : MonoBehaviour
 
         MoveCalculator moveCalculator = GetMoveCalculator();
         List<Tile> moves = moveCalculator.CalculateMoves(CurrentTile, neighborSelectionSettings, whiteTeamAffiliation);
+        
+        moves = moves.Where(tile => tile.HiddenByFog == false).ToList();
 
-        List<Tile> emptyTiles = moves.Where(tile => tile.OccupyingFigure == null).ToList();
-        List<Tile> enemyTiles = moves.Where(tile => tile.OccupyingFigure != null && tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation).ToList();
+        List<Tile> emptyTiles = moves
+            .Where(tile => tile.OccupyingFigure == null)
+            .ToList();
+        List<Tile> enemyTiles = moves
+            .Where(tile => tile.OccupyingFigure != null &&
+                           tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation)
+            .ToList();
 
         HighlightTilesController.Instance.HighlightAvailableTiles(emptyTiles);
         HighlightTilesController.Instance.HighlightEnemyTiles(enemyTiles);

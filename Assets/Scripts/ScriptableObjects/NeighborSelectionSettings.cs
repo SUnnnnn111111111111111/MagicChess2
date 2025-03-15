@@ -42,7 +42,7 @@ public class NeighborSelectionSettings : ScriptableObject
                     {
                         for (int y = 0; y <= rule.rectangleHeight; y++)
                         {
-                            if (x != 0 || y != 0) // Исключаем центральную клетку
+                            if (x != 0 || y != 0) 
                             {
                                 offsets.Add(new Vector2Int(x, y));
                                 offsets.Add(new Vector2Int(-x, y));

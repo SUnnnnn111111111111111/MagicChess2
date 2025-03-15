@@ -11,6 +11,8 @@ public class TileHighlighter
 
         foreach (var tile in tilesToHighlight)
         {
+            if (tile.HiddenByFog) continue;
+            
             GameObject highlightObject = tile.GetAvailableHighlightObject();
             if (highlightObject != null)
             {
@@ -25,6 +27,8 @@ public class TileHighlighter
     {
         foreach (var tile in tilesToHighlight)
         {
+            if (tile.HiddenByFog) continue;
+            
             GameObject highlightObject = tile.GetEnemyHighlightObject();
             if (highlightObject != null)
             {
