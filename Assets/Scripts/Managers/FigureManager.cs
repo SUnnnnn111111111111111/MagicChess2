@@ -14,7 +14,7 @@ public class FigureManager : MonoBehaviour
             selectedFigure = value;
             if (selectedFigure == null)
             {
-                HighlightTilesController.Instance.ClearHighlights();
+                HighlightTilesManager.Instance.ClearHighlights();
             }
         }
     }

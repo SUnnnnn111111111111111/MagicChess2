@@ -59,7 +59,7 @@ public class FigureMover : MonoBehaviour
         Vector3 direction = (targetTile.transform.position - figure.transform.position).normalized;
         Vector3 lookAtPosition = figure.transform.position + direction;
 
-        HighlightTilesController.Instance.ClearHighlights();
+        HighlightTilesManager.Instance.ClearHighlights();
         
         
         figure.transform.DOLookAt(lookAtPosition, rotateDuration, AxisConstraint.Y)

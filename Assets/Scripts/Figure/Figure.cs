@@ -70,8 +70,8 @@ public class Figure : MonoBehaviour
                            tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation)
             .ToList();
 
-        HighlightTilesController.Instance.HighlightAvailableTiles(emptyTiles);
-        HighlightTilesController.Instance.HighlightEnemyTiles(enemyTiles);
+        HighlightTilesManager.Instance.HighlightAvailableTiles(emptyTiles);
+        HighlightTilesManager.Instance.HighlightEnemyTiles(enemyTiles);
     }
     
     

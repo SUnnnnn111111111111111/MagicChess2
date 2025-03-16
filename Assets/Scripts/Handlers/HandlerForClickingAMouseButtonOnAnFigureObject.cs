@@ -13,7 +13,7 @@ public class HandlerForClickingAMouseButtonOnAnFigureObject : MonoBehaviour
 
         if (figure == null)
         {
-            // Debug.LogWarning($" {gameObject.name} (HandlerForClickingAMouseButtonOnAnObject) не нашёл Figure!");
+            Debug.LogWarning($" {gameObject.name} (HandlerForClickingAMouseButtonOnAnObject) не нашёл Figure!");
         }
     }
 

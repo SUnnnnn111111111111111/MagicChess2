@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class HighlightTilesController : MonoBehaviour
+public class HighlightTilesManager : MonoBehaviour
 {
-    public static HighlightTilesController Instance { get; private set; }
+    public static HighlightTilesManager Instance { get; private set; }
     private TileHighlighter tileHighlighter;
 
     private void Awake()
