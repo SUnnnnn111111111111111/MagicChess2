@@ -19,7 +19,7 @@ public class FigureEditor : Editor
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Debug info", EditorStyles.boldLabel);
         
-        bool isSelected = GameManager.Instance != null && GameManager.Instance.SelectedFigure == figure;
+        bool isSelected = FigureManager.Instance != null && FigureManager.Instance.SelectedFigure == figure;
         EditorGUILayout.LabelField("Is selected", isSelected ? "Yes" : "No");
 
         string currentTilePosition = figure.GetCurrentTilePosition() ?? "None";

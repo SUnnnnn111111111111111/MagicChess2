@@ -9888,8 +9888,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7079656952232547538}
   - component: {fileID: 4239659257124162939}
-  - component: {fileID: 9109650489361375080}
   - component: {fileID: 2663819358434325388}
+  - component: {fileID: 2877061059070594058}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -9933,24 +9933,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 0.5, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &9109650489361375080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2806795228701313454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9728e52ce4457f94d9defa73705ba16d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isActive: 1
-  WhenClickOnAnObject:
-    _PersistentCalls:
-    - _Target: {fileID: 4115211553564373032}
-      _MemberName: OnMouseDown
-      _PersistentArguments: []
 --- !u!114 &2663819358434325388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9966,6 +9948,24 @@ MonoBehaviour:
   hoverHighlightTile: {fileID: 147848337690046289}
   highlightEmptyTile: {fileID: 790792054133794789}
   highlightEnemyTile: {fileID: 6803103403524892050}
+--- !u!114 &2877061059070594058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2806795228701313454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d7933dc7ada5de4591357fce04647b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isActive: 1
+  WhenClickOnAnObject:
+    _PersistentCalls:
+    - _Target: {fileID: 4115211553564373032}
+      _MemberName: OnMouseDown
+      _PersistentArguments: []
 --- !u!1 &3991768648576384060
 GameObject:
   m_ObjectHideFlags: 0

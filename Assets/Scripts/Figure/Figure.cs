@@ -41,7 +41,7 @@ public class Figure : MonoBehaviour
             Debug.LogWarning($"⚠️ Фигура {gameObject.name} не нашла свою текущую клетку!");
         }
         
-        BoardManager.Instance.UpdateFogOfWar(this);
+        BoardManager.Instance.UpdateFogOfWar();
     }
 
     private void OnDestroy()

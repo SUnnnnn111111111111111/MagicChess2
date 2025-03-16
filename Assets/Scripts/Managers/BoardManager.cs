@@ -51,25 +51,32 @@ public class BoardManager : MonoBehaviour
         _tileNeighborUpdater.UpdateNeighbors(tiles);
     }
     
-    public void UpdateFogOfWar(Figure figure)
+    public void UpdateFogOfWar()
     {
         foreach (var tile in tiles.Values)
         {
-            tile.SetHiddenByFog(true); 
+            tile.SetHiddenByFog(true);
         }
 
-        foreach (var fig in registeredFigures) 
+        bool isWhiteTurn = GameStateManager.Instance.CurrentState == GameStateManager.GameState.WhitePlaying;
+
+        foreach (var fig in registeredFigures)
         {
+            if (fig == null) continue;
+
             Figure figComponent = fig.GetComponent<Figure>();
             if (figComponent == null || figComponent.CurrentTile == null || figComponent.fogNeighborSelectionSettings == null)
                 continue;
             
+            if (figComponent.whiteTeamAffiliation != isWhiteTurn) 
+                continue;
+            
             figComponent.CurrentTile.SetHiddenByFog(false);
-
+            
             List<Tile> fogTiles = figComponent.CurrentTile.GetNeighbors(figComponent.fogNeighborSelectionSettings);
             foreach (var tile in fogTiles)
             {
-                tile.SetHiddenByFog(false); 
+                tile.SetHiddenByFog(false);
             }
         }
     }

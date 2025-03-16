@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class FigureManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
+    public static FigureManager Instance { get; private set; }
 
     [SerializeField] private Figure selectedFigure;
 

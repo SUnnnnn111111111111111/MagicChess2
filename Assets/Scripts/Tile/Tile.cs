@@ -79,9 +79,9 @@ public class Tile : MonoBehaviour
     {
         if (HiddenByFog) return;
         
-        if (GameManager.Instance.SelectedFigure != null)
+        if (FigureManager.Instance.SelectedFigure != null)
         {
-            FigureMover mover = GameManager.Instance.SelectedFigure.GetComponent<FigureMover>();
+            FigureMover mover = FigureManager.Instance.SelectedFigure.GetComponent<FigureMover>();
             if (mover != null)
             {
                 mover.MoveToTile(this);

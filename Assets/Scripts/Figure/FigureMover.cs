@@ -69,11 +69,11 @@ public class FigureMover : MonoBehaviour
                     .SetEase(moveEase) 
                     .OnComplete(() =>
                     {
-                        GameManager.Instance.SelectedFigure = null;
+                        FigureManager.Instance.SelectedFigure = null;
                         figure.CurrentTile = targetTile; 
                         targetTile.SetOccupyingFigure(figure);
-                        BoardManager.Instance.UpdateFogOfWar(figure);
                         figure.transform.DORotateQuaternion(originalRotation, rotateDuration);
+                        GameStateManager.Instance.SwitchTurn();
                     });
             });
     }
