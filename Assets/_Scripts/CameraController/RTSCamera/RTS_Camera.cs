@@ -39,22 +39,20 @@ namespace RTS_Cam
 
         #region Zoom
 
-        public bool autoHeight = true;
-        public LayerMask groundMask = -1;
-
-        public float minZoom = 5f;  // Минимальное значение orthographicSize (максимальный зум)
-        public float maxZoom = 20f; // Максимальное значение orthographicSize (максимальное отдаление)
+        public float minZoom = 5f; 
+        public float maxZoom = 20f; 
+        public float initialOrthographicSize = 22f;
         public float zoomDampening = 5f;
         public float keyboardZoomingSensitivity = 2f;
         public float scrollWheelZoomingSensitivity = 10f;
 
-        private float zoomPos = 0.5f; // Начальное значение зума (0.5 — между minZoom и maxZoom)
+        private float zoomPos = 0.5f; 
 
         #endregion
 
         #region MapLimits
 
-        public bool limitMap = true;
+        public bool limitMap = false;
         public float limitX = 50f;
         public float limitY = 50f;
 
@@ -62,7 +60,7 @@ namespace RTS_Cam
 
         #region Input
 
-        public bool useScreenEdgeInput = true;
+        public bool useScreenEdgeInput = false;
         public float screenEdgeBorder = 25f;
 
         public bool useKeyboardInput = true;
@@ -70,16 +68,16 @@ namespace RTS_Cam
         public string verticalAxis = "Vertical";
 
         public bool usePanning = true;
-        public KeyCode panningKey = KeyCode.Mouse2;
+        public KeyCode panningKey = KeyCode.Mouse0;
 
-        public bool useKeyboardZooming = true;
+        public bool useKeyboardZooming = false;
         public KeyCode zoomInKey = KeyCode.E;
         public KeyCode zoomOutKey = KeyCode.Q;
 
         public bool useScrollwheelZooming = true;
         public string zoomingAxis = "Mouse ScrollWheel";
 
-        public bool useKeyboardRotation = true;
+        public bool useKeyboardRotation = false;
         public KeyCode rotateRightKey = KeyCode.X;
         public KeyCode rotateLeftKey = KeyCode.Z;
 
@@ -100,7 +98,7 @@ namespace RTS_Cam
 
         private float ScrollWheel
         {
-            get { return -Input.GetAxis(zoomingAxis); } // Инверсия направления зума
+            get { return -Input.GetAxis(zoomingAxis); }
         }
 
         private Vector2 MouseAxis
@@ -142,7 +140,8 @@ namespace RTS_Cam
             if (cam != null)
             {
                 cam.orthographic = true;
-                cam.orthographicSize = Mathf.Lerp(minZoom, maxZoom, zoomPos); // Сохранение начального зума
+                zoomPos = Mathf.InverseLerp(minZoom, maxZoom, initialOrthographicSize);
+                cam.orthographicSize = initialOrthographicSize;
             }
         }
 
@@ -168,7 +167,7 @@ namespace RTS_Cam
 
         private void Move()
         {
-            float moveSpeed = baseMovementSpeed * (cam.orthographicSize / minZoom); // Скорость зависит от зума
+            float moveSpeed = baseMovementSpeed * (minZoom / cam.orthographicSize);
 
             if (useKeyboardInput)
             {
@@ -197,8 +196,7 @@ namespace RTS_Cam
                 desiredMove = m_Transform.InverseTransformDirection(desiredMove);
                 m_Transform.Translate(desiredMove, Space.Self);
             }
-
-            // 🔥 Исправленная обработка панорамирования мышью
+            
             if (usePanning && Input.GetKey(panningKey) && MouseAxis != Vector2.zero)
             {
                 Vector3 desiredMove = new Vector3(-MouseAxis.x, 0, -MouseAxis.y);
@@ -222,6 +220,15 @@ namespace RTS_Cam
 
             float targetZoom = Mathf.Lerp(minZoom, maxZoom, zoomPos);
             cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, targetZoom, Time.deltaTime * zoomDampening);
+        }
+        
+        public void ResetOrthographicSize()
+        {
+            if (cam != null)
+            {
+                zoomPos = Mathf.InverseLerp(minZoom, maxZoom, initialOrthographicSize);
+                cam.orthographicSize = initialOrthographicSize;
+            }
         }
 
         private void Rotate()

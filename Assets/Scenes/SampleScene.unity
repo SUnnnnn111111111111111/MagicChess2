@@ -568,7 +568,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 22
+  orthographic size: 30
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -681,7 +681,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  moveDuration: 2
+  delay: 0
+  moveDuration: 0
 --- !u!114 &330585551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -705,20 +706,17 @@ MonoBehaviour:
   baseMovementSpeed: 5
   screenEdgeMovementSpeed: 10
   rotationSpeed: 3
-  panningSpeed: 100
-  mouseRotationSpeed: 50
-  autoHeight: 0
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
+  panningSpeed: 75
+  mouseRotationSpeed: 100
   minZoom: 5
   maxZoom: 25
+  initialOrthographicSize: 22
   zoomDampening: 5
   keyboardZoomingSensitivity: 10
-  scrollWheelZoomingSensitivity: 25
-  limitMap: 0
-  limitX: 50
-  limitY: 50
+  scrollWheelZoomingSensitivity: 50
+  limitMap: 1
+  limitX: 75
+  limitY: 75
   useScreenEdgeInput: 0
   screenEdgeBorder: 25
   useKeyboardInput: 1
@@ -1475,8 +1473,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48bb882744ddff94585d029bf19ccd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  whiteFiguresList: []
+  blackFiguresList: []
   registeredTiles: []
-  registeredFigures: []
 --- !u!4 &773290293
 Transform:
   m_ObjectHideFlags: 0

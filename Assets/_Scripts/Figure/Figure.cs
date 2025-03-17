@@ -6,7 +6,8 @@ using UnityEngine.Serialization;
 
 public class Figure : MonoBehaviour
 {
-    public bool whiteTeamAffiliation; 
+    public bool whiteTeamAffiliation;
+    public bool isKing;
     [FormerlySerializedAs("neighborSelectionSettings")] public NeighborTilesSelectionSettings neighborTilesSelectionSettings; 
     [FormerlySerializedAs("fogNeighborSelectionSettings")] public NeighborTilesSelectionSettings fogNeighborTilesSelectionSettings;
     

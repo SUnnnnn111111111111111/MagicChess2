@@ -112,17 +112,8 @@ namespace RTS_Cam
 
         private void ZoomTab()
         {
-            using (new HorizontalBlock())
-            {
-                GUILayout.Label("Auto height: ", EditorStyles.boldLabel, GUILayout.Width(170f));
-                camera.autoHeight = EditorGUILayout.Toggle(camera.autoHeight);
-            }
-            if (camera.autoHeight)
-            {
-                camera.zoomDampening = EditorGUILayout.FloatField("Zoom dampening: ", camera.zoomDampening);
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("groundMask"));
-            }
-
+            camera.zoomDampening = EditorGUILayout.FloatField("Zoom dampening: ", camera.zoomDampening);
+    
             using (new HorizontalBlock())
             {
                 GUILayout.Label("Keyboard zooming: ", EditorStyles.boldLabel, GUILayout.Width(170f));
@@ -151,8 +142,10 @@ namespace RTS_Cam
                 {
                     camera.maxZoom = EditorGUILayout.FloatField("Max zoom: ", camera.maxZoom);
                     camera.minZoom = EditorGUILayout.FloatField("Min zoom: ", camera.minZoom);
+                    camera.initialOrthographicSize = EditorGUILayout.FloatField("Initial Orthographic Size:", camera.initialOrthographicSize);
                 }
             }
         }
+
     }
 }

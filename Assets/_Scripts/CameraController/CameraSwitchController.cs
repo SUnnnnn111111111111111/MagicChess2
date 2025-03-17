@@ -7,6 +7,7 @@ public class CameraSwitchController : MonoBehaviour
     public Transform whiteTeamView;
     public Transform blackTeamView;
     [SerializeField] private AnimationCurve curve;
+    public float delay = 0.5f;
     public float moveDuration = 3f;
 
     private void Start()
@@ -29,7 +30,16 @@ public class CameraSwitchController : MonoBehaviour
 
     private void MoveCamera(Vector3 position, Quaternion rotation)
     {
-        transform.DOMove(position, moveDuration).SetEase(curve);
-        transform.DORotateQuaternion(rotation, moveDuration).SetEase(curve);
+        RTS_Cam.RTS_Camera rtsCamera = GetComponent<RTS_Cam.RTS_Camera>();
+        if (rtsCamera != null)
+        {
+            DG.Tweening.DOVirtual.DelayedCall(delay, () =>
+            {
+                rtsCamera.ResetOrthographicSize();
+            });
+        }
+    
+        transform.DOMove(position, moveDuration).SetEase(curve).SetDelay(delay);
+        transform.DORotateQuaternion(rotation, moveDuration).SetEase(curve).SetDelay(delay);
     }
 }
