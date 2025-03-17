@@ -6,8 +6,8 @@ public class CameraSwitchController : MonoBehaviour
 {
     public Transform whiteTeamView;
     public Transform blackTeamView;
-    [SerializeField] private Ease ease;
-    public float moveDuration = 1.5f;
+    [SerializeField] private AnimationCurve curve;
+    public float moveDuration = 3f;
 
     private void Start()
     {
@@ -29,7 +29,7 @@ public class CameraSwitchController : MonoBehaviour
 
     private void MoveCamera(Vector3 position, Quaternion rotation)
     {
-        transform.DOMove(position, moveDuration).SetEase(ease);
-        transform.DORotateQuaternion(rotation, moveDuration).SetEase(ease);
+        transform.DOMove(position, moveDuration).SetEase(curve);
+        transform.DORotateQuaternion(rotation, moveDuration).SetEase(curve);
     }
 }

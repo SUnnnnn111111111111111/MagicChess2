@@ -65,7 +65,7 @@ public class BoardManager : MonoBehaviour
             if (fig == null) continue;
 
             Figure figComponent = fig.GetComponent<Figure>();
-            if (figComponent == null || figComponent.CurrentTile == null || figComponent.fogNeighborSelectionSettings == null)
+            if (figComponent == null || figComponent.CurrentTile == null || figComponent.fogNeighborTilesSelectionSettings == null)
                 continue;
             
             if (figComponent.whiteTeamAffiliation != isWhiteTurn) 
@@ -73,7 +73,7 @@ public class BoardManager : MonoBehaviour
             
             figComponent.CurrentTile.SetHiddenByFog(false);
             
-            List<Tile> fogTiles = figComponent.CurrentTile.GetNeighbors(figComponent.fogNeighborSelectionSettings);
+            List<Tile> fogTiles = figComponent.CurrentTile.GetNeighbors(figComponent.fogNeighborTilesSelectionSettings);
             foreach (var tile in fogTiles)
             {
                 tile.SetHiddenByFog(false);

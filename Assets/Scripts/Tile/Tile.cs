@@ -32,7 +32,7 @@ public class Tile : MonoBehaviour
         Neighbors = neighbors;
     }
 
-    public List<Tile> GetNeighbors(NeighborSelectionSettings settings)
+    public List<Tile> GetNeighbors(NeighborTilesSelectionSettings settings)
     {
         List<Tile> result = new List<Tile>();
         foreach (var offset in settings.GetOffsets())

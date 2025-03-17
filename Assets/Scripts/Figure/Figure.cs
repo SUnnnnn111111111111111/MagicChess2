@@ -2,12 +2,13 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.Serialization;
 
 public class Figure : MonoBehaviour
 {
     public bool whiteTeamAffiliation; 
-    public NeighborSelectionSettings neighborSelectionSettings; 
-    public NeighborSelectionSettings fogNeighborSelectionSettings;
+    [FormerlySerializedAs("neighborSelectionSettings")] public NeighborTilesSelectionSettings neighborTilesSelectionSettings; 
+    [FormerlySerializedAs("fogNeighborSelectionSettings")] public NeighborTilesSelectionSettings fogNeighborTilesSelectionSettings;
     
     [Header("Death Animation")]
     public GameObject deathAnimationObject; 
@@ -47,6 +48,7 @@ public class Figure : MonoBehaviour
     private void OnDestroy()
     {
         BoardManager.Instance.UnregisterFigure(this);
+        BoardManager.Instance.UpdateFogOfWar();
     }
 
     public void HighlightAvailableToMoveTiles()
@@ -58,7 +60,7 @@ public class Figure : MonoBehaviour
         }
 
         MoveCalculator moveCalculator = GetMoveCalculator();
-        List<Tile> moves = moveCalculator.CalculateMoves(CurrentTile, neighborSelectionSettings, whiteTeamAffiliation);
+        List<Tile> moves = moveCalculator.CalculateMoves(CurrentTile, neighborTilesSelectionSettings, whiteTeamAffiliation);
         
         moves = moves.Where(tile => tile.HiddenByFog == false).ToList();
 
@@ -77,15 +79,15 @@ public class Figure : MonoBehaviour
     
     private MoveCalculator GetMoveCalculator()
     {
-        if (neighborSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.Rectangle))
+        if (neighborTilesSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.Rectangle))
         {
             return new RectangleMoveCalculator();
         }
-        else if (neighborSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.PawnWhite || rule.neighborType == NeighborType.PawnBlack))
+        else if (neighborTilesSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.PawnWhite || rule.neighborType == NeighborType.PawnBlack))
         {
             return new PawnMoveCalculator();
         }
-        else if (neighborSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.Knight))
+        else if (neighborTilesSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.Knight))
         {
             return new KnightMoveCalculator();
         }
@@ -99,7 +101,7 @@ public class Figure : MonoBehaviour
     public int GetAvailableMovesCount()
     {
         if (CurrentTile == null) return 0;
-        return GetMoveCalculator().CalculateMoves(CurrentTile, neighborSelectionSettings, whiteTeamAffiliation).Count;
+        return GetMoveCalculator().CalculateMoves(CurrentTile, neighborTilesSelectionSettings, whiteTeamAffiliation).Count;
     }
 
     public bool IsCurrentTileHighlighted() => CurrentTile?.IsHighlighted ?? false;

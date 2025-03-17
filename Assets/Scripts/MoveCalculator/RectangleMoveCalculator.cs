@@ -2,7 +2,7 @@
 
 public class RectangleMoveCalculator : MoveCalculator
 {
-    public override List<Tile> CalculateMoves(Tile currentTile, NeighborSelectionSettings settings, bool isWhite)
+    public override List<Tile> CalculateMoves(Tile currentTile, NeighborTilesSelectionSettings settings, bool isWhite)
     {
         List<Tile> moves = new List<Tile>();
         List<Tile> possibleMoves = currentTile.GetNeighbors(settings);

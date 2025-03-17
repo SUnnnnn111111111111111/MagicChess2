@@ -13,8 +13,8 @@ public enum NeighborType
     PawnBlack, 
     Knight
 }
-[CreateAssetMenu(fileName = "NeighborSelectionSettings", menuName = "Chess/NeighborSelectionSettings")]
-public class NeighborSelectionSettings : ScriptableObject
+[CreateAssetMenu(fileName = "NeighborTilesSelectionSettings", menuName = "Chess/NeighborTilesSelectionSettings")]
+public class NeighborTilesSelectionSettings : ScriptableObject
 {
     
 
