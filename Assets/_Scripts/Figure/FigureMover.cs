@@ -69,6 +69,7 @@ public class FigureMover : MonoBehaviour
                     .SetEase(moveEase) 
                     .OnComplete(() =>
                     {
+                        figure.HasMoved = true;
                         FigureManager.Instance.SelectedFigure = null;
                         figure.CurrentTile = targetTile; 
                         targetTile.SetOccupyingFigure(figure);

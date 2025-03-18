@@ -1,7 +1,7 @@
 using UnityEngine;
 using UltEvents;
 
-public class HandlerForClickingAMouseButtonOnAnObject : MonoBehaviour
+public class HandlerForClickingAMouseButton : MonoBehaviour
 {
     public bool isActive;
     [SerializeField] private UltEvent  WhenClickOnAnObject;
@@ -10,6 +10,6 @@ public class HandlerForClickingAMouseButtonOnAnObject : MonoBehaviour
     void OnMouseDown()
     {
         if(isActive)
-        WhenClickOnAnObject.Invoke();
+            WhenClickOnAnObject.Invoke();
     }
 }

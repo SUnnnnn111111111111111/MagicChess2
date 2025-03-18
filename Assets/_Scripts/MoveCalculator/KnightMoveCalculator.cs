@@ -11,9 +11,9 @@ public class KnightMoveCalculator : MoveCalculator
         foreach (var tile in possibleMoves)
         {
             if (tile == null) continue;
-
-            // Конь может перемещаться на клетки, если они пусты или заняты фигурой противника
-            if (tile.OccupyingFigure == null || tile.OccupyingFigure.whiteTeamAffiliation != isWhite)
+            if (tile.isWall) continue; 
+            if (tile.OccupyingFigure == null 
+                || tile.OccupyingFigure.whiteTeamAffiliation != isWhite)
             {
                 moves.Add(tile);
             }

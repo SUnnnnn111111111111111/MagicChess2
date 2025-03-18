@@ -21,6 +21,8 @@ public class FigureEditor : Editor
         
         bool isSelected = FigureManager.Instance != null && FigureManager.Instance.SelectedFigure == figure;
         EditorGUILayout.LabelField("Is selected", isSelected ? "Yes" : "No");
+        
+        EditorGUILayout.LabelField("HasMoved", figure.HasMoved.ToString());
 
         string currentTilePosition = figure.GetCurrentTilePosition() ?? "None";
         EditorGUILayout.LabelField("Current tile", currentTilePosition);

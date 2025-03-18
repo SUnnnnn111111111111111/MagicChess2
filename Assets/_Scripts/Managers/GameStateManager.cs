@@ -37,7 +37,6 @@ public class GameStateManager : MonoBehaviour
         else if (CurrentState == GameState.BlackPlaying)
             CurrentState = GameState.WhitePlaying;
         
-        Debug.Log($"Смена хода: → {CurrentState}");
         OnGameStateChanged.Invoke(CurrentState);
         BoardManager.Instance.UpdateFogOfWar();
     }

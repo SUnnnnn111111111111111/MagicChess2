@@ -98,16 +98,16 @@ public class NeighborTilesSelectionSettings : ScriptableObject
                     }
                     break;
                 case NeighborType.PawnWhite:
-                    for (int i = 1; i <= rule.maxDistance; i++)
-                    {
-                        offsets.Add(new Vector2Int(0, i));
-                    }
+                    offsets.Add(new Vector2Int(0, 2));
+                    offsets.Add(new Vector2Int(0, 4));
+                    offsets.Add(new Vector2Int(2, 2));
+                    offsets.Add(new Vector2Int(-2, 2));
                     break;
                 case NeighborType.PawnBlack:
-                    for (int i = 1; i <= rule.maxDistance; i++)
-                    {
-                        offsets.Add(new Vector2Int(0, -i));
-                    }
+                    offsets.Add(new Vector2Int(0, -2));
+                    offsets.Add(new Vector2Int(0, -4));
+                    offsets.Add(new Vector2Int(2, -2));
+                    offsets.Add(new Vector2Int(-2, -2));
                     break;
                 case NeighborType.Knight:
                     offsets.Add(new Vector2Int(4, 2));

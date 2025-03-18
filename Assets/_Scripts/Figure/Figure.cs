@@ -18,7 +18,8 @@ public class Figure : MonoBehaviour
     private FigureMover figureMover;
     
     public Vector2Int Position { get; private set; }
-    public Tile CurrentTile { get; set; } 
+    public Tile CurrentTile { get; set; }
+    public bool HasMoved { get; set; }
     
 
     private void Start()
@@ -64,6 +65,7 @@ public class Figure : MonoBehaviour
         List<Tile> moves = moveCalculator.CalculateMoves(CurrentTile, neighborTilesSelectionSettings, whiteTeamAffiliation);
         
         moves = moves.Where(tile => tile.HiddenByFog == false).ToList();
+        moves = moves.Where(tile => !tile.HiddenByFog && !tile.isWall).ToList();
 
         List<Tile> emptyTiles = moves
             .Where(tile => tile.OccupyingFigure == null)

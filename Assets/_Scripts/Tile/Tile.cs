@@ -10,6 +10,7 @@ public class Tile : MonoBehaviour
     public bool IsHighlighted { get; private set; } = false;
     public bool HiddenByFog { get; private set; } = true;
     
+    public bool isWall;
     [SerializeField] private GameObject highlightEmptyTile;
     [SerializeField] private GameObject highlightEnemyTile;
     [SerializeField] private GameObject fogOfWarEffect;
