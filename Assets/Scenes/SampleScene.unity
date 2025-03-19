@@ -2582,6 +2582,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2219038004854505889, guid: 01c8e907c1cb29a4e889620e4eafaa9e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -17
+      objectReference: {fileID: 0}
     - target: {fileID: 6994731486319033651, guid: 01c8e907c1cb29a4e889620e4eafaa9e, type: 3}
       propertyPath: m_Name
       value: ChessField
@@ -2660,7 +2664,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05ed8ca42d363644bb98beaf4ca55a93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aiTeam: 0
+  aiTeam: 1
+  delayBeforeMove: 0.5
   availableFigures: []
   selectedAIFigure: {fileID: 0}
 --- !u!4 &1635442126

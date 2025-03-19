@@ -11,7 +11,7 @@ public class AIEnemy : MonoBehaviour
     }
 
     [SerializeField] private AITeam aiTeam;
-    [SerializeField] private float delayBeforeMove = 1f;
+    [SerializeField] private float delayBeforeMove =0.5f;
     [SerializeField] private List<Figure> availableFigures;
     [SerializeField] private Figure selectedAIFigure;
 
@@ -118,8 +118,7 @@ public class AIEnemy : MonoBehaviour
             Debug.LogWarning("Нет выбранной фигуры для хода AI");
             return;
         }
-
-        // Получаем список доступных клеток для выбранной фигуры
+        
         List<Tile> availableTiles = selectedAIFigure.GetAvailableMoveTiles();
     
         if (availableTiles.Count == 0)
@@ -127,12 +126,10 @@ public class AIEnemy : MonoBehaviour
             Debug.LogWarning("Нет доступных клеток для выбранной фигуры");
             return;
         }
-
-        // Выбираем случайную клетку
+        
         int randomIndex = Random.Range(0, availableTiles.Count);
         Tile randomTile = availableTiles[randomIndex];
-
-        // Перемещаем фигуру с помощью компонента FigureMover
+        
         FigureMover mover = selectedAIFigure.GetComponent<FigureMover>();
         if (mover != null)
         {
