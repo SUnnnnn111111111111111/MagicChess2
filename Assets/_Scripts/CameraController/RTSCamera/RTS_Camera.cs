@@ -41,7 +41,7 @@ namespace RTS_Cam
 
         public float minZoom = 5f; 
         public float maxZoom = 20f; 
-        public float initialOrthographicSize = 22f;
+        public float initialOrthographicSize = 18f;
         public float zoomDampening = 5f;
         public float keyboardZoomingSensitivity = 2f;
         public float scrollWheelZoomingSensitivity = 10f;

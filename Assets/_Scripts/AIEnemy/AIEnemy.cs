@@ -11,7 +11,7 @@ public class AIEnemy : MonoBehaviour
     }
 
     [SerializeField] private AITeam aiTeam;
-    [SerializeField] private float delayBeforeMove =0.5f;
+    [SerializeField] private float delayBeforeMove = 0.5f;
     [SerializeField] private List<Figure> availableFigures;
     [SerializeField] private Figure selectedAIFigure;
 
@@ -73,71 +73,49 @@ public class AIEnemy : MonoBehaviour
     private IEnumerator AIMoveRoutine()
     {
         yield return new WaitForSeconds(delayBeforeMove);
-    
-        GetRandomFigure();
-        MoveSelectedFigureRandomly();
-    }
-    
-    public Figure GetRandomFigure()
-    {
-        UpdateAvailableFigures();
 
-        if (availableFigures == null || availableFigures.Count == 0)
-        {
-            Debug.LogWarning("Нет фигур для команды " + aiTeam);
-            return null;
-        }
-        
-        List<Figure> figuresToCheck = new List<Figure>(availableFigures);
-
-        while (figuresToCheck.Count > 0)
-        {
-            int randomIndex = Random.Range(0, figuresToCheck.Count);
-            Figure randomFigure = figuresToCheck[randomIndex];
-            
-            if (randomFigure.GetAvailableMovesCount() > 0)
-            {
-                selectedAIFigure = randomFigure;
-                randomFigure.HighlightAvailableToMoveTiles();
-                return randomFigure;
-            }
-            else
-            {
-                figuresToCheck.RemoveAt(randomIndex);
-            }
-        }
-
-        Debug.LogWarning("Нет фигур, с которыми можно выполнить ход для команды " + aiTeam);
-        return null;
-    }
-    
-    public void MoveSelectedFigureRandomly()
-    {
+        selectedAIFigure = GetWeightedFigure();
         if (selectedAIFigure == null)
         {
             Debug.LogWarning("Нет выбранной фигуры для хода AI");
-            return;
+            yield break;
         }
-        
+
         List<Tile> availableTiles = selectedAIFigure.GetAvailableMoveTiles();
-    
         if (availableTiles.Count == 0)
         {
             Debug.LogWarning("Нет доступных клеток для выбранной фигуры");
-            return;
+            yield break;
         }
-        
-        int randomIndex = Random.Range(0, availableTiles.Count);
-        Tile randomTile = availableTiles[randomIndex];
-        
+
+        // Для перемещения можно использовать уже реализованный WeightedTileSelector или другой метод.
+        Tile selectedTile = WeightedTileSelector.SelectTile(availableTiles);
         FigureMover mover = selectedAIFigure.GetComponent<FigureMover>();
         if (mover != null)
         {
-            mover.MoveToTile(randomTile);
+            mover.MoveToTile(selectedTile);
         }
         else
         {
             Debug.LogWarning("Не найден компонент FigureMover на выбранной фигуре");
         }
+    }
+    
+    public Figure GetWeightedFigure()
+    {
+        UpdateAvailableFigures();
+        if (availableFigures == null || availableFigures.Count == 0)
+        {
+            Debug.LogWarning("Нет фигур для команды " + aiTeam);
+            return null;
+        }
+    
+        Figure selectedFigure = WeightedFigureSelector.SelectFigure(availableFigures);
+        if (selectedFigure != null)
+        {
+            // Можно подсветить доступные ходы для выбранной фигуры, если требуется.
+            selectedFigure.HighlightAvailableToMoveTiles();
+        }
+        return selectedFigure;
     }
 }

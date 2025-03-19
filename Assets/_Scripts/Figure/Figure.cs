@@ -13,7 +13,8 @@ public class Figure : MonoBehaviour
     
     [Header("Death Animation")]
     public GameObject deathAnimationObject; 
-    public float deathDelay = 1.0f; 
+    public float deathDelay = 0.5f;
+    public float delayBeforePassingTheMove = 0.51f;
     
     private FigureMover figureMover;
     

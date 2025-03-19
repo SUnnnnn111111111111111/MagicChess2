@@ -6311,10 +6311,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whiteTeamAffiliation: 0
-  neighborSelectionSettings: {fileID: 0}
-  fogNeighborSelectionSettings: {fileID: 11400000, guid: 92845ff1f5826fb46a8af581b1c10e02, type: 2}
+  isKing: 0
+  neighborTilesSelectionSettings: {fileID: 0}
+  fogNeighborTilesSelectionSettings: {fileID: 11400000, guid: 92845ff1f5826fb46a8af581b1c10e02, type: 2}
   deathAnimationObject: {fileID: 6546587658793596054}
-  deathDelay: 2
+  deathDelay: 0.5
+  delayBeforePassingTheMove: 0.51
 --- !u!114 &8818771738053839986
 MonoBehaviour:
   m_ObjectHideFlags: 0

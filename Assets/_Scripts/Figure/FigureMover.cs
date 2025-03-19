@@ -61,7 +61,6 @@ public class FigureMover : MonoBehaviour
 
         HighlightTilesManager.Instance.ClearHighlights();
         
-        
         figure.transform.DOLookAt(lookAtPosition, rotateDuration, AxisConstraint.Y)
             .OnComplete(() =>
             {
@@ -73,8 +72,12 @@ public class FigureMover : MonoBehaviour
                         FigureManager.Instance.SelectedFigure = null;
                         figure.CurrentTile = targetTile; 
                         targetTile.SetOccupyingFigure(figure);
+                        BoardManager.Instance.UpdateFogOfWar();
                         figure.transform.DORotateQuaternion(originalRotation, rotateDuration);
-                        GameStateManager.Instance.SwitchTurn();
+                        DOVirtual.DelayedCall(figure.delayBeforePassingTheMove, () =>
+                        {
+                            GameStateManager.Instance.SwitchTurn();
+                        });
                     });
             });
     }

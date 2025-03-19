@@ -138,7 +138,7 @@ namespace RTS_Cam
 
             if (camera.useScrollwheelZooming || camera.useKeyboardZooming)
             {
-                using (new HorizontalBlock())
+                using (new VerticalBlock())
                 {
                     camera.maxZoom = EditorGUILayout.FloatField("Max zoom: ", camera.maxZoom);
                     camera.minZoom = EditorGUILayout.FloatField("Min zoom: ", camera.minZoom);
