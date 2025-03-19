@@ -25,23 +25,19 @@ public class Figure : MonoBehaviour
     private void Start()
     {
         figureMover = GetComponent<FigureMover>();
-        Invoke(nameof(LateStart), 0.1f);
-    }
-
-    private void LateStart()
-    {
-        CurrentTile = BoardManager.Instance.GetTileAt(new Vector2Int((int)transform.position.x, (int)transform.position.z));
         
         Position = new Vector2Int((int)transform.position.x, (int)transform.position.z);
-        BoardManager.Instance.RegisterFigure(this, Position);
-
+        
+        CurrentTile = BoardManager.Instance.GetTileAt(Position);
+        
         if (CurrentTile != null)
         {
+            BoardManager.Instance.RegisterFigure(this, Position);
             CurrentTile.SetOccupyingFigure(this);
         }
         else
         {
-            Debug.LogWarning($"⚠️ Фигура {gameObject.name} не нашла свою текущую клетку!");
+            Debug.LogWarning($"⚠️ Фигура {gameObject.name} не нашла свою клетку!");
         }
         
         BoardManager.Instance.UpdateFogOfWar();
@@ -79,7 +75,6 @@ public class Figure : MonoBehaviour
         HighlightTilesManager.Instance.HighlightEnemyTiles(enemyTiles);
     }
     
-    
     private MoveCalculator GetMoveCalculator()
     {
         if (neighborTilesSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.Rectangle))
@@ -100,7 +95,28 @@ public class Figure : MonoBehaviour
         }
     }
     
-
+    public List<Tile> GetAvailableMoveTiles()
+    {
+        if (CurrentTile == null)
+        {
+            Debug.LogWarning($"Фигура {gameObject.name} не может найти свою текущую клетку!");
+            return new List<Tile>();
+        }
+        
+        MoveCalculator moveCalculator = GetMoveCalculator(); 
+        List<Tile> moves = moveCalculator.CalculateMoves(CurrentTile, neighborTilesSelectionSettings, whiteTeamAffiliation);
+        
+        moves = moves.Where(tile => !tile.HiddenByFog && !tile.isWall).ToList();
+        
+        List<Tile> availableTiles = moves
+            .Where(tile => 
+                tile.OccupyingFigure == null || 
+                (tile.OccupyingFigure != null && 
+                 tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation))
+            .ToList();
+        return availableTiles;
+    }
+    
     public int GetAvailableMovesCount()
     {
         if (CurrentTile == null) return 0;

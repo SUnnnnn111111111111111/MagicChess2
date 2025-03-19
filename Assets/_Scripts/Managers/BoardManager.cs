@@ -1,25 +1,24 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 public class BoardManager : MonoBehaviour
 {
     public static BoardManager Instance { get; private set; }
 
     private Dictionary<Vector2Int, Tile> tiles = new Dictionary<Vector2Int, Tile>();
-
-    // Dictionary для быстрого поиска
+    
     private Dictionary<Vector2Int, Figure> whiteFiguresDict = new Dictionary<Vector2Int, Figure>();
     private Dictionary<Vector2Int, Figure> blackFiguresDict = new Dictionary<Vector2Int, Figure>();
-
-    // List для отображения в инспекторе
+    
     [SerializeField] private List<Figure> whiteFiguresList = new List<Figure>();
     [SerializeField] private List<Figure> blackFiguresList = new List<Figure>();
 
     [SerializeField] private List<GameObject> registeredTiles = new List<GameObject>();
 
     private TileNeighborUpdater _tileNeighborUpdater = new TileNeighborUpdater();
-
+    
     private void Awake()
     {
         Instance = this;
@@ -30,7 +29,7 @@ public class BoardManager : MonoBehaviour
         tiles[position] = tile;
         registeredTiles.Add(tile.gameObject);
     }
-
+    
     public void RegisterFigure(Figure figure, Vector2Int position)
     {
         if (figure.whiteTeamAffiliation)
@@ -44,39 +43,13 @@ public class BoardManager : MonoBehaviour
             blackFiguresList.Add(figure);
         }
     }
-
-    public void UnregisterFigure(Figure figure)
-    {
-        if (figure.whiteTeamAffiliation)
-        {
-            var key = whiteFiguresDict.FirstOrDefault(x => x.Value == figure).Key;
-            whiteFiguresDict.Remove(key);
-            whiteFiguresList.Remove(figure);
-
-            if (figure.isKing || whiteFiguresList.Count == 0)
-            {
-                Debug.Log("Игра окончена, победила команда чёрных");
-            }
-        }
-        else
-        {
-            var key = blackFiguresDict.FirstOrDefault(x => x.Value == figure).Key;
-            blackFiguresDict.Remove(key);
-            blackFiguresList.Remove(figure);
-
-            if (figure.isKing || blackFiguresList.Count == 0)
-            {
-                Debug.Log("Игра окончена, победила команда белых");
-            }
-        }
-    }
-
+    
     public Tile GetTileAt(Vector2Int position)
     {
         tiles.TryGetValue(position, out Tile tile);
         return tile;
     }
-
+    
     public void UpdateNeighbors()
     {
         _tileNeighborUpdater.UpdateNeighbors(tiles);
@@ -89,7 +62,7 @@ public class BoardManager : MonoBehaviour
             tile.SetHiddenByFog(true);
         }
 
-        bool isWhiteTurn = GameStateManager.Instance.CurrentState == GameStateManager.GameState.WhitePlaying;
+        bool isWhiteTurn = GameStateManager.Instance.CurrentState == GameStateManager.GameState.WhitesPlaying;
 
         var currentFigures = isWhiteTurn ? whiteFiguresList : blackFiguresList;
 
@@ -107,5 +80,38 @@ public class BoardManager : MonoBehaviour
                 tile.SetHiddenByFog(false);
             }
         }
+    }
+    
+    public void UnregisterFigure(Figure figure)
+    {
+        if (figure.whiteTeamAffiliation)
+        {
+            var key = whiteFiguresDict.FirstOrDefault(x => x.Value == figure).Key;
+            whiteFiguresDict.Remove(key);
+            whiteFiguresList.Remove(figure);
+
+            if (figure.isKing || whiteFiguresList.Count == 0)
+            {
+                if (GameStateManager.Instance != null)
+                    GameStateManager.Instance.SetGameState(GameStateManager.GameState.WhitesLost);
+            }
+        }
+        else
+        {
+            var key = blackFiguresDict.FirstOrDefault(x => x.Value == figure).Key;
+            blackFiguresDict.Remove(key);
+            blackFiguresList.Remove(figure);
+
+            if (figure.isKing || blackFiguresList.Count == 0)
+            {
+                if (GameStateManager.Instance != null)
+                    GameStateManager.Instance.SetGameState(GameStateManager.GameState.BlacksLost);
+            }
+        }
+    }
+    
+    public Dictionary<Vector2Int, Figure> GetFiguresDictionary(bool isWhite)
+    {
+        return isWhite ? whiteFiguresDict : blackFiguresDict;
     }
 }

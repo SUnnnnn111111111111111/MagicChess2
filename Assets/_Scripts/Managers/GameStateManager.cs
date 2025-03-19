@@ -8,10 +8,11 @@ public class GameStateManager : MonoBehaviour
     public enum GameState
     {
         StartMenu,
-        WhitePlaying,
-        BlackPlaying,
+        WhitesPlaying,
+        BlacksPlaying,
         Paused,
-        GameOver
+        WhitesLost,
+        BlacksLost
     }
 
     public GameState CurrentState { get; private set; }
@@ -22,7 +23,7 @@ public class GameStateManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            CurrentState = GameState.WhitePlaying;
+            CurrentState = GameState.WhitesPlaying;
         }
         else
         {
@@ -30,27 +31,54 @@ public class GameStateManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        OnGameStateChanged.Invoke(CurrentState);
+    }
+
     public void SwitchTurn()
     {
-        if (CurrentState == GameState.WhitePlaying)
-            CurrentState = GameState.BlackPlaying;
-        else if (CurrentState == GameState.BlackPlaying)
-            CurrentState = GameState.WhitePlaying;
-        
-        OnGameStateChanged.Invoke(CurrentState);
+        if (CurrentState == GameState.WhitesPlaying)
+            SetGameState(GameState.BlacksPlaying);
+        else if (CurrentState == GameState.BlacksPlaying)
+            SetGameState(GameState.WhitesPlaying);
+
         BoardManager.Instance.UpdateFogOfWar();
     }
     
     public void SetPaused(bool isPaused)
     {
-        CurrentState = isPaused ? GameState.Paused : (CurrentState == GameState.WhitePlaying ? GameState.WhitePlaying : GameState.BlackPlaying);
+        CurrentState = isPaused ? GameState.Paused : (CurrentState == GameState.WhitesPlaying ? GameState.WhitesPlaying : GameState.BlacksPlaying);
         OnGameStateChanged.Invoke(CurrentState);
     }
 
     
-    public void EndGame()
+    public void SetGameState(GameState newState)
     {
-        CurrentState = GameState.GameOver;
+        CurrentState = newState;
         OnGameStateChanged.Invoke(CurrentState);
+        HandleGameState(newState);
+    }
+    
+    private void HandleGameState(GameState state)
+    {
+        switch (state)
+        {
+            case GameState.WhitesLost:
+                Debug.Log("Белые проиграли! Завершаем игру для белых.");
+                
+                break;
+            case GameState.BlacksLost:
+                Debug.Log("Чёрные проиграли! Завершаем игру для чёрных.");
+                
+                break;
+            case GameState.Paused:
+                Debug.Log("Игра на паузе.");
+                
+                break;
+            default:
+                // Для остальных состояний можно оставить пустым или добавить дополнительную обработку
+                break;
+        }
     }
 }

@@ -19,10 +19,10 @@ public class CameraSwitchController : MonoBehaviour
     {
         switch (newState)
         {
-            case GameStateManager.GameState.WhitePlaying:
+            case GameStateManager.GameState.WhitesPlaying:
                 MoveCamera(whiteTeamView.position, whiteTeamView.rotation);
                 break;
-            case GameStateManager.GameState.BlackPlaying:
+            case GameStateManager.GameState.BlacksPlaying:
                 MoveCamera(blackTeamView.position, blackTeamView.rotation);
                 break;
         }

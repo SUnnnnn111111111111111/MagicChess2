@@ -20,10 +20,11 @@ public class HandlerForClickingAMouseButtonOnAnFigureObject : MonoBehaviour
     private void OnMouseDown()
     {
         if (GameStateManager.Instance.CurrentState == GameStateManager.GameState.Paused || 
-            GameStateManager.Instance.CurrentState == GameStateManager.GameState.GameOver)
+            GameStateManager.Instance.CurrentState == GameStateManager.GameState.WhitesLost || 
+            GameStateManager.Instance.CurrentState == GameStateManager.GameState.BlacksLost)
             return;
         
-        bool isWhiteTurn = GameStateManager.Instance.CurrentState == GameStateManager.GameState.WhitePlaying;
+        bool isWhiteTurn = GameStateManager.Instance.CurrentState == GameStateManager.GameState.WhitesPlaying;
         if (isWhiteTurn != figure.whiteTeamAffiliation) return;
         
         if (!isActive) return;

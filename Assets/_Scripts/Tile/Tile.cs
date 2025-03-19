@@ -6,9 +6,9 @@ public class Tile : MonoBehaviour
 {
     public Vector2Int Position { get; private set; }
     public List<Tile> Neighbors { get; private set; } = new List<Tile>();
-    public Figure OccupyingFigure { get; private set; } = null; 
-    public bool IsHighlighted { get; private set; } = false;
-    public bool HiddenByFog { get; private set; } = true;
+    public Figure OccupyingFigure { get; private set; } 
+    public bool IsHighlighted { get; private set; }
+    public bool HiddenByFog { get; private set; }
     
     public bool isWall;
     [SerializeField] private GameObject highlightEmptyTile;
@@ -16,7 +16,7 @@ public class Tile : MonoBehaviour
     [SerializeField] private GameObject fogOfWarEffect;
     
 
-    private void Start()
+    private void Awake()
     {
         Position = new Vector2Int((int)transform.position.x, (int)transform.position.z);
         BoardManager.Instance.RegisterTile(this, Position);
