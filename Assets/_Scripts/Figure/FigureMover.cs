@@ -16,64 +16,66 @@ public class FigureMover : MonoBehaviour
     private void Start()
     {
         figure = GetComponent<Figure>();
-        originalRotation = figure.transform.rotation;
+        if (figure != null)
+        {
+            originalRotation = figure.transform.rotation;
+        }
+        else
+        {
+            Debug.LogWarning("⚠️ FigureMover не обнаружил компонент Figure на объекте.");
+        }
     }
 
+    /// <summary>
+    /// Перемещает фигуру на выбранную клетку с анимацией.
+    /// </summary>
     public void MoveToTile(Tile targetTile)
     {
-        if (figure == null || targetTile == null) return;
+        if (figure == null || targetTile == null)
+            return;
 
+        // Если целевая клетка занята союзной фигурой или не подсвечена – выход
         if (targetTile.OccupyingFigure != null && targetTile.OccupyingFigure.whiteTeamAffiliation == figure.whiteTeamAffiliation)
-        {
             return;
-        }
-
         if (!targetTile.IsHighlighted)
-        {
             return;
-        }
 
+        // Если клетка занята врагом, инициируем захват
         if (targetTile.OccupyingFigure != null && targetTile.OccupyingFigure.whiteTeamAffiliation != figure.whiteTeamAffiliation)
         {
-            FigureMover enemyMover = targetTile.OccupyingFigure.GetComponent<FigureMover>();
-
-            if (enemyMover != null)
-            {
-                enemyMover.StartCoroutine(enemyMover.DestroyEnemyFigure(targetTile.OccupyingFigure));
-            }
-            else
-            {
-                Destroy(targetTile.OccupyingFigure.gameObject);
-            }
+            CaptureEnemyAtTile(targetTile);
         }
         
-        
-        Tile currentTile = figure.CurrentTile;
-        if (currentTile != null)
-        {
-            currentTile.SetOccupyingFigure(null);
-        }
+        // Убираем фигуру с предыдущей клетки
+        if (figure.CurrentTile != null)
+            figure.CurrentTile.SetOccupyingFigure(null);
 
         originalRotation = figure.transform.rotation;
-
         Vector3 direction = (targetTile.transform.position - figure.transform.position).normalized;
         Vector3 lookAtPosition = figure.transform.position + direction;
-
         HighlightTilesManager.Instance.ClearHighlights();
         
+        // Анимация поворота и прыжка с последующим завершением перемещения
         figure.transform.DOLookAt(lookAtPosition, rotateDuration, AxisConstraint.Y)
             .OnComplete(() =>
             {
-                figure.transform.DOJump(targetTile.transform.position, jumpPower, jumpCount, moveDuration)
-                    .SetEase(moveEase) 
+                Vector3 targetPos = targetTile.transform.position;
+                targetPos.y = figure.transform.position.y;
+                
+                figure.transform.DOJump(targetPos, jumpPower, jumpCount, moveDuration)
+                    .SetEase(moveEase)
                     .OnComplete(() =>
                     {
                         figure.HasMoved = true;
-                        FigureManager.Instance.SelectedFigure = null;
+                        SelectedFigureManager.Instance.SelectedFigure = null;
                         figure.CurrentTile = targetTile; 
                         targetTile.SetOccupyingFigure(figure);
-                        BoardManager.Instance.UpdateFogOfWar();
+                        
+                        FogOfWarManager.Instance.UpdateFogOfWar();
+                        
                         figure.transform.DORotateQuaternion(originalRotation, rotateDuration);
+                        
+                        // Передача хода с задержкой, заданной в фигуре
                         DOVirtual.DelayedCall(figure.delayBeforePassingTheMove, () =>
                         {
                             GameStateManager.Instance.SwitchTurn();
@@ -82,23 +84,40 @@ public class FigureMover : MonoBehaviour
             });
     }
 
+    /// <summary>
+    /// Обрабатывает захват врага, инициируя анимацию уничтожения.
+    /// </summary>
+    private void CaptureEnemyAtTile(Tile targetTile)
+    {
+        Figure enemyFigure = targetTile.OccupyingFigure;
+        if (enemyFigure == null)
+            return;
+            
+        FigureMover enemyMover = enemyFigure.GetComponent<FigureMover>();
+        if (enemyMover != null)
+        {
+            enemyMover.StartCoroutine(enemyMover.DestroyEnemyFigure(enemyFigure));
+        }
+        else
+        {
+            Destroy(enemyFigure.gameObject);
+        }
+    }
+
+    /// <summary>
+    /// Корутина для проигрывания анимации смерти врага и уничтожения объекта.
+    /// </summary>
     private IEnumerator DestroyEnemyFigure(Figure enemyFigure)
     {
-        if (enemyFigure == null) yield break;
-
-        FigureMover enemyMover = enemyFigure.GetComponent<FigureMover>();
-        if (enemyMover == null) yield break;
+        if (enemyFigure == null)
+            yield break;
 
         if (enemyFigure.deathAnimationObject != null)
-        {
             enemyFigure.deathAnimationObject.SetActive(true);
-        }
 
         yield return new WaitForSeconds(enemyFigure.deathDelay);
 
         if (enemyFigure != null)
-        {
             Destroy(enemyFigure.gameObject);
-        }
     }
 }

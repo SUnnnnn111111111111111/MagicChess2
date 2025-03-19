@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AIEnemy : MonoBehaviour
 {
+    public static AIEnemy Instance { get; private set; }
     public enum AITeam
     {
         White,
@@ -12,11 +13,13 @@ public class AIEnemy : MonoBehaviour
 
     [SerializeField] private AITeam aiTeam;
     [SerializeField] private float delayBeforeMove = 0.5f;
-    [SerializeField] private List<Figure> availableFigures;
+    [SerializeField] private List<Figure> availableFigures = new List<Figure>();
     [SerializeField] private Figure selectedAIFigure;
 
     private void Awake()
     {
+        DontDestroyOnLoad(gameObject);
+        
         if (availableFigures == null)
             availableFigures = new List<Figure>();
     }
@@ -39,28 +42,33 @@ public class AIEnemy : MonoBehaviour
             GameStateManager.Instance.OnGameStateChanged.RemoveListener(HandleGameStateChanged);
     }
     
-    public Dictionary<Vector2Int, Figure> GetFiguresDictionary()
+    /// <summary>
+    /// Получает список фигур для AI через FiguresRepository.
+    /// </summary>
+    public List<Figure> GetFiguresList()
     {
-        bool isWhite = (aiTeam == AITeam.White);
-        
-        if (BoardManager.Instance == null)
+        if (FiguresRepository.Instance == null)
         {
-            Debug.LogWarning("BoardManager.Instance is null.");
-            return new Dictionary<Vector2Int, Figure>();
+            Debug.LogWarning("FiguresRepository.Instance is null.");
+            return new List<Figure>();
         }
         
-        return BoardManager.Instance.GetFiguresDictionary(isWhite);
+        return aiTeam == AITeam.White 
+            ? FiguresRepository.Instance.GetWhiteFigures() 
+            : FiguresRepository.Instance.GetBlackFigures();
     }
     
+    /// <summary>
+    /// Обновляет список фигур, доступных для AI.
+    /// </summary>
     public void UpdateAvailableFigures()
     {
-        Dictionary<Vector2Int, Figure> figuresDict = GetFiguresDictionary();
-        if (figuresDict != null && figuresDict.Count > 0)
-            availableFigures = new List<Figure>(figuresDict.Values);
-        else
-            availableFigures.Clear();
+        availableFigures = GetFiguresList();
     }
     
+    /// <summary>
+    /// Обработчик изменения игрового состояния. При наступлении хода для AI инициируется выполнение хода.
+    /// </summary>
     private void HandleGameStateChanged(GameStateManager.GameState newState)
     {
         if ((aiTeam == AITeam.Black && newState == GameStateManager.GameState.BlacksPlaying) ||
@@ -70,6 +78,9 @@ public class AIEnemy : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Основной цикл выполнения хода AI с задержкой.
+    /// </summary>
     private IEnumerator AIMoveRoutine()
     {
         yield return new WaitForSeconds(delayBeforeMove);
@@ -88,7 +99,7 @@ public class AIEnemy : MonoBehaviour
             yield break;
         }
 
-        // Для перемещения можно использовать уже реализованный WeightedTileSelector или другой метод.
+        // Используем WeightedTileSelector для выбора клетки
         Tile selectedTile = WeightedTileSelector.SelectTile(availableTiles);
         FigureMover mover = selectedAIFigure.GetComponent<FigureMover>();
         if (mover != null)
@@ -101,6 +112,9 @@ public class AIEnemy : MonoBehaviour
         }
     }
     
+    /// <summary>
+    /// Выбирает фигуру для хода AI с учетом веса. При выборе происходит подсветка доступных ходов.
+    /// </summary>
     public Figure GetWeightedFigure()
     {
         UpdateAvailableFigures();
@@ -113,7 +127,6 @@ public class AIEnemy : MonoBehaviour
         Figure selectedFigure = WeightedFigureSelector.SelectFigure(availableFigures);
         if (selectedFigure != null)
         {
-            // Можно подсветить доступные ходы для выбранной фигуры, если требуется.
             selectedFigure.HighlightAvailableToMoveTiles();
         }
         return selectedFigure;

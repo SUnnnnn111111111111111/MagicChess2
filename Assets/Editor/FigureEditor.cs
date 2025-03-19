@@ -19,7 +19,7 @@ public class FigureEditor : Editor
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Debug info", EditorStyles.boldLabel);
         
-        bool isSelected = FigureManager.Instance != null && FigureManager.Instance.SelectedFigure == figure;
+        bool isSelected = SelectedFigureManager.Instance != null && SelectedFigureManager.Instance.SelectedFigure == figure;
         EditorGUILayout.LabelField("Is selected", isSelected ? "Yes" : "No");
         
         EditorGUILayout.LabelField("HasMoved", figure.HasMoved.ToString());

@@ -49,8 +49,6 @@ public class WeightedFigureSelector
             {
                 // Если обнаружена вражеская клетка, присваиваем максимальный вес фигуре.
                 figureWeight = maxWeight;
-                Debug.Log($"Фигура {fig.name} имеет возможность атаки (в доступных ходах обнаружена вражеская клетка), назначенный вес: {maxWeight}");
-
             }
             else
             {
@@ -67,7 +65,6 @@ public class WeightedFigureSelector
                     }
                     float tileWeight = 1f / (minDistance + 1f);
                     figureWeight += tileWeight;
-                    Debug.Log($"Фигура {fig.name} не имеет атакующих ходов, суммарный вес по доступным клеткам: {figureWeight:F2}");
                 }
             }
 

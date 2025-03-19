@@ -35,8 +35,6 @@ public class WeightedTileSelector
             if (tile.OccupyingFigure != null)
             {
                 weight = enemyWeight;
-                Debug.Log($"Tile at {tile.Position} содержит вражескую фигуру, назначенный вес: {enemyWeight}");
-
             }
             else
             {
@@ -50,8 +48,6 @@ public class WeightedTileSelector
                         minDistance = distance;
                 }
                 weight = 1f / (minDistance + 1f);
-                Debug.Log($"Tile at {tile.Position} пуста. Минимальное расстояние до центра: {minDistance:F2}, вес: {weight:F2}");
-
             }
             weights.Add(weight);
             totalWeight += weight;

@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class FigureManager : MonoBehaviour
+public class SelectedFigureManager : MonoBehaviour
 {
-    public static FigureManager Instance { get; private set; }
+    public static SelectedFigureManager Instance { get; private set; }
 
     [SerializeField] private Figure selectedFigure;
 
@@ -21,7 +21,15 @@ public class FigureManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void ResetSelection()

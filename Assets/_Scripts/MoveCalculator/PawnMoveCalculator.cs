@@ -46,7 +46,7 @@ public class PawnMoveCalculator : MoveCalculator
     {
         // Промежуточная клетка между currentTile и targetTile
         Vector2Int midPosition = currentTile.Position + new Vector2Int(0, isWhite ? 2 : -2);
-        Tile midTile = BoardManager.Instance.GetTileAt(midPosition);
+        Tile midTile = TilesRepository.Instance.GetTileAt(midPosition);
         
         bool isClear = midTile != null 
                        && midTile.OccupyingFigure == null 

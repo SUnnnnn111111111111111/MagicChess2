@@ -19,7 +19,7 @@ public class Tile : MonoBehaviour
     private void Awake()
     {
         Position = new Vector2Int((int)transform.position.x, (int)transform.position.z);
-        BoardManager.Instance.RegisterTile(this, Position);
+        TilesRepository.Instance.RegisterTile(this, Position);
 
         if (highlightEmptyTile != null)
         {
@@ -38,7 +38,7 @@ public class Tile : MonoBehaviour
         List<Tile> result = new List<Tile>();
         foreach (var offset in settings.GetOffsets())
         {
-            Tile neighbor = BoardManager.Instance.GetTileAt(Position + offset);
+            Tile neighbor = TilesRepository.Instance.GetTileAt(Position + offset);
             if (neighbor != null)
                 result.Add(neighbor);
         }
@@ -80,9 +80,9 @@ public class Tile : MonoBehaviour
     {
         if (HiddenByFog) return;
         
-        if (FigureManager.Instance.SelectedFigure != null)
+        if (SelectedFigureManager.Instance.SelectedFigure != null)
         {
-            FigureMover mover = FigureManager.Instance.SelectedFigure.GetComponent<FigureMover>();
+            FigureMover mover = SelectedFigureManager.Instance.SelectedFigure.GetComponent<FigureMover>();
             if (mover != null)
             {
                 mover.MoveToTile(this);

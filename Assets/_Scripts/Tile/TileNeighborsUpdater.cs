@@ -15,7 +15,7 @@ public class TileNeighborUpdater
                          new Vector2Int(1, -1), new Vector2Int(-1, 1)
                      })
             {
-                Tile neighbor = BoardManager.Instance.GetTileAt(tile.Position + offset);
+                Tile neighbor = TilesRepository.Instance.GetTileAt(tile.Position + offset);
                 if (neighbor != null)
                     neighbors.Add(neighbor);
             }

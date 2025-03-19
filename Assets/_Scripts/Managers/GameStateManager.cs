@@ -20,6 +20,8 @@ public class GameStateManager : MonoBehaviour
 
     private void Awake()
     {
+        DontDestroyOnLoad(gameObject);
+        
         if (Instance == null)
         {
             Instance = this;
@@ -43,41 +45,37 @@ public class GameStateManager : MonoBehaviour
         else if (CurrentState == GameState.BlacksPlaying)
             SetGameState(GameState.WhitesPlaying);
 
-        BoardManager.Instance.UpdateFogOfWar();
+        // Обновляем туман войны через новый менеджер.
+        FogOfWarManager.Instance.UpdateFogOfWar();
     }
-    
+
     public void SetPaused(bool isPaused)
     {
         CurrentState = isPaused ? GameState.Paused : (CurrentState == GameState.WhitesPlaying ? GameState.WhitesPlaying : GameState.BlacksPlaying);
         OnGameStateChanged.Invoke(CurrentState);
     }
 
-    
     public void SetGameState(GameState newState)
     {
         CurrentState = newState;
         OnGameStateChanged.Invoke(CurrentState);
         HandleGameState(newState);
     }
-    
+
     private void HandleGameState(GameState state)
     {
         switch (state)
         {
             case GameState.WhitesLost:
-                Debug.Log("Белые проиграли! Завершаем игру для белых.");
-                
+                // Debug.Log("Белые проиграли! Завершаем игру для белых.");
                 break;
             case GameState.BlacksLost:
-                Debug.Log("Чёрные проиграли! Завершаем игру для чёрных.");
-                
+                // Debug.Log("Чёрные проиграли! Завершаем игру для чёрных.");
                 break;
             case GameState.Paused:
                 Debug.Log("Игра на паузе.");
-                
                 break;
             default:
-                // Для остальных состояний можно оставить пустым или добавить дополнительную обработку
                 break;
         }
     }

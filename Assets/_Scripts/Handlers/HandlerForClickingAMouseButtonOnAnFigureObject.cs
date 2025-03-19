@@ -33,13 +33,13 @@ public class HandlerForClickingAMouseButtonOnAnFigureObject : MonoBehaviour
 
         if (figure != null)
         {
-            if (FigureManager.Instance.SelectedFigure == figure)
+            if (SelectedFigureManager.Instance.SelectedFigure == figure)
             {
-                FigureManager.Instance.ResetSelection();
+                SelectedFigureManager.Instance.ResetSelection();
             }
             else
             {
-                FigureManager.Instance.SelectedFigure = figure;
+                SelectedFigureManager.Instance.SelectedFigure = figure;
             }
         }
     }
