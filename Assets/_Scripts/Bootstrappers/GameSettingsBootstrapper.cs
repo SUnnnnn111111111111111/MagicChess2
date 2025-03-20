@@ -6,6 +6,11 @@ public class GameSettingsBootstrapper : MonoBehaviour
     [SerializeField] private string mainGameSceneName = "MainGameScene";
     
     
+    public void LaunchSettingsUI()
+    {
+        Debug.Log("[GameSettingsBootstrapper] SettingsUI режим еще не реализован.");
+    }
+    
     public void LaunchGameWithWhiteEnemy()
     {
         if (AIEnemy.Instance == null)
@@ -63,7 +68,7 @@ public class GameSettingsBootstrapper : MonoBehaviour
     
     public void LaunchOnlineMultiplayer()
     {
-        Debug.Log("[GameSettingsBootstrapper] Онлайн режим еще не реализован.");
+        Debug.Log("[GameSettingsBootstrapper] OnlineMultiplayer еще не реализован.");
     }
     
     public void ExitGame()
