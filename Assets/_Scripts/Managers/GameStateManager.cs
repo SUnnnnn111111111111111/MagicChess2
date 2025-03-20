@@ -14,8 +14,12 @@ public class GameStateManager : MonoBehaviour
         WhitesLost,
         BlacksLost
     }
-
-    public GameState CurrentState { get; private set; }
+    [SerializeField] private GameState debugCurrentState;
+    public GameState CurrentState
+    {
+        get => debugCurrentState;
+        private set => debugCurrentState = value;
+    }
     public UnityEvent<GameState> OnGameStateChanged = new UnityEvent<GameState>();
 
     private void Awake()

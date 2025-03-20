@@ -41,6 +41,11 @@ public class AIEnemy : MonoBehaviour
         if (GameStateManager.Instance != null)
             GameStateManager.Instance.OnGameStateChanged.RemoveListener(HandleGameStateChanged);
     }
+
+    public void SetTeam(AITeam team)
+    {
+        aiTeam = team;
+    }
     
     /// <summary>
     /// Получает список фигур для AI через FiguresRepository.
