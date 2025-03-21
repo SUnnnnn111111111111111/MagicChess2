@@ -5,34 +5,30 @@ using TMPro;
 
 public class GameStateUI : MonoBehaviour
 {
-    // Ссылка на UI-текст, который будет отображать состояние
-    public TMP_Text gameStateText;
-    // Компонент CanvasGroup для управления прозрачностью
-    public CanvasGroup canvasGroup;
-
-    // Параметры анимации
+    public TMP_Text animatedGameStateText;
+    public TMP_Text persistentGameStateText;
+    
+    public CanvasGroup animatedCanvasGroup;
+    
     public float fadeInDuration = 0.5f;
     public float visibleDuration = 2.0f;
     public float fadeOutDuration = 0.5f;
 
     private void Start()
     {
-        // Если CanvasGroup не назначен, пытаемся получить его
-        if (canvasGroup == null)
+        if (animatedCanvasGroup == null)
         {
-            canvasGroup = GetComponent<CanvasGroup>();
-            if (canvasGroup == null)
+            animatedCanvasGroup = GetComponent<CanvasGroup>();
+            if (animatedCanvasGroup == null)
             {
-                canvasGroup = gameObject.AddComponent<CanvasGroup>();
+                animatedCanvasGroup = gameObject.AddComponent<CanvasGroup>();
             }
         }
-        // Сначала делаем UI невидимым
-        canvasGroup.alpha = 0;
+        animatedCanvasGroup.alpha = 0;
 
         if (GameStateManager.Instance != null)
         {
             GameStateManager.Instance.OnGameStateChanged.AddListener(UpdateGameStateText);
-            // Обновляем UI сразу при запуске
             UpdateGameStateText(GameStateManager.Instance.CurrentState);
         }
         else
@@ -49,20 +45,44 @@ public class GameStateUI : MonoBehaviour
         }
     }
 
-    // Метод-обработчик, обновляющий текст и запускающий анимацию появления и исчезновения
     private void UpdateGameStateText(GameStateManager.GameState newState)
     {
-        if (gameStateText != null)
+        string displayText = "";
+        switch (newState)
         {
-            gameStateText.text = newState.ToString();
+            case GameStateManager.GameState.WhitesPlaying:
+                displayText = "Ход белых";
+                break;
+            case GameStateManager.GameState.BlacksPlaying:
+                displayText = "Ход черных";
+                break;
+            case GameStateManager.GameState.Paused:
+                displayText = "Пауза";
+                break;
+            case GameStateManager.GameState.WhitesLost:
+                displayText = "Белые проиграли";
+                break;
+            case GameStateManager.GameState.BlacksLost:
+                displayText = "Чёрные проиграли";
+                break;
+            default:
+                displayText = "";
+                break;
         }
-        // Останавливаем любые предыдущие анимации CanvasGroup
-        canvasGroup.DOKill();
-
-        // Создаем последовательность: fade in, задержка, fade out
+        
+        if (animatedGameStateText != null)
+        {
+            animatedGameStateText.text = displayText;
+        }
+        if (persistentGameStateText != null)
+        {
+            persistentGameStateText.text = displayText;
+        }
+        
+        animatedCanvasGroup.DOKill();
         Sequence seq = DOTween.Sequence();
-        seq.Append(canvasGroup.DOFade(1f, fadeInDuration));
-        seq.AppendInterval(visibleDuration);
-        seq.Append(canvasGroup.DOFade(0f, fadeOutDuration));
+        seq.Append(animatedCanvasGroup.DOFade(1f, fadeInDuration).SetUpdate(true));
+        seq.AppendInterval(visibleDuration).SetUpdate(true);
+        seq.Append(animatedCanvasGroup.DOFade(0f, fadeOutDuration).SetUpdate(true));
     }
 }

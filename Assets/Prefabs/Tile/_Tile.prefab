@@ -1076,7 +1076,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 300
+        scalar: 250
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -5967,7 +5967,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 300
+        scalar: 250
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -10013,6 +10013,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ea4106926f888742b167256b2885c88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isWall: 0
   highlightEmptyTile: {fileID: 790792054133794789}
   highlightEnemyTile: {fileID: 6803103403524892050}
   fogOfWarEffect: {fileID: 687958583178354197}
@@ -10996,7 +10997,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 300
+        scalar: 250
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -15875,7 +15876,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -15985,7 +15986,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 90
+        scalar: 100
         minScalar: 30
         maxCurve:
           serializedVersion: 2

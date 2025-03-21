@@ -11,6 +11,7 @@ public class Tile : MonoBehaviour
     public bool HiddenByFog { get; private set; }
     
     public bool isWall;
+    public bool isEventTriggering;
     [SerializeField] private GameObject highlightEmptyTile;
     [SerializeField] private GameObject highlightEnemyTile;
     [SerializeField] private GameObject fogOfWarEffect;

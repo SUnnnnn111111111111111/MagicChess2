@@ -8,6 +8,7 @@ public class Figure : MonoBehaviour
 {
     public bool whiteTeamAffiliation;
     public bool isKing;
+    public int countOfMovesIsOnEventTriggeringTile;
 
     [FormerlySerializedAs("neighborSelectionSettings")]
     public NeighborTilesSelectionSettings neighborTilesSelectionSettings;

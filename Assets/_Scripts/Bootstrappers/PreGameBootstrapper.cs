@@ -8,7 +8,6 @@ public class PreGameBootstrapper : MonoBehaviour
 
     private void Awake()
     {
-        
         if (TilesRepository.Instance == null)
         {
             Instantiate(Resources.Load("Prefabs/TilesRepository"));

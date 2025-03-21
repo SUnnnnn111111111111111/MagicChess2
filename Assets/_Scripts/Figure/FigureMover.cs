@@ -77,6 +77,7 @@ public class FigureMover : MonoBehaviour
                 .SetEase(moveEase)
                 .OnComplete(() =>
                 {
+                    if (figure.CurrentTile.isEventTriggering) figure.countOfMovesIsOnEventTriggeringTile++;
                     SelectedFigureManager.Instance.SelectedFigure = null;
                     figure.CurrentTile = targetTile;
                     targetTile.SetOccupyingFigure(figure);

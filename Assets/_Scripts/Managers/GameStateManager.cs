@@ -7,7 +7,6 @@ public class GameStateManager : MonoBehaviour
 
     public enum GameState
     {
-        StartMenu,
         WhitesPlaying,
         BlacksPlaying,
         Paused,
