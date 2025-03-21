@@ -14,12 +14,19 @@ public class GameStateManager : MonoBehaviour
         WhitesLost,
         BlacksLost
     }
-    [SerializeField] private GameState debugCurrentState;
-    public GameState CurrentState
+    
+    public enum GameMode
     {
-        get => debugCurrentState;
-        private set => debugCurrentState = value;
+        LocalMultiplayer,
+        VsAiEnemy
     }
+    
+    public GameState CurrentState{ get; private set;}
+    public GameMode CurrentGameMode { get; set; }
+    public bool humanPlaysWhite { get; set; }
+    public bool HasMovedThisTurn { get; set; } = false;
+
+    
     public UnityEvent<GameState> OnGameStateChanged = new UnityEvent<GameState>();
 
     private void Awake()
@@ -30,6 +37,8 @@ public class GameStateManager : MonoBehaviour
         {
             Instance = this;
             CurrentState = GameState.WhitesPlaying;
+            CurrentGameMode = GameMode.LocalMultiplayer;
+            humanPlaysWhite = true;
         }
         else
         {
@@ -41,31 +50,7 @@ public class GameStateManager : MonoBehaviour
     {
         OnGameStateChanged.Invoke(CurrentState);
     }
-
-    public void SwitchTurn()
-    {
-        if (CurrentState == GameState.WhitesPlaying)
-            SetGameState(GameState.BlacksPlaying);
-        else if (CurrentState == GameState.BlacksPlaying)
-            SetGameState(GameState.WhitesPlaying);
-
-        // Обновляем туман войны через новый менеджер.
-        FogOfWarManager.Instance.UpdateFogOfWar();
-    }
-
-    public void SetPaused(bool isPaused)
-    {
-        CurrentState = isPaused ? GameState.Paused : (CurrentState == GameState.WhitesPlaying ? GameState.WhitesPlaying : GameState.BlacksPlaying);
-        OnGameStateChanged.Invoke(CurrentState);
-    }
-
-    public void SetGameState(GameState newState)
-    {
-        CurrentState = newState;
-        OnGameStateChanged.Invoke(CurrentState);
-        HandleGameState(newState);
-    }
-
+    
     private void HandleGameState(GameState state)
     {
         switch (state)
@@ -82,5 +67,39 @@ public class GameStateManager : MonoBehaviour
             default:
                 break;
         }
+    }
+    
+    public void SetGameState(GameState newState)
+    {
+        CurrentState = newState;
+        OnGameStateChanged.Invoke(CurrentState);
+        HandleGameState(newState);
+    }
+
+    public void SwitchTurn()
+    {
+        HasMovedThisTurn = false;
+        
+        if (CurrentState == GameState.WhitesPlaying)
+            SetGameState(GameState.BlacksPlaying);
+        else if (CurrentState == GameState.BlacksPlaying)
+            SetGameState(GameState.WhitesPlaying);
+        
+        FogOfWarManager.Instance.UpdateFogOfWar();
+    }
+
+    public void SetPaused(bool isPaused)
+    {
+        CurrentState = isPaused ? GameState.Paused : (CurrentState == GameState.WhitesPlaying ? GameState.WhitesPlaying : GameState.BlacksPlaying);
+        OnGameStateChanged.Invoke(CurrentState);
+    }
+    
+    public bool IsPlayersTurn()
+    {
+        if (CurrentGameMode == GameMode.VsAiEnemy)
+        {
+            return humanPlaysWhite ? CurrentState == GameState.WhitesPlaying : CurrentState == GameState.BlacksPlaying;
+        }
+        return true;
     }
 }

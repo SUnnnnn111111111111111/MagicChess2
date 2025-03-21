@@ -22,7 +22,7 @@ public class FigureMover : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("⚠️ FigureMover не обнаружил компонент Figure на объекте.");
+            Debug.LogWarning("[Start] FigureMover не обнаружил компонент Figure на объекте.");
         }
     }
 
@@ -30,59 +30,68 @@ public class FigureMover : MonoBehaviour
     /// Перемещает фигуру на выбранную клетку с анимацией.
     /// </summary>
     public void MoveToTile(Tile targetTile)
+{
+    if (GameStateManager.Instance.HasMovedThisTurn)
+        return;
+
+    if (figure == null || targetTile == null)
     {
-        if (figure == null || targetTile == null)
-            return;
-
-        // Если целевая клетка занята союзной фигурой или не подсвечена – выход
-        if (targetTile.OccupyingFigure != null && targetTile.OccupyingFigure.whiteTeamAffiliation == figure.whiteTeamAffiliation)
-            return;
-        if (!targetTile.IsHighlighted)
-            return;
-
-        // Если клетка занята врагом, инициируем захват
-        if (targetTile.OccupyingFigure != null && targetTile.OccupyingFigure.whiteTeamAffiliation != figure.whiteTeamAffiliation)
-        {
-            CaptureEnemyAtTile(targetTile);
-        }
-        
-        // Убираем фигуру с предыдущей клетки
-        if (figure.CurrentTile != null)
-            figure.CurrentTile.SetOccupyingFigure(null);
-
-        originalRotation = figure.transform.rotation;
-        Vector3 direction = (targetTile.transform.position - figure.transform.position).normalized;
-        Vector3 lookAtPosition = figure.transform.position + direction;
-        HighlightTilesManager.Instance.ClearHighlights();
-        
-        // Анимация поворота и прыжка с последующим завершением перемещения
-        figure.transform.DOLookAt(lookAtPosition, rotateDuration, AxisConstraint.Y)
-            .OnComplete(() =>
-            {
-                Vector3 targetPos = targetTile.transform.position;
-                targetPos.y = figure.transform.position.y;
-                
-                figure.transform.DOJump(targetPos, jumpPower, jumpCount, moveDuration)
-                    .SetEase(moveEase)
-                    .OnComplete(() =>
-                    {
-                        figure.HasMoved = true;
-                        SelectedFigureManager.Instance.SelectedFigure = null;
-                        figure.CurrentTile = targetTile; 
-                        targetTile.SetOccupyingFigure(figure);
-                        
-                        FogOfWarManager.Instance.UpdateFogOfWar();
-                        
-                        figure.transform.DORotateQuaternion(originalRotation, rotateDuration);
-                        
-                        // Передача хода с задержкой, заданной в фигуре
-                        DOVirtual.DelayedCall(figure.delayBeforePassingTheMove, () =>
-                        {
-                            GameStateManager.Instance.SwitchTurn();
-                        });
-                    });
-            });
+        return;
     }
+    
+    if (targetTile.OccupyingFigure != null &&
+        targetTile.OccupyingFigure.whiteTeamAffiliation == figure.whiteTeamAffiliation)
+    {
+        return;
+    }
+        
+    if (!targetTile.IsHighlighted)
+    {
+        return;
+    }
+
+    if (targetTile.OccupyingFigure != null && targetTile.OccupyingFigure.whiteTeamAffiliation != figure.whiteTeamAffiliation)
+    {
+        CaptureEnemyAtTile(targetTile);
+    }
+    
+    GameStateManager.Instance.HasMovedThisTurn = true;
+    figure.isFirstMove = true;
+    
+    if (figure.CurrentTile != null)
+        figure.CurrentTile.SetOccupyingFigure(null);
+    
+    originalRotation = figure.transform.rotation;
+    Vector3 direction = (targetTile.transform.position - figure.transform.position).normalized;
+    Vector3 lookAtPosition = figure.transform.position + direction;
+    HighlightTilesManager.Instance.ClearHighlights();
+    
+    // Анимация перемещения
+    figure.transform.DOLookAt(lookAtPosition, rotateDuration, AxisConstraint.Y)
+        .OnComplete(() =>
+        {
+            Vector3 targetPos = targetTile.transform.position;
+            targetPos.y = figure.transform.position.y;
+            
+            figure.transform.DOJump(targetPos, jumpPower, jumpCount, moveDuration)
+                .SetEase(moveEase)
+                .OnComplete(() =>
+                {
+                    SelectedFigureManager.Instance.SelectedFigure = null;
+                    figure.CurrentTile = targetTile;
+                    targetTile.SetOccupyingFigure(figure);
+                    
+                    FogOfWarManager.Instance.UpdateFogOfWar();
+                    
+                    figure.transform.DORotateQuaternion(originalRotation, rotateDuration);
+                    
+                    DOVirtual.DelayedCall(figure.delayBeforePassingTheMove, () =>
+                    {
+                        GameStateManager.Instance.SwitchTurn();
+                    });
+                });
+        });
+}
 
     /// <summary>
     /// Обрабатывает захват врага, инициируя анимацию уничтожения.

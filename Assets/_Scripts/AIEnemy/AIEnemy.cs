@@ -89,15 +89,15 @@ public class AIEnemy : MonoBehaviour
     private IEnumerator AIMoveRoutine()
     {
         yield return new WaitForSeconds(delayBeforeMove);
-
+        
         selectedAIFigure = GetWeightedFigure();
         if (selectedAIFigure == null)
         {
             Debug.LogWarning("Нет выбранной фигуры для хода AI");
             yield break;
         }
-
-        List<Tile> availableTiles = selectedAIFigure.GetAvailableMoveTiles();
+        
+        List<Tile> availableTiles = selectedAIFigure.GetAvailableToMoveTiles();
         if (availableTiles.Count == 0)
         {
             Debug.LogWarning("Нет доступных клеток для выбранной фигуры");
@@ -132,7 +132,7 @@ public class AIEnemy : MonoBehaviour
         Figure selectedFigure = WeightedFigureSelector.SelectFigure(availableFigures);
         if (selectedFigure != null)
         {
-            selectedFigure.HighlightAvailableToMoveTiles();
+            selectedFigure.HighlightAvailableToMoveTilesForAI();
         }
         return selectedFigure;
     }

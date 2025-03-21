@@ -1,47 +1,24 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameSettingsBootstrapper : MonoBehaviour
 {
     [SerializeField] private string mainGameSceneName = "MainGameScene";
     
-    
     public void LaunchSettingsUI()
     {
         Debug.Log("[GameSettingsBootstrapper] SettingsUI режим еще не реализован.");
     }
     
-    public void LaunchGameWithWhiteEnemy()
-    {
-        if (AIEnemy.Instance == null)
-        {
-            GameObject aiObj = Instantiate(Resources.Load("Prefabs/AIEnemy")) as GameObject;
-            AIEnemy ai = aiObj.GetComponent<AIEnemy>();
-            if (ai != null)
-            {
-                ai.SetTeam(AIEnemy.AITeam.White);
-            }
-        }
-        else
-        {
-            Debug.Log("[GameSettingsBootstrapper] AIEnemy уже существует.");
-        }
-        
-        if (GameStateManager.Instance != null)
-        {
-            GameStateManager.Instance.SetGameState(GameStateManager.GameState.WhitesPlaying);
-        }
-        else
-        {
-            Debug.LogWarning("[GameSettingsBootstrapper] GameStateManager не найден!");
-        }
-        
-        Debug.Log("[GameSettingsBootstrapper] Игрок выбрал играть с компьютером за белых. Загружаем сцену: " + mainGameSceneName);
-        SceneManager.LoadScene(mainGameSceneName);
-    }
-    
     public void LaunchGameWithBlackEnemy()
     {
+        if (GameStateManager.Instance != null)
+        {
+            GameStateManager.Instance.CurrentGameMode = GameStateManager.GameMode.VsAiEnemy;
+            GameStateManager.Instance.humanPlaysWhite = true;
+        }
+        
         if (AIEnemy.Instance == null)
         {
             GameObject aiObj = Instantiate(Resources.Load("Prefabs/AIEnemy")) as GameObject;
@@ -55,14 +32,45 @@ public class GameSettingsBootstrapper : MonoBehaviour
         {
             Debug.Log("[GameSettingsBootstrapper] AIEnemy уже существует.");
         }
+        SceneManager.LoadScene(mainGameSceneName);
+    }
+    
+    public void LaunchGameWithWhiteEnemy()
+    {
+        if (GameStateManager.Instance != null)
+        {
+            GameStateManager.Instance.CurrentGameMode = GameStateManager.GameMode.VsAiEnemy;
+            GameStateManager.Instance.humanPlaysWhite = false;
+        }
+        else
+        {
+            Debug.LogWarning("[GameSettingsBootstrapper] GameStateManager не найден!");
+        }
         
-        Debug.Log("[GameSettingsBootstrapper] Игрок выбрал играть с компьютером за черных. Загружаем сцену: " + mainGameSceneName);
+        if (AIEnemy.Instance == null)
+        {
+            GameObject aiObj = Instantiate(Resources.Load("Prefabs/AIEnemy")) as GameObject;
+            AIEnemy ai = aiObj.GetComponent<AIEnemy>();
+            if (ai != null)
+            {
+                ai.SetTeam(AIEnemy.AITeam.White);
+            }
+        }
+        else
+        {
+            Debug.Log("[GameSettingsBootstrapper] AIEnemy уже существует.");
+        }
+        GameStateManager.Instance.SetGameState(GameStateManager.GameState.WhitesPlaying);
+        
         SceneManager.LoadScene(mainGameSceneName);
     }
     
     public void LaunchLocalMultiplayer()
     {
-        Debug.Log("[GameSettingsBootstrapper] Игрок выбрал локальный мультиплеер. Загружаем сцену: " + mainGameSceneName);
+        if (GameStateManager.Instance != null)
+        {
+            GameStateManager.Instance.CurrentGameMode = GameStateManager.GameMode.LocalMultiplayer;
+        }
         SceneManager.LoadScene(mainGameSceneName);
     }
     

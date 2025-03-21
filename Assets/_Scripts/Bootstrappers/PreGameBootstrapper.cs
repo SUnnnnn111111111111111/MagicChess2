@@ -8,7 +8,6 @@ public class PreGameBootstrapper : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("[PreGameBootstrapper] Запуск PreGameBootstrapper-а...");
         
         if (TilesRepository.Instance == null)
         {
@@ -63,10 +62,6 @@ public class PreGameBootstrapper : MonoBehaviour
         {
             Debug.Log("[PreGameBootstrapper] HighlightTilesManager уже существует.");
         }
-        
-        
-        Debug.Log("[PreGameBootstrapper] Все менеджеры и репозитории созданы. Загружаем основную сцену: " + gameSettingsSceneName);
-        
         SceneManager.LoadScene(gameSettingsSceneName);
     }
 }

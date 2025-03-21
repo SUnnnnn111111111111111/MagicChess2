@@ -13,10 +13,28 @@ public class CameraSwitchController : MonoBehaviour
     private void Start()
     {
         GameStateManager.Instance.OnGameStateChanged.AddListener(HandleStateChange);
+        
+        if (GameStateManager.Instance.CurrentGameMode == GameStateManager.GameMode.VsAiEnemy)
+        {
+            if (!GameStateManager.Instance.humanPlaysWhite)
+            {
+                transform.position = blackTeamView.position;
+                transform.rotation = blackTeamView.rotation;
+            }
+        }
+        else
+        {
+            HandleStateChange(GameStateManager.Instance.CurrentState);
+        }
     }
 
     private void HandleStateChange(GameStateManager.GameState newState)
     {
+        if (GameStateManager.Instance.CurrentGameMode == GameStateManager.GameMode.VsAiEnemy)
+        {
+            return;
+        }
+
         switch (newState)
         {
             case GameStateManager.GameState.WhitesPlaying:
@@ -38,7 +56,7 @@ public class CameraSwitchController : MonoBehaviour
                 rtsCamera.ResetOrthographicSize();
             });
         }
-    
+
         transform.DOMove(position, moveDuration).SetEase(curve).SetDelay(delay);
         transform.DORotateQuaternion(rotation, moveDuration).SetEase(curve).SetDelay(delay);
     }

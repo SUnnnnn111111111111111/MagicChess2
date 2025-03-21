@@ -23,10 +23,16 @@ public class HandlerForClickingAMouseButtonOnAnFigureObject : MonoBehaviour
             GameStateManager.Instance.CurrentState == GameStateManager.GameState.WhitesLost || 
             GameStateManager.Instance.CurrentState == GameStateManager.GameState.BlacksLost)
             return;
-        
+
+        if (GameStateManager.Instance.CurrentGameMode == GameStateManager.GameMode.VsAiEnemy)
+        {
+            if (!GameStateManager.Instance.IsPlayersTurn())
+                return;
+        }
+    
         bool isWhiteTurn = GameStateManager.Instance.CurrentState == GameStateManager.GameState.WhitesPlaying;
         if (isWhiteTurn != figure.whiteTeamAffiliation) return;
-        
+    
         if (!isActive) return;
 
         WhenClickOnAnObject.Invoke();

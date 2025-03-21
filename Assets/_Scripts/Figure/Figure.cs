@@ -21,19 +21,16 @@ public class Figure : MonoBehaviour
     
     private FigureMover figureMover;
     
-    // Переименовано для согласованности с FiguresRepository (с возможностью записи)
     public Vector2Int CurrentPosition { get; set; }
     public Tile CurrentTile { get; set; }
-    public bool HasMoved { get; set; }
+    public bool isFirstMove { get; set; }
     
     private void Start()
     {
         figureMover = GetComponent<FigureMover>();
 
-        // Определяем позицию на основе transform.position (с учётом округления до int)
         CurrentPosition = new Vector2Int((int)transform.position.x, (int)transform.position.z);
         
-        // Получаем плитку по позиции и регистрируем фигуру через BoardManager
         CurrentTile = TilesRepository.Instance.GetTileAt(CurrentPosition);
         if (CurrentTile != null)
         {
@@ -42,7 +39,7 @@ public class Figure : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"⚠️ Фигура {gameObject.name} не нашла свою клетку!");
+            Debug.LogWarning($"[Start] Фигура {gameObject.name} не нашла свою клетку!");
         }
         
         FogOfWarManager.Instance.UpdateFogOfWar();
@@ -61,32 +58,76 @@ public class Figure : MonoBehaviour
     }
 
     /// <summary>
-    /// Вычисляет и подсвечивает доступные для перемещения клетки.
+    /// Возвращает список доступных клеток для перемещения.
+    /// Проверяется только наличие стены и фигуры (с учётом команды).
     /// </summary>
-    public void HighlightAvailableToMoveTiles()
+    public List<Tile> GetAvailableToMoveTiles()
     {
         if (CurrentTile == null)
         {
-            Debug.LogWarning($"⚠️ Фигура {gameObject.name} не может найти текущую клетку, ходы не просчитаны!");
+            Debug.LogWarning($"[GetAvailableToMoveTiles] Фигура {gameObject.name} не может найти свою текущую клетку!");
+            return new List<Tile>();
+        }
+        
+        MoveCalculator moveCalculator = GetMoveCalculator();
+        List<Tile> moves = moveCalculator.CalculateMoves(CurrentTile, neighborTilesSelectionSettings, whiteTeamAffiliation)
+                              .Where(tile => !tile.isWall) 
+                              .ToList();
+        
+        return moves.Where(tile => tile.OccupyingFigure == null ||
+                                    (tile.OccupyingFigure != null && tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation))
+                    .ToList();
+    }
+
+    /// <summary>
+    /// Подсвечивает доступные для перемещения клетки для игрока,
+    /// фильтруя те, на которых присутствует туман.
+    /// </summary>
+    public void HighlightAvailableToMoveTilesForPlayer()
+    {
+        if (CurrentTile == null)
+        {
+            Debug.LogWarning($"[HighlightAvailableToMoveTilesForPlayer] Фигура {gameObject.name} не может найти текущую клетку, ходы не просчитаны!");
             return;
         }
+        
+        List<Tile> moves = GetAvailableToMoveTiles();
+        
+        List<Tile> visibleMoves = moves.Where(tile => !tile.HiddenByFog).ToList();
 
-        MoveCalculator moveCalculator = GetMoveCalculator();
-        // Вычисляем возможные ходы с фильтрацией по видимости и наличию стены
-        List<Tile> moves = moveCalculator.CalculateMoves(CurrentTile, neighborTilesSelectionSettings, whiteTeamAffiliation)
-                              .Where(tile => !tile.HiddenByFog && !tile.isWall)
-                              .ToList();
-
-        // Разделяем ходы на пустые клетки и клетки с врагом
-        List<Tile> emptyTiles = moves.Where(tile => tile.OccupyingFigure == null).ToList();
-        List<Tile> enemyTiles = moves.Where(tile => tile.OccupyingFigure != null &&
-                                                    tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation)
-                                     .ToList();
+        List<Tile> emptyTiles = visibleMoves.Where(tile => tile.OccupyingFigure == null).ToList();
+        List<Tile> enemyTiles = visibleMoves.Where(tile => tile.OccupyingFigure != null &&
+                                                            tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation)
+                                            .ToList();
 
         HighlightTilesManager.Instance.HighlightAvailableTiles(emptyTiles);
         HighlightTilesManager.Instance.HighlightEnemyTiles(enemyTiles);
     }
     
+    /// <summary>
+    /// Подсвечивает доступные для перемещения клетки для AI,
+    /// не учитывая наличие тумана.
+    /// </summary>
+    public void HighlightAvailableToMoveTilesForAI()
+    {
+        if (CurrentTile == null)
+        {
+            Debug.LogWarning($"[HighlightAvailableToMoveTilesForAI] Фигура {gameObject.name} не может найти текущую клетку, ходы не просчитаны!");
+            return;
+        }
+        
+        List<Tile> moves = GetAvailableToMoveTiles();
+
+        List<Tile> emptyTiles = moves.Where(tile => tile.OccupyingFigure == null).ToList();
+        List<Tile> enemyTiles = moves.Where(tile => tile.OccupyingFigure != null &&
+                                                    tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation)
+                                     .ToList();
+        
+        
+        HighlightTilesManager.Instance.HighlightAvailableTiles(emptyTiles);
+        HighlightTilesManager.Instance.HighlightEnemyTiles(enemyTiles);
+    }
+
     /// <summary>
     /// Выбирает нужный алгоритм подсчёта ходов в зависимости от настроек.
     /// </summary>
@@ -102,27 +143,6 @@ public class Figure : MonoBehaviour
         return new DefaultMoveCalculator(); 
     }
     
-    /// <summary>
-    /// Возвращает список доступных клеток для перемещения.
-    /// </summary>
-    public List<Tile> GetAvailableMoveTiles()
-    {
-        if (CurrentTile == null)
-        {
-            Debug.LogWarning($"Фигура {gameObject.name} не может найти свою текущую клетку!");
-            return new List<Tile>();
-        }
-        
-        MoveCalculator moveCalculator = GetMoveCalculator(); 
-        List<Tile> moves = moveCalculator.CalculateMoves(CurrentTile, neighborTilesSelectionSettings, whiteTeamAffiliation)
-                              .Where(tile => !tile.HiddenByFog && !tile.isWall)
-                              .ToList();
-        
-        return moves.Where(tile => tile.OccupyingFigure == null ||
-                                    (tile.OccupyingFigure != null && tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation))
-                    .ToList();
-    }
-    
     public int GetAvailableMovesCount()
     {
         if (CurrentTile == null)
@@ -134,3 +154,4 @@ public class Figure : MonoBehaviour
     
     public string GetCurrentTilePosition() => CurrentTile?.Position.ToString() ?? "None";
 }
+

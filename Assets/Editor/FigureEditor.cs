@@ -22,7 +22,7 @@ public class FigureEditor : Editor
         bool isSelected = SelectedFigureManager.Instance != null && SelectedFigureManager.Instance.SelectedFigure == figure;
         EditorGUILayout.LabelField("Is selected", isSelected ? "Yes" : "No");
         
-        EditorGUILayout.LabelField("HasMoved", figure.HasMoved.ToString());
+        EditorGUILayout.LabelField("HasMoved", figure.isFirstMove.ToString());
 
         string currentTilePosition = figure.GetCurrentTilePosition() ?? "None";
         EditorGUILayout.LabelField("Current tile", currentTilePosition);
@@ -33,9 +33,9 @@ public class FigureEditor : Editor
         int availableMoves = figure.GetAvailableMovesCount();
         EditorGUILayout.LabelField("Available moves", availableMoves.ToString());
 
-        if (GUILayout.Button("Highlight available moves"))
+        if (GUILayout.Button("Highlight available moves for player"))
         {
-            figure.HighlightAvailableToMoveTiles();
+            figure.HighlightAvailableToMoveTilesForPlayer();
         }
 
         if (GUILayout.Button("Destroy this figure"))

@@ -30,7 +30,7 @@ public class WeightedFigureSelector
 
         foreach (Figure fig in availableFigures)
         {
-            List<Tile> moveTiles = fig.GetAvailableMoveTiles();
+            List<Tile> moveTiles = fig.GetAvailableToMoveTiles();
             bool hasEnemyTile = false;
             float figureWeight = 0f;
 
