@@ -6,6 +6,9 @@ using UnityEngine.Serialization;
 public class EventTriggeringTileManager : MonoBehaviour
 {
     public static EventTriggeringTileManager Instance { get; private set; }
+
+    [SerializeField] private int maxCountOfMovesIsOnSideEventTriggeringTile;
+    [SerializeField] private int maxCountOfMovesIsOnMiddleEventTriggeringTile;
     
     [SerializeField] private Material sideEventTriggerMaterial;
     [SerializeField] private Material middleEventTriggerMaterial;
@@ -158,7 +161,6 @@ public class EventTriggeringTileManager : MonoBehaviour
     /// </summary>
     public void HandleEventTrigger(Figure figure, Tile previousTile, Tile newTile)
     {
-        // Сброс счетчиков при смене клетки
         if (previousTile == null || previousTile != newTile)
         {
             figure.countOfMovesIsOnEventTriggeringTile = 0;
@@ -167,10 +169,12 @@ public class EventTriggeringTileManager : MonoBehaviour
         if (newTile.isSideEventTriggering)
         {
             figure.countOfMovesIsOnEventTriggeringTile++;
-            Debug.Log($"Фигура простояла на боковом тайле {figure.countOfMovesIsOnEventTriggeringTile} ходов");
-            if (figure.countOfMovesIsOnEventTriggeringTile >= 3)
+            
+            if (figure.uiController != null)
+                figure.uiController.UpdateCount(figure.countOfMovesIsOnEventTriggeringTile, maxCountOfMovesIsOnSideEventTriggeringTile);
+            
+            if (figure.countOfMovesIsOnEventTriggeringTile >= maxCountOfMovesIsOnSideEventTriggeringTile)
             {
-                Debug.Log("Фигура провела на боковом тайле больше 3 ходов");
                 newTile.isSideEventTriggering = false;
                 figure.countOfMovesIsOnEventTriggeringTile = 0;
                 
@@ -186,10 +190,12 @@ public class EventTriggeringTileManager : MonoBehaviour
         if (newTile.isMiddleEventTriggering)
         {
             figure.countOfMovesIsOnEventTriggeringTile++;
-            Debug.Log($"Фигура простояла на центральном тайле {figure.countOfMovesIsOnEventTriggeringTile} ходов");
-            if (figure.countOfMovesIsOnEventTriggeringTile >= 5)
+            
+            if (figure.uiController != null)
+                figure.uiController.UpdateCount(figure.countOfMovesIsOnEventTriggeringTile, maxCountOfMovesIsOnMiddleEventTriggeringTile);
+            
+            if (figure.countOfMovesIsOnEventTriggeringTile >= maxCountOfMovesIsOnMiddleEventTriggeringTile)
             {
-                Debug.Log("Фигура провела на центральном тайле больше 5 ходов");
                 newTile.isMiddleEventTriggering = false;
                 figure.countOfMovesIsOnEventTriggeringTile = 0;
                 

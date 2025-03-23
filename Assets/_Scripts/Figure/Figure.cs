@@ -9,6 +9,10 @@ public class Figure : MonoBehaviour
     public bool whiteTeamAffiliation;
     public bool isKing;
     public bool isPawn;
+    public bool isFirstMove;
+    public bool hasMovedThisTurn;
+    public FigureUIController uiPrefab;
+    [HideInInspector] public FigureUIController uiController;
 
     [FormerlySerializedAs("neighborSelectionSettings")]
     public NeighborTilesSelectionSettings neighborTilesSelectionSettings;
@@ -24,10 +28,10 @@ public class Figure : MonoBehaviour
     
     public Vector2Int CurrentPosition { get; set; }
     public Tile CurrentTile { get; set; }
-    public bool isFirstMove { get; set; }
-    public bool hasMovedThisTurn { get; set; }
     public int countOfMovesIsOnEventTriggeringTile { get; set; }
     
+    
+
     private void Start()
     {
         figureMover = GetComponent<FigureMover>();
@@ -48,6 +52,11 @@ public class Figure : MonoBehaviour
         if (neighborTilesSelectionSettings != null)
         {
             neighborTilesSelectionSettings = Instantiate(neighborTilesSelectionSettings);
+        }
+        
+        if (uiPrefab != null)
+        {
+            uiController = Instantiate(uiPrefab, transform.position, Quaternion.identity, transform);
         }
         
         FogOfWarManager.Instance.UpdateFogOfWar();

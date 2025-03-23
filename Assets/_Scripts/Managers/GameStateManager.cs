@@ -31,14 +31,13 @@ public class GameStateManager : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-        
         if (Instance == null)
         {
             Instance = this;
             CurrentState = GameState.WhitesPlaying;
             CurrentGameMode = GameMode.LocalMultiplayer;
             humanPlaysWhite = true;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -102,9 +101,10 @@ public class GameStateManager : MonoBehaviour
             SetGameState(GameState.WhitesPlaying);
             madeAFigureMoveAtThisTurn = false;
             foreach (var figure in FiguresRepository.Instance.GetWhiteFigures())
+            {
                 figure.hasMovedThisTurn = false;
+            }
         }
-    
         FogOfWarManager.Instance.UpdateFogOfWar();
     }
 

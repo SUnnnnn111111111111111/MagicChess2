@@ -10146,8 +10146,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5789963847023073236}
   - {fileID: 1531899893267839354}
+  - {fileID: 5789963847023073236}
   - {fileID: 5366582795812965998}
   - {fileID: 7079656952232547538}
   m_Father: {fileID: 0}
@@ -10165,7 +10165,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isWall: 0
-  isEventTriggering: 0
+  isSideEventTriggering: 0
+  isMiddleEventTriggering: 0
   isAPawnMovementPromotion: 0
   isAPawnMovementRandomPromotion: 0
   fogOfWarEffect: {fileID: 687958583178354197}
