@@ -44,4 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffd4f03cf6f149a7b3815b44d7ee1947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eventTriggeringTilePrefab: {fileID: 8288494253927705211, guid: 88cf02eff87e86b408417dcbe78d53b7, type: 3}
+  sideEventTriggerMaterial: {fileID: 2100000, guid: e22d3948ad0f6b9428f2420aa29fda78, type: 2}
+  middleEventTriggerMaterial: {fileID: 2100000, guid: 3f180c07298b2c74385e4ec37ad77d28, type: 2}

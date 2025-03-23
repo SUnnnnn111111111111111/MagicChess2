@@ -10,7 +10,7 @@ public class PreGameBootstrapper : MonoBehaviour
     {
         if (TilesRepository.Instance == null)
         {
-            Instantiate(Resources.Load("Prefabs/TilesRepository"));
+            Instantiate(Resources.Load("Prefabs/Repositories/TilesRepository"));
         }
         else
         {
@@ -19,7 +19,7 @@ public class PreGameBootstrapper : MonoBehaviour
         
         if (EventTriggeringTileManager.Instance == null)
         {
-            Instantiate(Resources.Load("Prefabs/EventTriggeringTileManager"));
+            Instantiate(Resources.Load("Prefabs/Managers/EventTriggeringTileManager"));
         }
         else
         {
@@ -28,7 +28,7 @@ public class PreGameBootstrapper : MonoBehaviour
         
         if (PawnMovementPromotionManager.Instance == null)
         {
-            Instantiate(Resources.Load("Prefabs/PawnMovementPromotionManager"));
+            Instantiate(Resources.Load("Prefabs/Managers/PawnMovementPromotionManager"));
         }
         else
         {
@@ -37,7 +37,7 @@ public class PreGameBootstrapper : MonoBehaviour
 
         if (SelectedFigureManager.Instance == null)
         {
-            Instantiate(Resources.Load("Prefabs/SelectedFigureManager"));
+            Instantiate(Resources.Load("Prefabs/Managers/SelectedFigureManager"));
         }
         else
         {
@@ -46,7 +46,7 @@ public class PreGameBootstrapper : MonoBehaviour
 
         if (GameStateManager.Instance == null)
         {
-            Instantiate(Resources.Load("Prefabs/GameStateManager"));
+            Instantiate(Resources.Load("Prefabs/Managers/GameStateManager"));
         }
         else
         {
@@ -55,7 +55,7 @@ public class PreGameBootstrapper : MonoBehaviour
 
         if (FogOfWarManager.Instance == null)
         {
-            Instantiate(Resources.Load("Prefabs/FogOfWarManager"));
+            Instantiate(Resources.Load("Prefabs/Managers/FogOfWarManager"));
         }
         else
         {
@@ -64,7 +64,7 @@ public class PreGameBootstrapper : MonoBehaviour
 
         if (FiguresRepository.Instance == null)
         {
-            Instantiate(Resources.Load("Prefabs/FiguresRepository"));
+            Instantiate(Resources.Load("Prefabs/Repositories/FiguresRepository"));
         }
         else
         {
@@ -73,7 +73,7 @@ public class PreGameBootstrapper : MonoBehaviour
 
         if (HighlightTilesManager.Instance == null)
         {
-            Instantiate(Resources.Load("Prefabs/HighlightTilesManager"));
+            Instantiate(Resources.Load("Prefabs/Managers/HighlightTilesManager"));
         }
         else
         {

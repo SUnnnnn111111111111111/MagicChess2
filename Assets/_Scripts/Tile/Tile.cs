@@ -5,7 +5,8 @@ using UnityEngine.Serialization;
 public class Tile : MonoBehaviour
 {
     public bool isWall;
-    public bool isEventTriggering;
+    public bool isSideEventTriggering;
+    public bool isMiddleEventTriggering;
     public bool isAPawnMovementPromotion;
     public bool isAPawnMovementRandomPromotion;
     

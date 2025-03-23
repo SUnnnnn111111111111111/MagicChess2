@@ -73,7 +73,7 @@ public class WeightedTileSelector
             }
             
             // Бонус за event-триггерную клетку (если фигура не король и не простаивала 3 хода)
-            if (tile.isEventTriggering && !figure.isKing && figure.countOfMovesIsOnEventTriggeringTile < 3)
+            if (tile.isSideEventTriggering && !figure.isKing && figure.countOfMovesIsOnEventTriggeringTile < 3)
             {
                 weight += eventTileBonus;
             }

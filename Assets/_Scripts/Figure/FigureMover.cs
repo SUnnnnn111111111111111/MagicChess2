@@ -65,6 +65,7 @@ public class FigureMover : MonoBehaviour
     originalRotation = figure.transform.rotation;
     Vector3 direction = (targetTile.transform.position - figure.transform.position).normalized;
     Vector3 lookAtPosition = figure.transform.position + direction;
+    
     HighlightTilesManager.Instance.ClearHighlights();
     
     // Анимация перемещения
@@ -83,7 +84,6 @@ public class FigureMover : MonoBehaviour
                     figure.CurrentTile = targetTile;
                     targetTile.SetOccupyingFigure(figure);
                     
-                    EventTriggeringTileManager.Instance.HandleEventTrigger(figure, previousTile, targetTile);
                     PawnMovementPromotionManager.Instance.HandlePawnMovementPromotion(figure, targetTile);
                     
                     FogOfWarManager.Instance.UpdateFogOfWar();

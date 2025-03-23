@@ -32,14 +32,11 @@ public class PawnMovementPromotionManager : MonoBehaviour
         if (figure == null || tile == null)
             return;
         
-        // Если фигура не является пешкой, выходим
         if (!figure.isPawn)
             return;
         
-        // Если клетка имеет флаг случайного продвижения пешки
         if (tile.isAPawnMovementRandomPromotion)
         {
-            // Получаем все значения enum и исключаем PawnWhite и PawnBlack
             NeighborType[] allTypes = (NeighborType[])System.Enum.GetValues(typeof(NeighborType));
             List<NeighborType> validTypes = new List<NeighborType>();
             foreach (var type in allTypes)
@@ -58,35 +55,37 @@ public class PawnMovementPromotionManager : MonoBehaviour
             var newRule = new NeighborTilesSelectionSettings.NeighborRule();
             newRule.neighborType = randomType;
             
-            // Задаем параметры в зависимости от выбранного типа
             if (randomType == NeighborType.Rectangle)
             {
-                newRule.rectangleWidth = 2; // примерное значение
+                newRule.rectangleWidth = 2; 
                 newRule.rectangleHeight = 2;
             }
             else
             {
-                newRule.maxDistance = 4; // примерное значение для остальных типов
+                newRule.maxDistance = 4;
             }
             
             newSettings.neighborRules.Add(newRule);
             figure.neighborTilesSelectionSettings = newSettings;
-            
-            Debug.Log($"PawnMovementPromotionManager: Для пешки настройки соседей изменены на случайный тип: {randomType}.");
+
+            tile.isAPawnMovementRandomPromotion = false;
+            tile.UpdatePawnPromotionIcons();
+            // Debug.Log($"PawnMovementPromotionManager: Для пешки настройки соседей изменены на случайный тип: {randomType}.");
         }
-        // Если клетка имеет флаг продвижения пешки (не случайного)
         else if (tile.isAPawnMovementPromotion)
         {
             var newSettings = ScriptableObject.CreateInstance<NeighborTilesSelectionSettings>();
             newSettings.neighborRules.Clear();
             var newRule = new NeighborTilesSelectionSettings.NeighborRule();
             newRule.neighborType = NeighborType.Rectangle;
-            newRule.rectangleWidth = 4; // примерное значение
+            newRule.rectangleWidth = 4; 
             newRule.rectangleHeight = 4;
             newSettings.neighborRules.Add(newRule);
             figure.neighborTilesSelectionSettings = newSettings;
-            
-            Debug.Log("PawnMovementPromotionManager: Для пешки настройки соседей изменены на тип Rectangle.");
+
+            tile.isAPawnMovementPromotion = false;
+            tile.UpdatePawnPromotionIcons();
+            // Debug.Log("PawnMovementPromotionManager: Для пешки настройки соседей изменены на тип Rectangle.");
         }
     }
 }

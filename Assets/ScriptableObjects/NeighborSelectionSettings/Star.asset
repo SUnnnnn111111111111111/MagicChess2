@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Star
   m_EditorClassIdentifier: 
   neighborRules:
-  - neighborType: 10
+  - neighborType: 13
     maxDistance: 0
     rectangleWidth: 0
     rectangleHeight: 0
