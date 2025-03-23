@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f508b643c96d4c7459483280442a0a9d, type: 3}
   m_Name: King
   m_EditorClassIdentifier: 
-  neighborRules: []
+  neighborRules:
+  - neighborType: 0
+    maxDistance: 0
+    rectangleWidth: 2
+    rectangleHeight: 2

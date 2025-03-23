@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f508b643c96d4c7459483280442a0a9d, type: 3}
   m_Name: Bishop
   m_EditorClassIdentifier: 
-  neighborRules: []
+  neighborRules:
+  - neighborType: 4
+    maxDistance: 8
+    rectangleWidth: 0
+    rectangleHeight: 0
