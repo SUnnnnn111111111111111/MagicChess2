@@ -7,8 +7,6 @@ public class TilesRepository : MonoBehaviour
     public static TilesRepository Instance { get; private set; }
 
     private Dictionary<Vector2Int, Tile> tiles = new Dictionary<Vector2Int, Tile>();
-
-    [SerializeField] private List<GameObject> registeredTiles = new List<GameObject>();
     
 
     private void Awake()
@@ -27,7 +25,6 @@ public class TilesRepository : MonoBehaviour
     public void RegisterTile(Tile tile, Vector2Int position)
     {
         tiles[position] = tile;
-        registeredTiles.Add(tile.gameObject);
     }
 
     public Tile GetTileAt(Vector2Int position)

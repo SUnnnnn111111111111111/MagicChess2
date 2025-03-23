@@ -715,7 +715,7 @@ PrefabInstance:
     - target: {fileID: 3600387470799785659, guid: 1bda4c78e7e12894189ec3aa6c9c61ab, type: 3}
       propertyPath: neighborTilesSelectionSettings
       value: 
-      objectReference: {fileID: 11400000, guid: 1359d87a1704f0d448dc7f318f5d888d, type: 2}
+      objectReference: {fileID: 11400000, guid: 2dbfa84825f4c5f4a8d55e0181ec1730, type: 2}
     - target: {fileID: 7341690228429134874, guid: 1bda4c78e7e12894189ec3aa6c9c61ab, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

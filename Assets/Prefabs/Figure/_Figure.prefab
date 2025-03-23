@@ -382,8 +382,16 @@ MonoBehaviour:
   WhenClickOnAnObject:
     _PersistentCalls:
     - _Target: {fileID: 5098165892479961486}
-      _MemberName: HighlightAvailableToMoveTilesForPlayer
-      _PersistentArguments: []
+      _MemberName: HighlightAvailableToMoveTiles
+      _PersistentArguments:
+      - _Type: 1
+        _Int: 1
+        _String: 
+        _X: 0
+        _Y: 0
+        _Z: 0
+        _W: 0
+        _Object: {fileID: 0}
 --- !u!114 &7053951710455516815
 MonoBehaviour:
   m_ObjectHideFlags: 0

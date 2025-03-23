@@ -4,7 +4,7 @@ public class SelectedFigureManager : MonoBehaviour
 {
     public static SelectedFigureManager Instance { get; private set; }
 
-    [SerializeField] private Figure selectedFigure;
+    private Figure selectedFigure;
 
     public Figure SelectedFigure
     {

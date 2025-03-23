@@ -140,7 +140,7 @@ public class AIEnemy : MonoBehaviour
         Figure selectedFigure = WeightedFigureSelector.SelectFigure(availableFigures);
         if (selectedFigure != null)
         {
-            selectedFigure.HighlightAvailableToMoveTilesForAI();
+            selectedFigure.HighlightAvailableToMoveTiles(false);
         }
         return selectedFigure;
     }

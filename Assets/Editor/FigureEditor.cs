@@ -35,7 +35,7 @@ public class FigureEditor : Editor
 
         if (GUILayout.Button("Highlight available moves for player"))
         {
-            figure.HighlightAvailableToMoveTilesForPlayer();
+            figure.HighlightAvailableToMoveTiles(false);
         }
 
         if (GUILayout.Button("Destroy this figure"))

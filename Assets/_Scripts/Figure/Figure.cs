@@ -100,50 +100,27 @@ public class Figure : MonoBehaviour
     /// Подсвечивает доступные для перемещения клетки для игрока,
     /// фильтруя те, на которых присутствует туман.
     /// </summary>
-    public void HighlightAvailableToMoveTilesForPlayer()
+    public void HighlightAvailableToMoveTiles(bool includeFog)
     {
         if (CurrentTile == null)
         {
-            Debug.LogWarning($"[HighlightAvailableToMoveTilesForPlayer] Фигура {gameObject.name} не может найти текущую клетку, ходы не просчитаны!");
+            Debug.LogWarning($"[HighlightAvailableToMoveTiles] Фигура {gameObject.name} не может найти текущую клетку!");
             return;
         }
-        
+    
         List<Tile> moves = GetAvailableToMoveTiles();
-        
-        List<Tile> visibleMoves = moves.Where(tile => !tile.HiddenByFog).ToList();
+    
+        if (includeFog)
+            moves = moves.Where(tile => !tile.HiddenByFog).ToList();
 
-        List<Tile> emptyTiles = visibleMoves.Where(tile => tile.OccupyingFigure == null).ToList();
-        List<Tile> enemyTiles = visibleMoves.Where(tile => tile.OccupyingFigure != null &&
-                                                            tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation)
-                                            .ToList();
+        List<Tile> emptyTiles = moves.Where(tile => tile.OccupyingFigure == null).ToList();
+        List<Tile> enemyTiles = moves.Where(tile => tile.OccupyingFigure != null && 
+                                                    tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation).ToList();
 
         HighlightTilesManager.Instance.HighlightAvailableTiles(emptyTiles);
         HighlightTilesManager.Instance.HighlightEnemyTiles(enemyTiles);
     }
     
-    /// <summary>
-    /// Подсвечивает доступные для перемещения клетки для AI,
-    /// не учитывая наличие тумана.
-    /// </summary>
-    public void HighlightAvailableToMoveTilesForAI()
-    {
-        if (CurrentTile == null)
-        {
-            Debug.LogWarning($"[HighlightAvailableToMoveTilesForAI] Фигура {gameObject.name} не может найти текущую клетку, ходы не просчитаны!");
-            return;
-        }
-        
-        List<Tile> moves = GetAvailableToMoveTiles();
-
-        List<Tile> emptyTiles = moves.Where(tile => tile.OccupyingFigure == null).ToList();
-        List<Tile> enemyTiles = moves.Where(tile => tile.OccupyingFigure != null &&
-                                                    tile.OccupyingFigure.whiteTeamAffiliation != whiteTeamAffiliation)
-                                     .ToList();
-        
-        
-        HighlightTilesManager.Instance.HighlightAvailableTiles(emptyTiles);
-        HighlightTilesManager.Instance.HighlightEnemyTiles(enemyTiles);
-    }
 
     /// <summary>
     /// Выбирает нужный алгоритм подсчёта ходов в зависимости от настроек.
