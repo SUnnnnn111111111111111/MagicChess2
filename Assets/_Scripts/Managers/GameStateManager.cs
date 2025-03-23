@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class GameStateManager : MonoBehaviour
@@ -23,7 +24,7 @@ public class GameStateManager : MonoBehaviour
     public GameState CurrentState{ get; private set;}
     public GameMode CurrentGameMode { get; set; }
     public bool humanPlaysWhite { get; set; }
-    public bool HasMovedThisTurn { get; set; } = false;
+    public bool madeAFigureMoveAtThisTurn { get; set; }
 
     
     public UnityEvent<GameState> OnGameStateChanged = new UnityEvent<GameState>();
@@ -75,15 +76,35 @@ public class GameStateManager : MonoBehaviour
         HandleGameState(newState);
     }
 
-    public void SwitchTurn()
+    public void EndTurn()
     {
-        HasMovedThisTurn = false;
+        List<Figure> currentTeamFigures = (CurrentState == GameState.WhitesPlaying)
+            ? FiguresRepository.Instance.GetWhiteFigures()
+            : FiguresRepository.Instance.GetBlackFigures();
+        
+        foreach (var figure in currentTeamFigures)
+        {
+            if (!figure.hasMovedThisTurn)
+            {
+                EventTriggeringTileManager.Instance.HandleEventTrigger(figure, figure.CurrentTile, figure.CurrentTile);
+            }
+        }
         
         if (CurrentState == GameState.WhitesPlaying)
+        {
             SetGameState(GameState.BlacksPlaying);
+            madeAFigureMoveAtThisTurn = false;
+            foreach (var figure in FiguresRepository.Instance.GetBlackFigures())
+                figure.hasMovedThisTurn = false;
+        }
         else if (CurrentState == GameState.BlacksPlaying)
+        {
             SetGameState(GameState.WhitesPlaying);
-        
+            madeAFigureMoveAtThisTurn = false;
+            foreach (var figure in FiguresRepository.Instance.GetWhiteFigures())
+                figure.hasMovedThisTurn = false;
+        }
+    
         FogOfWarManager.Instance.UpdateFogOfWar();
     }
 

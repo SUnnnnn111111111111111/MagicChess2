@@ -3,14 +3,10 @@ using UnityEngine;
 
 public class WeightedFigureSelector
 {
-    // Фиксированный вес для фигур, у которых есть вражеская клетка в доступных ходах.
-    private const float maxWeight = 1000f;
+    // Константы для оценки ходов
+    private const float kingBonus = 1000f;           // Максимальный бонус для хода, когда цель – король
+    private const float enemyNonKingModifier = 2f;   // Коэффициент для пониженного веса при наличии обычного врага
 
-    /// <summary>
-    /// Выбирает фигуру из списка availableFigures, оценивая её вес по доступным ходам.
-    /// Если хотя бы у одной фигуры в доступных ходах присутствует вражеская клетка, ей присваивается максимальный вес.
-    /// Для остальных фигур вес вычисляется как сумма весов клеток (1 / (minDistance до центральной точки + 1)).
-    /// </summary>
     public static Figure SelectFigure(List<Figure> availableFigures)
     {
         if (availableFigures == null || availableFigures.Count == 0)
@@ -31,40 +27,35 @@ public class WeightedFigureSelector
         foreach (Figure fig in availableFigures)
         {
             List<Tile> moveTiles = fig.GetAvailableToMoveTiles();
-            bool hasEnemyTile = false;
             float figureWeight = 0f;
 
-            // Проходим по всем доступным клеткам фигуры
             foreach (Tile tile in moveTiles)
             {
-                // В условии GetAvailableMoveTiles уже возвращаются либо пустые, либо клетки с врагами.
+                Vector2 tilePos = new Vector2(tile.Position.x, tile.Position.y);
+                float minDistance = float.MaxValue;
+                foreach (Vector2 center in centralCells)
+                {
+                    float distance = Vector2.Distance(tilePos, center);
+                    if (distance < minDistance)
+                        minDistance = distance;
+                }
+
                 if (tile.OccupyingFigure != null)
                 {
-                    hasEnemyTile = true;
-                    break;
-                }
-            }
-
-            if (hasEnemyTile)
-            {
-                // Если обнаружена вражеская клетка, присваиваем максимальный вес фигуре.
-                figureWeight = maxWeight;
-            }
-            else
-            {
-                // Иначе вычисляем вес как сумму весов пустых клеток.
-                foreach (Tile tile in moveTiles)
-                {
-                    Vector2 tilePos = new Vector2(tile.Position.x, tile.Position.y);
-                    float minDistance = float.MaxValue;
-                    foreach (Vector2 center in centralCells)
+                    if (tile.OccupyingFigure.isKing)
                     {
-                        float distance = Vector2.Distance(tilePos, center);
-                        if (distance < minDistance)
-                            minDistance = distance;
+                        // Если на клетке стоит король, добавляем максимальный бонус
+                        figureWeight += kingBonus;
                     }
-                    float tileWeight = 1f / (minDistance + 1f);
-                    figureWeight += tileWeight;
+                    else
+                    {
+                        // Если на клетке стоит обычный враг, учитываем пониженный вес
+                        figureWeight += (1f / (minDistance + 1f)) * enemyNonKingModifier;
+                    }
+                }
+                else
+                {
+                    figureWeight += 1f / (minDistance + 1f);
                 }
             }
 
@@ -72,7 +63,6 @@ public class WeightedFigureSelector
             totalWeight += figureWeight;
         }
 
-        // Выполняем взвешенный случайный выбор фигуры
         float randomValue = Random.value * totalWeight;
         for (int i = 0; i < availableFigures.Count; i++)
         {
@@ -80,8 +70,6 @@ public class WeightedFigureSelector
             if (randomValue <= 0f)
                 return availableFigures[i];
         }
-
-        // На всякий случай возвращаем последнюю фигуру
         return availableFigures[availableFigures.Count - 1];
     }
 }

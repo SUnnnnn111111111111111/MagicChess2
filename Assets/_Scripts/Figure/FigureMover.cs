@@ -31,7 +31,7 @@ public class FigureMover : MonoBehaviour
     /// </summary>
     public void MoveToTile(Tile targetTile)
 {
-    if (GameStateManager.Instance.HasMovedThisTurn)
+    if (GameStateManager.Instance.madeAFigureMoveAtThisTurn)
         return;
 
     if (figure == null || targetTile == null)
@@ -55,7 +55,8 @@ public class FigureMover : MonoBehaviour
         CaptureEnemyAtTile(targetTile);
     }
     
-    GameStateManager.Instance.HasMovedThisTurn = true;
+    GameStateManager.Instance.madeAFigureMoveAtThisTurn = true;
+    figure.hasMovedThisTurn = true;
     figure.isFirstMove = true;
     
     if (figure.CurrentTile != null)
@@ -77,10 +78,13 @@ public class FigureMover : MonoBehaviour
                 .SetEase(moveEase)
                 .OnComplete(() =>
                 {
-                    if (figure.CurrentTile.isEventTriggering) figure.countOfMovesIsOnEventTriggeringTile++;
+                    Tile previousTile = figure.CurrentTile;
                     SelectedFigureManager.Instance.SelectedFigure = null;
                     figure.CurrentTile = targetTile;
                     targetTile.SetOccupyingFigure(figure);
+                    
+                    EventTriggeringTileManager.Instance.HandleEventTrigger(figure, previousTile, targetTile);
+                    PawnMovementPromotionManager.Instance.HandlePawnMovementPromotion(figure, targetTile);
                     
                     FogOfWarManager.Instance.UpdateFogOfWar();
                     
@@ -88,7 +92,7 @@ public class FigureMover : MonoBehaviour
                     
                     DOVirtual.DelayedCall(figure.delayBeforePassingTheMove, () =>
                     {
-                        GameStateManager.Instance.SwitchTurn();
+                        GameStateManager.Instance.EndTurn();
                     });
                 });
         });

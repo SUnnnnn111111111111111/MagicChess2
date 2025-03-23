@@ -16,6 +16,24 @@ public class PreGameBootstrapper : MonoBehaviour
         {
             Debug.Log("[PreGameBootstrapper] TilesRepository уже существует.");
         }
+        
+        if (EventTriggeringTileManager.Instance == null)
+        {
+            Instantiate(Resources.Load("Prefabs/EventTriggeringTileManager"));
+        }
+        else
+        {
+            Debug.Log("[PreGameBootstrapper] EventTriggeringTileManager уже существует.");
+        }
+        
+        if (PawnMovementPromotionManager.Instance == null)
+        {
+            Instantiate(Resources.Load("Prefabs/PawnMovementPromotionManager"));
+        }
+        else
+        {
+            Debug.Log("[PreGameBootstrapper] PawnMovementPromotionManager уже существует.");
+        }
 
         if (SelectedFigureManager.Instance == null)
         {

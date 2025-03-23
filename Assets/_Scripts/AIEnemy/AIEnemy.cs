@@ -18,6 +18,7 @@ public class AIEnemy : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         DontDestroyOnLoad(gameObject);
         
         if (availableFigures == null)
@@ -85,27 +86,33 @@ public class AIEnemy : MonoBehaviour
     
     /// <summary>
     /// Основной цикл выполнения хода AI с задержкой.
+    /// Теперь вместо локального выбора клетки (с использованием WeightedTileSelector) используется глобальная оценка клетки.
     /// </summary>
     private IEnumerator AIMoveRoutine()
     {
         yield return new WaitForSeconds(delayBeforeMove);
-        
+    
         selectedAIFigure = GetWeightedFigure();
         if (selectedAIFigure == null)
         {
             Debug.LogWarning("Нет выбранной фигуры для хода AI");
             yield break;
         }
-        
-        List<Tile> availableTiles = selectedAIFigure.GetAvailableToMoveTiles();
-        if (availableTiles.Count == 0)
+
+        // Выбираем глобальную цель с учетом новых критериев и получаем рассчитанный вес
+        var evaluationResult = WeightedTileSelector.SelectGlobalTargetTileWithWeight(selectedAIFigure);
+        Tile selectedTile = evaluationResult.tile;
+        float selectedTileWeight = evaluationResult.weight;
+
+        if (selectedTile == null)
         {
-            Debug.LogWarning("Нет доступных клеток для выбранной фигуры");
+            Debug.LogWarning("Нет подходящей глобальной клетки для хода AI");
             yield break;
         }
-
-        // Используем WeightedTileSelector для выбора клетки
-        Tile selectedTile = WeightedTileSelector.SelectTile(availableTiles);
+    
+        // Логируем информацию о выбранной клетке и ее весе
+        Debug.Log($"AI выбрал клетку с позицией {selectedTile.Position} и весом {selectedTileWeight}");
+    
         FigureMover mover = selectedAIFigure.GetComponent<FigureMover>();
         if (mover != null)
         {
@@ -116,6 +123,7 @@ public class AIEnemy : MonoBehaviour
             Debug.LogWarning("Не найден компонент FigureMover на выбранной фигуре");
         }
     }
+
     
     /// <summary>
     /// Выбирает фигуру для хода AI с учетом веса. При выборе происходит подсветка доступных ходов.

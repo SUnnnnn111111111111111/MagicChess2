@@ -3,66 +3,117 @@ using UnityEngine;
 
 public class WeightedTileSelector
 {
-    // Центральные клетки, заданные явно
-    private static readonly Vector2[] centralCells = new Vector2[]
-    {
-        new Vector2(1, 1),
-        new Vector2(-1, 1),
-        new Vector2(-1, -1),
-        new Vector2(1, -1)
-    };
-
-    // Фиксированный вес для вражеских клеток – значение выбрано достаточно высоким, чтобы доминировать над весами пустых клеток.
-    private const float enemyWeight = 1000f;
+    // Константы бонусов
+    private const float immediateKingWeight = 1000f;  // Если в доступных ходах есть клетка с королём – выбираем её немедленно
+    private const float globalKingBonus = 2f;         // Бонус за приближение к вражескому королю (не слишком высокий)
+    private const float eventTileBonus = 50f;          // Бонус для event-триггерной клетки, если фигура ещё не простаивала 3 хода
+    private const float regionBonus = 1.5f;             // Дополнительный бонус для целевого региона
+    private const float enemyFigureBonus = 100f;        // Дополнительный бонус для клетки, на которой стоит вражеская фигура
 
     /// <summary>
-    /// Выбирает клетку из списка доступных, используя взвешенный случайный выбор.
-    /// Если клетка содержит вражескую фигуру, её вес равен enemyWeight.
-    /// Для пустых клеток вес определяется как 1 / (минимальное расстояние до центральной клетки + 1).
+    /// Выбирает из доступных для передвижения клеток ту, у которой максимальный вес,
+    /// и возвращает кортеж с выбранной клеткой и рассчитанным для неё весом.
+    /// Если среди доступных клеток есть клетка с вражеским королём, она выбирается немедленно.
     /// </summary>
-    public static Tile SelectTile(List<Tile> availableTiles)
+    public static (Tile tile, float weight) SelectGlobalTargetTileWithWeight(Figure figure)
     {
+        // Получаем список доступных для перемещения клеток
+        List<Tile> availableTiles = figure.GetAvailableToMoveTiles();
         if (availableTiles == null || availableTiles.Count == 0)
-            return null;
-
-        float totalWeight = 0f;
-        List<float> weights = new List<float>();
-
+        {
+            Debug.LogWarning("Нет доступных клеток для перемещения фигуры");
+            return (null, 0f);
+        }
+        
+        // Если среди доступных клеток присутствует клетка с вражеским королём, возвращаем её сразу с максимальным весом
         foreach (Tile tile in availableTiles)
         {
-            float weight;
-            // Если на клетке стоит фигура, значит она вражеская (так как союзные исключены)
-            if (tile.OccupyingFigure != null)
+            if (tile.OccupyingFigure != null &&
+                tile.OccupyingFigure.isKing &&
+                tile.OccupyingFigure.whiteTeamAffiliation != figure.whiteTeamAffiliation)
             {
-                weight = enemyWeight;
+                return (tile, immediateKingWeight);
+            }
+        }
+        
+        // Определяем позицию вражеского короля (если найден)
+        Vector2 enemyKingPosition = Vector2.zero;
+        bool enemyKingFound = false;
+        List<Figure> enemyFigures = figure.whiteTeamAffiliation 
+                                        ? FiguresRepository.Instance.GetBlackFigures() 
+                                        : FiguresRepository.Instance.GetWhiteFigures();
+        foreach (Figure enemy in enemyFigures)
+        {
+            if (enemy.isKing)
+            {
+                enemyKingPosition = new Vector2(enemy.CurrentTile.Position.x, enemy.CurrentTile.Position.y);
+                enemyKingFound = true;
+                break;
+            }
+        }
+        
+        // Текущая позиция фигуры для расчёта базового веса
+        Vector2 currentPos = new Vector2(figure.CurrentTile.Position.x, figure.CurrentTile.Position.y);
+        
+        Tile bestTile = null;
+        float bestWeight = float.MinValue;
+        
+        foreach (Tile tile in availableTiles)
+        {
+            Vector2 tilePos = new Vector2(tile.Position.x, tile.Position.y);
+            // Базовый вес: чем ближе клетка – тем выше значение
+            float distance = Vector2.Distance(currentPos, tilePos);
+            float weight = 1f / (distance + 1f);
+            
+            // Бонус за приближение к вражескому королю
+            if (enemyKingFound)
+            {
+                float distToKing = Vector2.Distance(tilePos, enemyKingPosition);
+                weight += globalKingBonus / (distToKing + 1f);
+            }
+            
+            // Бонус за event-триггерную клетку (если фигура не король и не простаивала 3 хода)
+            if (tile.isEventTriggering && !figure.isKing && figure.countOfMovesIsOnEventTriggeringTile < 3)
+            {
+                weight += eventTileBonus;
+            }
+            
+            // Бонус за попадание в целевой регион в зависимости от команды AI
+            if (figure.whiteTeamAffiliation)
+            {
+                // Для белых: целевой регион, например, x от -17 до -3, y от -9 до 17
+                if (tile.Position.x >= -17 && tile.Position.x <= -3 &&
+                    tile.Position.y >= -9 && tile.Position.y <= 17)
+                {
+                    weight += regionBonus;
+                }
             }
             else
             {
-                // Вычисляем минимальное расстояние от клетки до одной из центральных точек
-                Vector2 tilePos = new Vector2(tile.Position.x, tile.Position.y);
-                float minDistance = float.MaxValue;
-                foreach (Vector2 center in centralCells)
+                // Для чёрных: целевой регион, например, x от 3 до 17, y от -17 до 9
+                if (tile.Position.x >= 3 && tile.Position.x <= 17 &&
+                    tile.Position.y >= -17 && tile.Position.y <= 9)
                 {
-                    float distance = Vector2.Distance(tilePos, center);
-                    if (distance < minDistance)
-                        minDistance = distance;
+                    weight += regionBonus;
                 }
-                weight = 1f / (minDistance + 1f);
             }
-            weights.Add(weight);
-            totalWeight += weight;
+            
+            // Бонус за наличие вражеской фигуры (не короля)
+            if (tile.OccupyingFigure != null &&
+                !tile.OccupyingFigure.isKing &&
+                tile.OccupyingFigure.whiteTeamAffiliation != figure.whiteTeamAffiliation)
+            {
+                weight += enemyFigureBonus;
+            }
+            
+            // Запоминаем клетку с максимальным весом
+            if (weight > bestWeight)
+            {
+                bestWeight = weight;
+                bestTile = tile;
+            }
         }
-
-        // Выбираем клетку, основываясь на распределении весов
-        float randomValue = Random.value * totalWeight;
-        for (int i = 0; i < availableTiles.Count; i++)
-        {
-            randomValue -= weights[i];
-            if (randomValue <= 0f)
-                return availableTiles[i];
-        }
-
-        // На всякий случай возвращаем последнюю клетку
-        return availableTiles[availableTiles.Count - 1];
+        
+        return (bestTile, bestWeight);
     }
 }

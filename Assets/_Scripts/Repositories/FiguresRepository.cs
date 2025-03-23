@@ -4,8 +4,7 @@ using UnityEngine;
 public class FiguresRepository : MonoBehaviour
 {
     public static FiguresRepository Instance { get; private set; }
-
-    // Разделяем хранение фигур по командам.
+    
     private Dictionary<Vector2Int, Figure> whiteFigures = new Dictionary<Vector2Int, Figure>();
     private Dictionary<Vector2Int, Figure> blackFigures = new Dictionary<Vector2Int, Figure>();
     
@@ -28,7 +27,6 @@ public class FiguresRepository : MonoBehaviour
 
     public void RegisterFigure(Figure figure, Vector2Int position)
     {
-        // Сохраняем позицию в фигуре для упрощения последующего удаления.
         figure.CurrentPosition = position;
         if (figure.whiteTeamAffiliation)
         {
@@ -49,7 +47,6 @@ public class FiguresRepository : MonoBehaviour
             {
                 whiteFigures.Remove(figure.CurrentPosition);
             }
-            // Если удаляемая фигура – король или фигур больше не осталось, объявляем поражение.
             if (figure.isKing || whiteFigures.Count == 0)
             {
                 GameStateManager.Instance?.SetGameState(GameStateManager.GameState.WhitesLost);

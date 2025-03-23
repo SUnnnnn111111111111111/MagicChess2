@@ -6301,6 +6301,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4326528423797694057}
   - {fileID: 4885934491211185381}
   - {fileID: 2571878732515998596}
   - {fileID: 5118123261223030586}
@@ -7675,6 +7676,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &8726206456091629441
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4326528423797694057}
+  m_Layer: 0
+  m_Name: EventTriggeringTiles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4326528423797694057
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8726206456091629441}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7809092311538295015}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8877195798357945193
 GameObject:
   m_ObjectHideFlags: 0
@@ -8228,6 +8260,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: isAPawnMovementPromotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
@@ -8848,6 +8884,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: isAPawnMovementPromotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
@@ -9543,6 +9583,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: isAPawnMovementPromotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
       value: WhiteTile (95)
@@ -9791,6 +9835,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: isAPawnMovementRandomPromotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
       value: BlackTile (31)
@@ -9977,6 +10025,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: isAPawnMovementPromotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
       value: BlackTile (93)
@@ -10100,6 +10152,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: isAPawnMovementPromotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
@@ -10535,6 +10591,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: isAPawnMovementPromotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
       value: WhiteTile (33)
@@ -10720,6 +10780,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: isAPawnMovementRandomPromotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
@@ -12108,6 +12172,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: isAPawnMovementPromotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
@@ -14599,6 +14667,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: isAPawnMovementPromotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
       value: BlackTile (33)
@@ -15032,6 +15104,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: isAPawnMovementRandomPromotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
@@ -15901,6 +15977,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: isAPawnMovementPromotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
       value: WhiteTile (34)
@@ -16148,6 +16228,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: isAPawnMovementRandomPromotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
@@ -19173,6 +19257,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: isAPawnMovementPromotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
       value: WhiteTile (93)
@@ -19359,6 +19447,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: isAPawnMovementRandomPromotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
       value: BlackTile (96)
@@ -19420,6 +19512,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: isAPawnMovementRandomPromotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
@@ -20201,6 +20297,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: isAPawnMovementPromotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
       value: WhiteTile (35)
@@ -20634,6 +20734,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: isAPawnMovementRandomPromotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
@@ -21627,6 +21731,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: isAPawnMovementRandomPromotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
       value: WhiteTile (29)
@@ -22383,6 +22491,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: isAPawnMovementRandomPromotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
       value: BlackTile (28)
@@ -22444,6 +22556,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: isAPawnMovementPromotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
@@ -22704,6 +22820,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: isAPawnMovementRandomPromotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
@@ -23077,6 +23197,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: isAPawnMovementRandomPromotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
       value: WhiteTile (99)
@@ -23262,6 +23386,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: isAPawnMovementRandomPromotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
@@ -24391,6 +24519,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: isAPawnMovementRandomPromotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
       value: BlackTile (99)
@@ -24452,6 +24584,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: isAPawnMovementPromotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
@@ -24700,6 +24836,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: isAPawnMovementRandomPromotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
@@ -25010,6 +25150,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: isAPawnMovementRandomPromotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
@@ -25817,6 +25961,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: isAPawnMovementPromotion
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
       value: WhiteTile (32)
@@ -26002,6 +26150,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: isAPawnMovementPromotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
@@ -27340,6 +27492,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: isAPawnMovementPromotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
@@ -28716,6 +28872,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: isAPawnMovementRandomPromotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name

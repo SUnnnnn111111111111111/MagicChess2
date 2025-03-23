@@ -8,7 +8,7 @@ public class Figure : MonoBehaviour
 {
     public bool whiteTeamAffiliation;
     public bool isKing;
-    public int countOfMovesIsOnEventTriggeringTile;
+    public bool isPawn;
 
     [FormerlySerializedAs("neighborSelectionSettings")]
     public NeighborTilesSelectionSettings neighborTilesSelectionSettings;
@@ -16,7 +16,7 @@ public class Figure : MonoBehaviour
     public NeighborTilesSelectionSettings fogNeighborTilesSelectionSettings;
     
     [Header("Death Animation")]
-    public GameObject deathAnimationObject; 
+    public GameObject deathAnimationObject;
     public float deathDelay = 0.5f;
     public float delayBeforePassingTheMove = 0.51f;
     
@@ -25,6 +25,8 @@ public class Figure : MonoBehaviour
     public Vector2Int CurrentPosition { get; set; }
     public Tile CurrentTile { get; set; }
     public bool isFirstMove { get; set; }
+    public bool hasMovedThisTurn { get; set; }
+    public int countOfMovesIsOnEventTriggeringTile { get; set; }
     
     private void Start()
     {
@@ -41,6 +43,11 @@ public class Figure : MonoBehaviour
         else
         {
             Debug.LogWarning($"[Start] Фигура {gameObject.name} не нашла свою клетку!");
+        }
+        
+        if (neighborTilesSelectionSettings != null)
+        {
+            neighborTilesSelectionSettings = Instantiate(neighborTilesSelectionSettings);
         }
         
         FogOfWarManager.Instance.UpdateFogOfWar();
@@ -134,14 +141,19 @@ public class Figure : MonoBehaviour
     /// </summary>
     private MoveCalculator GetMoveCalculator()
     {
-        if (neighborTilesSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.Rectangle))
+        if (neighborTilesSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.Rectangle ||
+                                                                        rule.neighborType == NeighborType.Knight ||
+                                                                        rule.neighborType == NeighborType.KnightDouble ||
+                                                                        rule.neighborType == NeighborType.KnightPlus || 
+                                                                        rule.neighborType == NeighborType.ZigZag ||
+                                                                        rule.neighborType == NeighborType.Circular ||
+                                                                        rule.neighborType == NeighborType.Star))
             return new RectangleMoveCalculator();
-        if (neighborTilesSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.PawnWhite || 
-                                                                         rule.neighborType == NeighborType.PawnBlack))
+        else if (neighborTilesSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.PawnWhite || 
+                                                                             rule.neighborType == NeighborType.PawnBlack))
             return new PawnMoveCalculator();
-        if (neighborTilesSelectionSettings.neighborRules.Exists(rule => rule.neighborType == NeighborType.Knight))
-            return new KnightMoveCalculator();
-        return new DefaultMoveCalculator(); 
+        else
+            return new DefaultMoveCalculator();
     }
     
     public int GetAvailableMovesCount()

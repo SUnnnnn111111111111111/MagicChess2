@@ -4,17 +4,23 @@ using UnityEngine.Serialization;
 
 public class Tile : MonoBehaviour
 {
+    public bool isWall;
+    public bool isEventTriggering;
+    public bool isAPawnMovementPromotion;
+    public bool isAPawnMovementRandomPromotion;
+    
     public Vector2Int Position { get; private set; }
     public List<Tile> Neighbors { get; private set; } = new List<Tile>();
     public Figure OccupyingFigure { get; private set; } 
     public bool IsHighlighted { get; private set; }
     public bool HiddenByFog { get; private set; }
     
-    public bool isWall;
-    public bool isEventTriggering;
+    [SerializeField] private GameObject fogOfWarEffect;
     [SerializeField] private GameObject highlightEmptyTile;
     [SerializeField] private GameObject highlightEnemyTile;
-    [SerializeField] private GameObject fogOfWarEffect;
+    [SerializeField] private GameObject pawnMovementPromotionIcon;
+    [SerializeField] private GameObject pawnMovementRandomPromotionIcon;
+    
     
 
     private void Awake()
@@ -27,6 +33,7 @@ public class Tile : MonoBehaviour
             highlightEmptyTile.SetActive(false);
         }
         SetHiddenByFog(true);
+        UpdatePawnPromotionIcons();
     }
 
     public void SetNeighbors(List<Tile> neighbors)
@@ -75,6 +82,18 @@ public class Tile : MonoBehaviour
         HiddenByFog = value;
         if (fogOfWarEffect != null)
             fogOfWarEffect.SetActive(value);
+    }
+    
+    public void UpdatePawnPromotionIcons()
+    {
+        if (pawnMovementRandomPromotionIcon != null)
+        {
+            pawnMovementRandomPromotionIcon.SetActive(isAPawnMovementRandomPromotion);
+        }
+        if (pawnMovementPromotionIcon != null)
+        {
+            pawnMovementPromotionIcon.SetActive(isAPawnMovementPromotion);
+        }
     }
 
     private void OnMouseDown()
