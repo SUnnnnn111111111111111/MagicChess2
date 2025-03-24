@@ -45,13 +45,25 @@ public class MeshSplitter : MonoBehaviour
     List<Vector3> GenerateCubePositions(Vector3[] vertices, int partsCount)
     {
         List<Vector3> positions = new List<Vector3>();
-        
+
+        // Определим радиус сферы для разбиения
+        float radius = 1.0f; // Это может быть изменено в зависимости от вашего объекта
+
         for (int i = 0; i < partsCount; i++)
         {
-            Vector3 randomPosition = vertices[Random.Range(0, vertices.Length)];
-            positions.Add(randomPosition);
+            // Генерация случайных сферических координат
+            float phi = Random.Range(0f, Mathf.PI * 2); // Азимут
+            float theta = Random.Range(0f, Mathf.PI); // Полярный угол
+
+            // Преобразование в декартовы координаты
+            float x = radius * Mathf.Sin(theta) * Mathf.Cos(phi);
+            float y = radius * Mathf.Sin(theta) * Mathf.Sin(phi);
+            float z = radius * Mathf.Cos(theta);
+
+            // Добавление сгенерированной позиции
+            positions.Add(new Vector3(x, y, z));
         }
-        
+
         if (positions.Count == 0)
         {
             Debug.LogWarning("Позиции для кубиков не были сгенерированы.");
