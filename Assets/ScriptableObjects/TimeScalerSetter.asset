@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fef30606138497f4d8fd5399246fa603, type: 3}
   m_Name: TimeScalerSetter
   m_EditorClassIdentifier: 
-  timeScale: 2
+  timeScale: 1

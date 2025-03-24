@@ -614,7 +614,6 @@ MonoBehaviour:
   uiController: {fileID: 0}
   neighborTilesSelectionSettings: {fileID: 0}
   fogNeighborTilesSelectionSettings: {fileID: 11400000, guid: 92845ff1f5826fb46a8af581b1c10e02, type: 2}
-  deathAnimationObject: {fileID: 0}
   deathDelay: 0.5
   delayBeforePassingTheMove: 0.51
 --- !u!114 &8818771738053839986
@@ -641,11 +640,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9478b45b78a208645931db1b0449d189, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: 1
+  force: 0.5
   minParts: 10
-  maxParts: 30
+  maxParts: 40
   cubeSize: 0.1
-  positionOffset: {x: 0, y: 0.5, z: 0}
+  positionOffset: {x: 0, y: 0.25, z: 0}
 --- !u!1 &7736452806140158231
 GameObject:
   m_ObjectHideFlags: 0
