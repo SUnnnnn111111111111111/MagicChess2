@@ -6626,11 +6626,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9153eb47aa754d8082b5e92a59815d9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveDuration: 0.5
-  rotateDuration: 0.2
-  moveEase: 4
-  jumpPower: 2
-  jumpCount: 2
 --- !u!1 &7336206706212978558
 GameObject:
   m_ObjectHideFlags: 0
