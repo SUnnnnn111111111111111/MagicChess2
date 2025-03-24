@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 public class MeshSplitter : MonoBehaviour
 {
@@ -7,13 +9,9 @@ public class MeshSplitter : MonoBehaviour
     public int minParts = 3;  // Минимальное количество частей
     public int maxParts = 10; // Максимальное количество частей
     public float cubeSize = 0.1f;  // Размер кубиков
+    public Vector3 positionOffset = Vector3.zero;  // Смещение для создания кубиков
 
-    void Start()
-    {
-        SplitMeshAndExplode();
-    }
-
-    void SplitMeshAndExplode()
+    public void SplitMeshAndExplode(Figure figure)
     {
         // Получаем все дочерние объекты с MeshFilter
         MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
@@ -28,7 +26,7 @@ public class MeshSplitter : MonoBehaviour
             // Для каждой части создаем новый куб и анимируем его
             for (int i = 0; i < positions.Count; i++)
             {
-                CreateExplodedCube(positions[i], i);
+                CreateExplodedCube(positions[i], i, figure);
             }
 
             // Удаляем исходный Mesh или объект (если нужно)
@@ -53,59 +51,57 @@ public class MeshSplitter : MonoBehaviour
     }
 
     // Создание нового куба и анимация разлета
-    void CreateExplodedCube(Vector3 position, int partIndex)
-{
-    // Создаем новый куб (в Unity это просто небольшой Cube GameObject)
-    GameObject cubeObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
-    cubeObject.transform.SetParent(transform);
-
-    // Устанавливаем размер куба
-    cubeObject.transform.localScale = new Vector3(cubeSize, cubeSize, cubeSize);
-
-    // Перемещаем куб в соответствующую позицию
-    cubeObject.transform.position = position;
-
-    // Попытка получить компонент MeshRenderer в дочерних объектах
-    MeshRenderer renderer = cubeObject.GetComponent<MeshRenderer>();
-    if (renderer == null)
+    void CreateExplodedCube(Vector3 position, int partIndex, Figure figure)
     {
-        // Если MeshRenderer нет, добавляем его и устанавливаем материал
-        renderer = cubeObject.AddComponent<MeshRenderer>();
+        // Создаем новый куб (в Unity это просто небольшой Cube GameObject)
+        GameObject cubeObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        cubeObject.transform.SetParent(transform);
 
-        // Применяем материал из дочернего объекта
-        MeshRenderer parentRenderer = GetComponentInChildren<MeshRenderer>();
-        if (parentRenderer != null)
+        // Устанавливаем размер куба
+        cubeObject.transform.localScale = new Vector3(cubeSize, cubeSize, cubeSize);
+
+        // Перемещаем куб в соответствующую позицию, добавляем смещение относительно локальной позиции
+        Vector3 localPosition = position + positionOffset; // Теперь позиция учитывает смещение
+        cubeObject.transform.localPosition = localPosition; // Устанавливаем локальную позицию
+
+        // Попытка получить компонент MeshRenderer в дочерних объектах
+        MeshRenderer renderer = cubeObject.GetComponent<MeshRenderer>();
+        if (renderer == null)
         {
-            renderer.material = parentRenderer.material;  // Используем материал из дочернего объекта
+            // Если MeshRenderer нет, добавляем его и устанавливаем материал
+            renderer = cubeObject.AddComponent<MeshRenderer>();
+
+            // Применяем материал из дочернего объекта
+            MeshRenderer parentRenderer = GetComponentInChildren<MeshRenderer>();
+            if (parentRenderer != null)
+            {
+                renderer.material = parentRenderer.material;  // Используем материал из дочернего объекта
+            }
+            else
+            {
+                Debug.LogWarning("MeshRenderer не найден в дочерних объектах. Используется материал по умолчанию.");
+                renderer.material = new Material(Shader.Find("Standard"));  // Используем материал по умолчанию
+            }
         }
         else
         {
-            Debug.LogWarning("MeshRenderer не найден в дочерних объектах. Используется материал по умолчанию.");
-            renderer.material = new Material(Shader.Find("Standard"));  // Используем материал по умолчанию
+            // Если MeshRenderer найден, применяем материал
+            MeshRenderer parentRenderer = GetComponentInChildren<MeshRenderer>();
+            if (parentRenderer != null)
+            {
+                renderer.material = parentRenderer.material;
+            }
+            else
+            {
+                Debug.LogWarning("MeshRenderer не найден в дочерних объектах. Используется материал по умолчанию.");
+                renderer.material = new Material(Shader.Find("Standard"));
+            }
         }
+        
+        Rigidbody rb = cubeObject.AddComponent<Rigidbody>();
+        rb.useGravity = true; 
+        rb.AddForce(Random.onUnitSphere * force, ForceMode.Impulse); 
     }
-    else
-    {
-        // Если MeshRenderer найден, применяем материал
-        MeshRenderer parentRenderer = GetComponentInChildren<MeshRenderer>();
-        if (parentRenderer != null)
-        {
-            renderer.material = parentRenderer.material;
-        }
-        else
-        {
-            Debug.LogWarning("MeshRenderer не найден в дочерних объектах. Используется материал по умолчанию.");
-            renderer.material = new Material(Shader.Find("Standard"));
-        }
-    }
-
-    // Добавляем Rigidbody для физики
-    Rigidbody rb = cubeObject.AddComponent<Rigidbody>();
-    rb.useGravity = true;  // Без гравитации (если не нужно)
-    rb.AddForce(Random.onUnitSphere * force, ForceMode.Impulse);  // Разлетаем части в случайные стороны
-
-    // Удаляем куб через некоторое время (по желанию)
-    Destroy(cubeObject, 3f);
 }
 
-}
+

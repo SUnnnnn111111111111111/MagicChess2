@@ -107,8 +107,16 @@ public class FigureMover : MonoBehaviour
         if (enemyFigure == null)
             yield break;
 
-        if (enemyFigure.deathAnimationObject != null)
-            enemyFigure.deathAnimationObject.SetActive(true);
+        // Запуск анимации разрушения через MeshSplitter
+        MeshSplitter meshSplitter = enemyFigure.GetComponent<MeshSplitter>();
+        if (meshSplitter != null)
+        {
+            meshSplitter.SplitMeshAndExplode(enemyFigure);
+        }
+        else
+        {
+            Debug.LogWarning("MeshSplitter не найден на фигуре.");
+        }
 
         yield return new WaitForSeconds(enemyFigure.deathDelay);
 

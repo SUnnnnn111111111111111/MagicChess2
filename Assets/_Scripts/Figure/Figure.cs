@@ -19,8 +19,6 @@ public class Figure : MonoBehaviour
     [FormerlySerializedAs("fogNeighborTilesSelectionSettings")]
     public NeighborTilesSelectionSettings fogNeighborTilesSelectionSettings;
     
-    [Header("Death Animation")]
-    public GameObject deathAnimationObject;
     public float deathDelay = 0.5f;
     public float delayBeforePassingTheMove = 0.51f;
     
