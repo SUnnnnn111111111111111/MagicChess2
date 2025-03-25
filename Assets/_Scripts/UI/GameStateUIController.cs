@@ -1,15 +1,14 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using DG.Tweening;
 using TMPro;
+using DG.Tweening;
 
 public class GameStateUIController : MonoBehaviour
 {
     public TMP_Text animatedGameStateText;
     public TMP_Text persistentGameStateText;
-    
+
     public CanvasGroup animatedCanvasGroup;
-    
+
     public float fadeInDuration = 0.5f;
     public float visibleDuration = 2.0f;
     public float fadeOutDuration = 0.5f;
@@ -25,27 +24,9 @@ public class GameStateUIController : MonoBehaviour
             }
         }
         animatedCanvasGroup.alpha = 0;
-
-        if (GameStateManager.Instance != null)
-        {
-            GameStateManager.Instance.OnGameStateChanged.AddListener(UpdateGameStateText);
-            UpdateGameStateText(GameStateManager.Instance.CurrentState);
-        }
-        else
-        {
-            Debug.LogWarning("GameStateManager не найден!");
-        }
     }
 
-    private void OnDestroy()
-    {
-        if (GameStateManager.Instance != null)
-        {
-            GameStateManager.Instance.OnGameStateChanged.RemoveListener(UpdateGameStateText);
-        }
-    }
-
-    private void UpdateGameStateText(GameStateManager.GameState newState)
+    public void UpdateGameState(GameStateManager.GameState newState)
     {
         string displayText = "";
         switch (newState)
@@ -69,7 +50,7 @@ public class GameStateUIController : MonoBehaviour
                 displayText = "";
                 break;
         }
-        
+
         if (animatedGameStateText != null)
         {
             animatedGameStateText.text = displayText;
@@ -78,7 +59,7 @@ public class GameStateUIController : MonoBehaviour
         {
             persistentGameStateText.text = displayText;
         }
-        
+
         animatedCanvasGroup.DOKill();
         Sequence seq = DOTween.Sequence();
         seq.Append(animatedCanvasGroup.DOFade(1f, fadeInDuration).SetUpdate(true));

@@ -8,6 +8,9 @@ public class PreGameBootstrapper : MonoBehaviour
 
     private void Awake()
     {
+        
+//Instantiate Repositorie
+
         if (TilesRepository.Instance == null)
         {
             Instantiate(Resources.Load("Prefabs/Repositories/TilesRepository"));
@@ -15,15 +18,6 @@ public class PreGameBootstrapper : MonoBehaviour
         else
         {
             Debug.Log("[PreGameBootstrapper] TilesRepository уже существует.");
-        }
-        
-        if (BoardFactory.Instance == null)
-        {
-            Instantiate(Resources.Load("Prefabs/BoardFactory"));
-        }
-        else
-        {
-            Debug.Log("[PreGameBootstrapper] BoardFactory уже существует.");
         }
 
         if (FiguresRepository.Instance == null)
@@ -33,6 +27,17 @@ public class PreGameBootstrapper : MonoBehaviour
         else
         {
             Debug.Log("[PreGameBootstrapper] FiguresRepository уже существует.");
+        }
+        
+//Instantiate Managers
+
+        if (UIManager.Instance == null)
+        {
+            Instantiate(Resources.Load("Prefabs/Managers/UIManager"));
+        }
+        else
+        {
+            Debug.Log("[PreGameBootstrapper] UIManager уже существует.");
         }
         
         if (EventTriggeringTileManager.Instance == null)
@@ -87,6 +92,26 @@ public class PreGameBootstrapper : MonoBehaviour
         else
         {
             Debug.Log("[PreGameBootstrapper] HighlightTilesManager уже существует.");
+        }
+        
+//Instantiate Factories
+
+        if (BoardFactory.Instance == null)
+        {
+            Instantiate(Resources.Load("Prefabs/Factories/BoardFactory"));
+        }
+        else
+        {
+            Debug.Log("[PreGameBootstrapper] BoardFactory уже существует.");
+        }
+        
+        if (UIFactory.Instance == null)
+        {
+            Instantiate(Resources.Load("Prefabs/Factories/UIFactory"));
+        }
+        else
+        {
+            Debug.Log("[PreGameBootstrapper] UIFactory уже существует.");
         }
         
         

@@ -13,24 +13,23 @@ public class FigureUIController : MonoBehaviour
     public float fadeOutDuration = 0.5f;
 
     private int lastCount = -1;
-    
+
     private void Awake()
     {
-        if (canvasGroup != null)
+        if (canvasGroup != null && isHiddenOnStart)
         {
-            if(isHiddenOnStart) canvasGroup.alpha = 0;
+            canvasGroup.alpha = 0;
         }
-            
     }
-    
+
     public void UpdateCount(int currentCount, int maxCount)
     {
         if (currentCount == lastCount)
             return;
-    
+
         lastCount = currentCount;
         movesText.text = $"{currentCount}/{maxCount}";
-        
+
         canvasGroup.DOKill();
         canvasGroup.alpha = 0;
         Sequence seq = DOTween.Sequence();

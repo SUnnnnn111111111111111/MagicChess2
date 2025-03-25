@@ -156,19 +156,22 @@ public class EventTriggeringTileManager : MonoBehaviour
         {
             figure.countOfMovesIsOnEventTriggeringTile = 0;
         }
-        
+
         if (newTile.isSideEventTriggering)
         {
             figure.countOfMovesIsOnEventTriggeringTile++;
-            
-            if (figure.uiController != null)
-                figure.uiController.UpdateCount(figure.countOfMovesIsOnEventTriggeringTile, maxCountOfMovesIsOnSideEventTriggeringTile);
-            
+
+            UIManager.Instance?.ShowFigureMoveCount(
+                figure,
+                figure.countOfMovesIsOnEventTriggeringTile,
+                maxCountOfMovesIsOnSideEventTriggeringTile
+            );
+
             if (figure.countOfMovesIsOnEventTriggeringTile >= maxCountOfMovesIsOnSideEventTriggeringTile)
             {
                 newTile.isSideEventTriggering = false;
                 figure.countOfMovesIsOnEventTriggeringTile = 0;
-                
+
                 Renderer rend = newTile.GetComponentInChildren<Renderer>();
                 if (rend != null && originalMaterials.ContainsKey(newTile))
                 {
@@ -177,19 +180,22 @@ public class EventTriggeringTileManager : MonoBehaviour
                 }
             }
         }
-        
+
         if (newTile.isMiddleEventTriggering)
         {
             figure.countOfMovesIsOnEventTriggeringTile++;
-            
-            if (figure.uiController != null)
-                figure.uiController.UpdateCount(figure.countOfMovesIsOnEventTriggeringTile, maxCountOfMovesIsOnMiddleEventTriggeringTile);
-            
+
+            UIManager.Instance?.ShowFigureMoveCount(
+                figure,
+                figure.countOfMovesIsOnEventTriggeringTile,
+                maxCountOfMovesIsOnMiddleEventTriggeringTile
+            );
+
             if (figure.countOfMovesIsOnEventTriggeringTile >= maxCountOfMovesIsOnMiddleEventTriggeringTile)
             {
                 newTile.isMiddleEventTriggering = false;
                 figure.countOfMovesIsOnEventTriggeringTile = 0;
-                
+
                 Renderer rend = newTile.GetComponentInChildren<Renderer>();
                 if (rend != null && originalMaterials.ContainsKey(newTile))
                 {
