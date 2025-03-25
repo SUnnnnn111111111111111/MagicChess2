@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 
-public class GameStateUI : MonoBehaviour
+public class GameStateUIController : MonoBehaviour
 {
     public TMP_Text animatedGameStateText;
     public TMP_Text persistentGameStateText;

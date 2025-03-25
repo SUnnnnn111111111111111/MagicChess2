@@ -29,6 +29,7 @@ public class AIEnemy : MonoBehaviour
     {
         yield return null;
         UpdateAvailableFigures();
+        HandleGameStateChanged(GameStateManager.Instance.CurrentState);
     }
     
     private void OnEnable()

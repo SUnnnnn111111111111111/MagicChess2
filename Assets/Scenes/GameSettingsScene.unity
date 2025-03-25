@@ -1257,7 +1257,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1836695444}
         m_TargetAssemblyTypeName: GameSettingsBootstrapper, Assembly-CSharp
-        m_MethodName: LaunchGameWithWhiteEnemy
+        m_MethodName: LaunchGameWithWhiteAIEnemy
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2106,7 +2106,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1836695444}
         m_TargetAssemblyTypeName: GameSettingsBootstrapper, Assembly-CSharp
-        m_MethodName: LaunchGameWithBlackEnemy
+        m_MethodName: LaunchGameWithBlackAIEnemy
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

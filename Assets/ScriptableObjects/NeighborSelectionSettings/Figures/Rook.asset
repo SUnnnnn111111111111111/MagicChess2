@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   neighborRules:
   - neighborType: 3
-    maxDistance: 8
+    maxDistance: 80
     rectangleWidth: 0
     rectangleHeight: 0

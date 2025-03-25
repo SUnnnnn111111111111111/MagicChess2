@@ -17,6 +17,24 @@ public class PreGameBootstrapper : MonoBehaviour
             Debug.Log("[PreGameBootstrapper] TilesRepository уже существует.");
         }
         
+        if (BoardFactory.Instance == null)
+        {
+            Instantiate(Resources.Load("Prefabs/BoardFactory"));
+        }
+        else
+        {
+            Debug.Log("[PreGameBootstrapper] BoardFactory уже существует.");
+        }
+
+        if (FiguresRepository.Instance == null)
+        {
+            Instantiate(Resources.Load("Prefabs/Repositories/FiguresRepository"));
+        }
+        else
+        {
+            Debug.Log("[PreGameBootstrapper] FiguresRepository уже существует.");
+        }
+        
         if (EventTriggeringTileManager.Instance == null)
         {
             Instantiate(Resources.Load("Prefabs/Managers/EventTriggeringTileManager"));
@@ -62,15 +80,6 @@ public class PreGameBootstrapper : MonoBehaviour
             Debug.Log("[PreGameBootstrapper] FogOfWarManager уже существует.");
         }
 
-        if (FiguresRepository.Instance == null)
-        {
-            Instantiate(Resources.Load("Prefabs/Repositories/FiguresRepository"));
-        }
-        else
-        {
-            Debug.Log("[PreGameBootstrapper] FiguresRepository уже существует.");
-        }
-
         if (HighlightTilesManager.Instance == null)
         {
             Instantiate(Resources.Load("Prefabs/Managers/HighlightTilesManager"));
@@ -79,6 +88,8 @@ public class PreGameBootstrapper : MonoBehaviour
         {
             Debug.Log("[PreGameBootstrapper] HighlightTilesManager уже существует.");
         }
+        
+        
         SceneManager.LoadScene(gameSettingsSceneName);
     }
 }

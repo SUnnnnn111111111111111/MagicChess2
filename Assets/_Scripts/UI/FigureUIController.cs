@@ -4,9 +4,10 @@ using DG.Tweening;
 
 public class FigureUIController : MonoBehaviour
 {
-    public TMP_Text movesText;          // Ссылка на текстовый компонент
-    public CanvasGroup canvasGroup;     // Для управления прозрачностью
+    public TMP_Text movesText;
+    public CanvasGroup canvasGroup;
 
+    public bool isHiddenOnStart;
     public float fadeInDuration = 0.5f;
     public float visibleDuration = 1.0f;
     public float fadeOutDuration = 0.5f;
@@ -16,22 +17,20 @@ public class FigureUIController : MonoBehaviour
     private void Awake()
     {
         if (canvasGroup != null)
-            canvasGroup.alpha = 0; // UI изначально скрыт
+        {
+            if(isHiddenOnStart) canvasGroup.alpha = 0;
+        }
+            
     }
     
-    /// <summary>
-    /// Вызывайте этот метод при изменении countOfMovesIsOnEventTriggeringTile.
-    /// </summary>
     public void UpdateCount(int currentCount, int maxCount)
     {
-        // Если значение не изменилось, можно не обновлять UI
         if (currentCount == lastCount)
             return;
     
         lastCount = currentCount;
-        movesText.text = $"{currentCount}/{maxCount}"; // формат "текущее значение/максимум"
-
-        // Останавливаем любые запущенные анимации и запускаем новую последовательность
+        movesText.text = $"{currentCount}/{maxCount}";
+        
         canvasGroup.DOKill();
         canvasGroup.alpha = 0;
         Sequence seq = DOTween.Sequence();

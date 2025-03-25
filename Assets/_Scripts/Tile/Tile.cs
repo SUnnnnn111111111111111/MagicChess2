@@ -26,7 +26,17 @@ public class Tile : MonoBehaviour
 
     private void Awake()
     {
-        Position = new Vector2Int((int)transform.position.x, (int)transform.position.z);
+        transform.position = new Vector3(
+            Mathf.Round(transform.position.x),
+            transform.position.y,
+            Mathf.Round(transform.position.z)
+        );
+
+        Position = new Vector2Int(
+            (int)transform.position.x,
+            (int)transform.position.z
+        );
+
         TilesRepository.Instance.RegisterTile(this, Position);
 
         if (highlightEmptyTile != null)
@@ -35,6 +45,14 @@ public class Tile : MonoBehaviour
         }
         SetHiddenByFog(true);
         UpdatePawnPromotionIcons();
+    }
+    
+    public void SetPosition(Vector3 newPosition)
+    {
+        newPosition.y = transform.position.y;
+        newPosition.x = Mathf.Round(newPosition.x);
+        newPosition.z = Mathf.Round(newPosition.z);
+        transform.position = newPosition;
     }
 
     public void SetNeighbors(List<Tile> neighbors)

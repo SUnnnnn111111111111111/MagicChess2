@@ -7,6 +7,7 @@ public class EventTriggeringTileManager : MonoBehaviour
 {
     public static EventTriggeringTileManager Instance { get; private set; }
 
+    [SerializeField] private int countReplacesTiles = 3;
     [SerializeField] private int maxCountOfMovesIsOnSideEventTriggeringTile;
     [SerializeField] private int maxCountOfMovesIsOnMiddleEventTriggeringTile;
     
@@ -30,21 +31,11 @@ public class EventTriggeringTileManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-    
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-    
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+
+    public void ReplaseTiles()
     {
         BuildDictionaries();
-        ReplaceRandomTiles(5);
+        ReplaceRandomTiles(countReplacesTiles);
         ReplaceCentralTiles();
     }
     
@@ -56,7 +47,7 @@ public class EventTriggeringTileManager : MonoBehaviour
         foreach (var kvp in TilesRepository.Instance.GetTiles())
         {
             Tile tile = kvp.Value;
-            if (tile.isWall)
+            if (tile == null || tile.gameObject == null || tile.isWall)
                 continue;
                 
             Vector2Int pos = tile.Position;

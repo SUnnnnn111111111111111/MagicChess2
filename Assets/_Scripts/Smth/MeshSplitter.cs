@@ -22,8 +22,6 @@ public class MeshSplitter : MonoBehaviour
                 Debug.LogWarning($"Mesh у объекта {meshFilter.gameObject.name} отсутствует.");
                 continue; 
             }
-
-            Debug.Log($"Начинаем разбиение мэша для объекта {meshFilter.gameObject.name}");
             
             List<Vector3> positions = GenerateCubePositions(mesh.vertices, Random.Range(minParts, maxParts));
 
@@ -45,22 +43,18 @@ public class MeshSplitter : MonoBehaviour
     List<Vector3> GenerateCubePositions(Vector3[] vertices, int partsCount)
     {
         List<Vector3> positions = new List<Vector3>();
-
-        // Определим радиус сферы для разбиения
-        float radius = 1.0f; // Это может быть изменено в зависимости от вашего объекта
+        
+        float radius = 1.0f; 
 
         for (int i = 0; i < partsCount; i++)
         {
-            // Генерация случайных сферических координат
-            float phi = Random.Range(0f, Mathf.PI * 2); // Азимут
-            float theta = Random.Range(0f, Mathf.PI); // Полярный угол
-
-            // Преобразование в декартовы координаты
+            float phi = Random.Range(0f, Mathf.PI * 2);
+            float theta = Random.Range(0f, Mathf.PI);
+            
             float x = radius * Mathf.Sin(theta) * Mathf.Cos(phi);
             float y = radius * Mathf.Sin(theta) * Mathf.Sin(phi);
             float z = radius * Mathf.Cos(theta);
-
-            // Добавление сгенерированной позиции
+            
             positions.Add(new Vector3(x, y, z));
         }
 

@@ -6,12 +6,24 @@ public class GameSettingsBootstrapper : MonoBehaviour
 {
     [SerializeField] private string mainGameSceneName = "MainGameScene";
     
+    private void Start()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        BoardFactory.Instance.LoadDefaultBoard();
+        EventTriggeringTileManager.Instance.ReplaseTiles();
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+    
     public void LaunchSettingsUI()
     {
         Debug.Log("[GameSettingsBootstrapper] SettingsUI режим еще не реализован.");
     }
     
-    public void LaunchGameWithBlackEnemy()
+    public void LaunchGameWithBlackAIEnemy()
     {
         if (GameStateManager.Instance != null)
         {
@@ -35,11 +47,12 @@ public class GameSettingsBootstrapper : MonoBehaviour
         SceneManager.LoadScene(mainGameSceneName);
     }
     
-    public void LaunchGameWithWhiteEnemy()
+    public void LaunchGameWithWhiteAIEnemy()
     {
         if (GameStateManager.Instance != null)
         {
             GameStateManager.Instance.CurrentGameMode = GameStateManager.GameMode.VsAiEnemy;
+            
             GameStateManager.Instance.humanPlaysWhite = false;
         }
         else
@@ -60,8 +73,6 @@ public class GameSettingsBootstrapper : MonoBehaviour
         {
             Debug.Log("[GameSettingsBootstrapper] AIEnemy уже существует.");
         }
-        GameStateManager.Instance.SetGameState(GameStateManager.GameState.WhitesPlaying);
-        
         SceneManager.LoadScene(mainGameSceneName);
     }
     

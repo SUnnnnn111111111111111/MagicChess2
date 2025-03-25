@@ -2,6 +2,7 @@
 using DG.Tweening;
 using System.Collections;
 
+[RequireComponent(typeof(MeshSplitter))]
 public class FigureMover : MonoBehaviour
 {
     private Figure figure;
@@ -60,6 +61,8 @@ public class FigureMover : MonoBehaviour
             .OnComplete(() =>
             {
                 Vector3 targetPos = targetTile.transform.position;
+                targetPos.x = Mathf.Round(targetPos.x);
+                targetPos.z = Mathf.Round(targetPos.z);
                 targetPos.y = figure.transform.position.y;
 
                 figure.transform.DOJump(targetPos, animationSettings.jumpPower, animationSettings.jumpCount, animationSettings.moveDuration)

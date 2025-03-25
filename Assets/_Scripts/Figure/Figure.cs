@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Serialization;
 
+[RequireComponent(typeof(FigureMover))]
 public class Figure : MonoBehaviour
 {
     public bool whiteTeamAffiliation;
@@ -32,9 +33,16 @@ public class Figure : MonoBehaviour
 
     private void Start()
     {
-        figureMover = GetComponent<FigureMover>();
+        transform.position = new Vector3(
+            Mathf.Round(transform.position.x),
+            transform.position.y,
+            Mathf.Round(transform.position.z)
+        );
 
-        CurrentPosition = new Vector2Int((int)transform.position.x, (int)transform.position.z);
+        CurrentPosition = new Vector2Int(
+            (int)transform.position.x,
+            (int)transform.position.z
+        );
         
         CurrentTile = TilesRepository.Instance.GetTileAt(CurrentPosition);
         if (CurrentTile != null)
@@ -46,6 +54,8 @@ public class Figure : MonoBehaviour
         {
             Debug.LogWarning($"[Start] Фигура {gameObject.name} не нашла свою клетку!");
         }
+        
+        figureMover = GetComponent<FigureMover>();
         
         if (neighborTilesSelectionSettings != null)
         {
@@ -70,6 +80,12 @@ public class Figure : MonoBehaviour
         {
             FogOfWarManager.Instance.UpdateFogOfWar();
         }
+    }
+    
+    public void SetGridPosition(Vector2Int newPosition)
+    {
+        Vector3 newPos = new Vector3(newPosition.x, transform.position.y, newPosition.y);
+        transform.position = newPos;
     }
 
     /// <summary>

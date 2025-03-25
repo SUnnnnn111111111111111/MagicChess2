@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class FiguresRepository : MonoBehaviour
@@ -10,14 +11,14 @@ public class FiguresRepository : MonoBehaviour
     
     [SerializeField] private List<Figure> whiteFiguresDebug = new List<Figure>();
     [SerializeField] private List<Figure> blackFiguresDebug = new List<Figure>();
-
+    
+    
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
-        
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -41,6 +42,7 @@ public class FiguresRepository : MonoBehaviour
 
     public void UnregisterFigure(Figure figure)
     {
+        
         if (figure.whiteTeamAffiliation)
         {
             if (whiteFigures.ContainsKey(figure.CurrentPosition))
@@ -76,7 +78,7 @@ public class FiguresRepository : MonoBehaviour
         return new List<Figure>(blackFigures.Values);
     }
     
-    private void UpdateDebugLists()
+    public void UpdateDebugLists()
     {
         whiteFiguresDebug = new List<Figure>(whiteFigures.Values);
         blackFiguresDebug = new List<Figure>(blackFigures.Values);

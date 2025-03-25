@@ -34,10 +34,9 @@ public class GameStateManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            CurrentState = GameState.WhitesPlaying;
-            CurrentGameMode = GameMode.LocalMultiplayer;
-            humanPlaysWhite = true;
             DontDestroyOnLoad(gameObject);
+            OnGameStateChanged = new UnityEvent<GameState>();
+            CurrentState = GameState.WhitesPlaying;
         }
         else
         {
@@ -89,7 +88,7 @@ public class GameStateManager : MonoBehaviour
             }
         }
         
-        if (CurrentState == GameState.WhitesPlaying)
+        if (CurrentState == GameState.WhitesPlaying) 
         {
             SetGameState(GameState.BlacksPlaying);
             madeAFigureMoveAtThisTurn = false;
@@ -105,6 +104,7 @@ public class GameStateManager : MonoBehaviour
                 figure.hasMovedThisTurn = false;
             }
         }
+        
         FogOfWarManager.Instance.UpdateFogOfWar();
     }
 
