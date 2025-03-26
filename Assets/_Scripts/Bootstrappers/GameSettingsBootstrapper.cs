@@ -47,7 +47,7 @@ public class GameSettingsBootstrapper : MonoBehaviour
         }
         else
         {
-            Debug.Log("[GameSettingsBootstrapper] AIEnemy уже существует.");
+            Debug.LogWarning("[GameSettingsBootstrapper] AIEnemy уже существует.");
         }
         SceneManager.LoadScene(mainGameSceneName);
     }
@@ -75,7 +75,7 @@ public class GameSettingsBootstrapper : MonoBehaviour
         }
         else
         {
-            Debug.Log("[GameSettingsBootstrapper] AIEnemy уже существует.");
+            Debug.LogWarning("[GameSettingsBootstrapper] AIEnemy уже существует.");
         }
         SceneManager.LoadScene(mainGameSceneName);
     }

@@ -274,12 +274,12 @@ GameObject:
   - component: {fileID: 2111523654684815102}
   - component: {fileID: 1246958555052751782}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: QuestionImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7429664670545096788
 RectTransform:
   m_ObjectHideFlags: 0
@@ -533,7 +533,6 @@ MonoBehaviour:
   fogNeighborTilesSelectionSettings: {fileID: 11400000, guid: 92845ff1f5826fb46a8af581b1c10e02, type: 2}
   uiPrefab: {fileID: 7120197752831858337}
   uiController: {fileID: 0}
-  deathDelay: 0
   delayBeforePassingTheMove: 0.5
 --- !u!114 &5304053741665056959
 MonoBehaviour:
@@ -828,12 +827,12 @@ GameObject:
   - component: {fileID: 5669187218743281463}
   - component: {fileID: 6897225136507688701}
   m_Layer: 5
-  m_Name: Image
+  m_Name: ExclamationImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2589261470364266846
 RectTransform:
   m_ObjectHideFlags: 0

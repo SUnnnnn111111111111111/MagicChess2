@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class PreGameBootstrapper : MonoBehaviour
 {
+    private LoadingUI loadingUI;
     [SerializeField] private string gameSettingsSceneName = "GameSettingsScene";
 
     private void Awake()
@@ -21,7 +22,8 @@ public class PreGameBootstrapper : MonoBehaviour
         InitFactory("Prefabs/Factories/BoardFactory");
         InitFactory("Prefabs/Factories/UIFactory");
         InitFactory("Prefabs/Factories/DeathEffectFactory");
-
+        
+        
         SceneManager.LoadScene(gameSettingsSceneName);
     }
 
@@ -41,7 +43,6 @@ public class PreGameBootstrapper : MonoBehaviour
             GameObject instance = Instantiate(prefab);
             instance.name = name;
             instance.SetActive(true);
-            Debug.Log($"[Bootstrapper] Загружен репозиторий: {name}");
         }
         else
         {
@@ -74,8 +75,7 @@ public class PreGameBootstrapper : MonoBehaviour
         {
             GameObject instance = Instantiate(prefab);
             instance.name = name;
-            instance.SetActive(true); // 👈 обязательно активируем
-            Debug.Log($"[Bootstrapper] Загружен {typeName}: {name}");
+            instance.SetActive(true);
         }
         else
         {
