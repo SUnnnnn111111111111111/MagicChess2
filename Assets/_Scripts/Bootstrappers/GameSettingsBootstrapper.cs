@@ -14,6 +14,7 @@ public class GameSettingsBootstrapper : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         BoardFactory.Instance.LoadDefaultBoard();
+        // BoardFactory.Instance.LoadTestBoard();
         UIFactory.Instance.LoadGameStateUI();
         UIManager.Instance.BindToGameStateManager();
         EventTriggeringTileManager.Instance.ReplaseTiles();

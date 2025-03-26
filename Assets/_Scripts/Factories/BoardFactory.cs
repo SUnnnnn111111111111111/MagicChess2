@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class BoardFactory : MonoBehaviour
 {
     public static BoardFactory Instance { get; private set; }
 
     [SerializeField] private GameObject defaultBoardPrefab;
-    [SerializeField] private GameObject customBoardPrefab;
+    [SerializeField] private GameObject testBoardPrefab;
 
     private void Awake()
     {
@@ -26,8 +27,8 @@ public class BoardFactory : MonoBehaviour
         Instantiate(defaultBoardPrefab);
     }
 
-    public void LoadCustomBoard()
+    public void LoadTestBoard()
     {
-        Instantiate(customBoardPrefab);
+        Instantiate(testBoardPrefab);
     }
 }

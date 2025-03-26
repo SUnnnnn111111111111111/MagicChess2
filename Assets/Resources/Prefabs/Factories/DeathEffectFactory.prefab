@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8600935539800675042}
-  - component: {fileID: -7568906081882596659}
+  - component: {fileID: -1566268030539038132}
   m_Layer: 0
-  m_Name: BoardFactory
+  m_Name: DeathEffectFactory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-7568906081882596659
+--- !u!114 &-1566268030539038132
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,8 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2533563606904431018}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c780d1a73ad43d09549c9cb843fe594, type: 3}
+  m_Script: {fileID: 11500000, guid: ee191d9bf4f9424fa3e766a70200e5b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultBoardPrefab: {fileID: 6994731486319033651, guid: 26e58b0af59401f4eaf37aaba94f7522, type: 3}
-  testBoardPrefab: {fileID: 6994731486319033651, guid: 0fbb103a64846f8438e71765f3e96f8d, type: 3}
+  splitterSettings: {fileID: 11400000, guid: 21ab6d0ba421c8849a0a7bc24331cbd7, type: 2}

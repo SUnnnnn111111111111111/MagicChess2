@@ -191,19 +191,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActive: 1
-  WhenClickOnAnObject:
-    _PersistentCalls:
-    - _Target: {fileID: 5098165892479961486}
-      _MemberName: HighlightAvailableToMoveTiles
-      _PersistentArguments:
-      - _Type: 1
-        _Int: 1
-        _String: 
-        _X: 0
-        _Y: 0
-        _Z: 0
-        _W: 0
-        _Object: {fileID: 0}
 --- !u!114 &7053951710455516815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,6 +481,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1357162212287290159}
   - component: {fileID: 5098165892479961486}
+  - component: {fileID: 5304053741665056959}
+  - component: {fileID: 6429181906313410447}
   - component: {fileID: 8818771738053839986}
   - component: {fileID: 8960104385785460405}
   m_Layer: 0
@@ -539,12 +528,37 @@ MonoBehaviour:
   isPawn: 0
   isFirstMove: 0
   hasMovedThisTurn: 0
-  uiPrefab: {fileID: 7120197752831858337}
-  uiController: {fileID: 0}
+  countOfMovesIsOnEventTriggeringTile: 0
   neighborTilesSelectionSettings: {fileID: 0}
   fogNeighborTilesSelectionSettings: {fileID: 11400000, guid: 92845ff1f5826fb46a8af581b1c10e02, type: 2}
-  deathDelay: 0.5
-  delayBeforePassingTheMove: 0.51
+  uiPrefab: {fileID: 7120197752831858337}
+  uiController: {fileID: 0}
+  deathDelay: 0
+  delayBeforePassingTheMove: 0.5
+--- !u!114 &5304053741665056959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7089545583060090016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f816adbfb7ce4dc5ae23cbf3d0e506c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6429181906313410447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7089545583060090016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffff98ef85474a72a167bc35efda5753, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8818771738053839986
 MonoBehaviour:
   m_ObjectHideFlags: 0

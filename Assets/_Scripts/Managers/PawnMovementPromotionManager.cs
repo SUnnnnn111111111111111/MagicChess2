@@ -69,7 +69,7 @@ public class PawnMovementPromotionManager : MonoBehaviour
             figure.neighborTilesSelectionSettings = newSettings;
 
             tile.isAPawnMovementRandomPromotion = false;
-            tile.UpdatePawnPromotionIcons();
+            tile.GetComponent<TileIconController>().UpdateIcons();
             // Debug.Log($"PawnMovementPromotionManager: Для пешки настройки соседей изменены на случайный тип: {randomType}.");
         }
         else if (tile.isAPawnMovementPromotion)
@@ -84,7 +84,7 @@ public class PawnMovementPromotionManager : MonoBehaviour
             figure.neighborTilesSelectionSettings = newSettings;
 
             tile.isAPawnMovementPromotion = false;
-            tile.UpdatePawnPromotionIcons();
+            tile.GetComponent<TileIconController>().UpdateIcons();
             // Debug.Log("PawnMovementPromotionManager: Для пешки настройки соседей изменены на тип Rectangle.");
         }
     }

@@ -5,39 +5,35 @@ public class TileHighlighter
 {
     private List<Tile> highlightedTiles = new List<Tile>();
 
-    public void HighlightAvailableTiles(List<Tile> tilesToHighlight)
+    public void HighlightAvailableTiles(List<Tile> tiles)
     {
         ClearHighlights();
 
-        foreach (var tile in tilesToHighlight)
+        foreach (var tile in tiles)
         {
-            GameObject highlightObject = tile.GetAvailableHighlightObject();
-            if (highlightObject != null)
-            {
-                highlightObject.SetActive(true);
-                tile.SetHighlighted(true);
-                highlightedTiles.Add(tile);
-            }
+            var visuals = tile.GetComponent<TileHighlightVisuals>();
+            if (visuals == null) continue;
+
+            visuals.highlightEmptyTile?.SetActive(true);
+            visuals.highlightEnemyTile?.SetActive(false);
+
+            tile.SetHighlighted(true);
+            highlightedTiles.Add(tile);
         }
     }
 
-    public void HighlightEnemyTiles(List<Tile> tilesToHighlight)
+    public void HighlightEnemyTiles(List<Tile> tiles)
     {
-        foreach (var tile in tilesToHighlight)
+        foreach (var tile in tiles)
         {
-            GameObject highlightObject = tile.GetEnemyHighlightObject();
-            if (highlightObject != null)
-            {
-                highlightObject.SetActive(true);
-                tile.SetHighlighted(true);
-                highlightedTiles.Add(tile);
+            var visuals = tile.GetComponent<TileHighlightVisuals>();
+            if (visuals == null) continue;
 
-                GameObject availableHighlightObject = tile.GetAvailableHighlightObject();
-                if (availableHighlightObject != null)
-                {
-                    availableHighlightObject.SetActive(false);
-                }
-            }
+            visuals.highlightEmptyTile?.SetActive(false);
+            visuals.highlightEnemyTile?.SetActive(true);
+
+            tile.SetHighlighted(true);
+            highlightedTiles.Add(tile);
         }
     }
 
@@ -45,21 +41,20 @@ public class TileHighlighter
     {
         foreach (var tile in highlightedTiles)
         {
-            GameObject highlightAvailableTile = tile.GetAvailableHighlightObject();
-            GameObject highlightEnemyTile = tile.GetEnemyHighlightObject();
-            if (highlightAvailableTile != null)
-            {
-                highlightAvailableTile.SetActive(false);
-                if (highlightEnemyTile != null) highlightEnemyTile.SetActive(false);
-                tile.SetHighlighted(false);
-            }
+            tile.SetHighlighted(false);
+            
+            var visuals = tile.GetComponent<TileHighlightVisuals>();
+            if (visuals == null) continue;
 
-            TileHoverHandler hoverHandler = tile.GetComponentInChildren<TileHoverHandler>();
-            if (hoverHandler != null)
-            {
-                hoverHandler.ResetHoverEffect();
-            }
+            visuals.highlightEmptyTile?.SetActive(false);
+            visuals.highlightEnemyTile?.SetActive(false);
+
+            var hover = tile.GetComponentInChildren<TileHoverHandler>();
+            hover?.ResetHoverEffect();
+
+            
         }
+
         highlightedTiles.Clear();
     }
 }

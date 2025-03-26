@@ -49,7 +49,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4721035244829848778
 RectTransform:
   m_ObjectHideFlags: 0
@@ -122,7 +122,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8306063809891343046
 Transform:
   m_ObjectHideFlags: 0
@@ -9964,7 +9964,7 @@ GameObject:
   - component: {fileID: 7079656952232547538}
   - component: {fileID: 4239659257124162939}
   - component: {fileID: 2663819358434325388}
-  - component: {fileID: 2877061059070594058}
+  - component: {fileID: 7799590719019564761}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -10023,7 +10023,7 @@ MonoBehaviour:
   hoverHighlightTile: {fileID: 147848337690046289}
   highlightEmptyTile: {fileID: 790792054133794789}
   highlightEnemyTile: {fileID: 6803103403524892050}
---- !u!114 &2877061059070594058
+--- !u!114 &7799590719019564761
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10032,15 +10032,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2806795228701313454}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d7933dc7ada5de4591357fce04647b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 822cd79deaae4eb5a43848fe05b22962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isActive: 1
-  WhenClickOnAnObject:
-    _PersistentCalls:
-    - _Target: {fileID: 4115211553564373032}
-      _MemberName: OnMouseDown
-      _PersistentArguments: []
 --- !u!1 &3004934899717544477
 GameObject:
   m_ObjectHideFlags: 0
@@ -10126,6 +10120,10 @@ GameObject:
   m_Component:
   - component: {fileID: 94904448422216805}
   - component: {fileID: 4115211553564373032}
+  - component: {fileID: 9208763280337495716}
+  - component: {fileID: 7425028139311238007}
+  - component: {fileID: 2754619602133654441}
+  - component: {fileID: 369340705076685538}
   m_Layer: 0
   m_Name: _Tile
   m_TagString: Untagged
@@ -10169,11 +10167,62 @@ MonoBehaviour:
   isMiddleEventTriggering: 0
   isAPawnMovementPromotion: 0
   isAPawnMovementRandomPromotion: 0
-  fogOfWarEffect: {fileID: 687958583178354197}
+--- !u!114 &9208763280337495716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3991768648576384060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a73af6fbe8208814483169e64e5d88cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverHighlightTile: {fileID: 147848337690046289}
   highlightEmptyTile: {fileID: 790792054133794789}
   highlightEnemyTile: {fileID: 6803103403524892050}
-  pawnMovementPromotionIcon: {fileID: 550568479843742236}
-  pawnMovementRandomPromotionIcon: {fileID: 3004934899717544477}
+--- !u!114 &7425028139311238007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3991768648576384060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00e4f852ffdc42d3a1506af05f43aaea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightEmptyTile: {fileID: 790792054133794789}
+  highlightEnemyTile: {fileID: 6803103403524892050}
+--- !u!114 &2754619602133654441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3991768648576384060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22e20b95ae814004a9a4a13070cf4941, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fogOfWarEffect: {fileID: 687958583178354197}
+--- !u!114 &369340705076685538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3991768648576384060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02921ced401c458d94d334f215dcd0ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pawnPromotionIcon: {fileID: 550568479843742236}
+  randomPromotionIcon: {fileID: 3004934899717544477}
 --- !u!1 &4767043416448978697
 GameObject:
   m_ObjectHideFlags: 0

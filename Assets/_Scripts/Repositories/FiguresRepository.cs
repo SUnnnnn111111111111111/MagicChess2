@@ -42,29 +42,18 @@ public class FiguresRepository : MonoBehaviour
 
     public void UnregisterFigure(Figure figure)
     {
-        
-        if (figure.whiteTeamAffiliation)
+        RemoveFigureFromDict(whiteFigures, figure);
+        RemoveFigureFromDict(blackFigures, figure);
+
+        if (figure.isKing || GetFiguresCount(figure.whiteTeamAffiliation) == 0)
         {
-            if (whiteFigures.ContainsKey(figure.CurrentPosition))
-            {
-                whiteFigures.Remove(figure.CurrentPosition);
-            }
-            if (figure.isKing || whiteFigures.Count == 0)
-            {
-                GameStateManager.Instance?.SetGameState(GameStateManager.GameState.WhitesLost);
-            }
+            var state = figure.whiteTeamAffiliation
+                ? GameStateManager.GameState.WhitesLost
+                : GameStateManager.GameState.BlacksLost;
+
+            GameStateManager.Instance?.SetGameState(state);
         }
-        else
-        {
-            if (blackFigures.ContainsKey(figure.CurrentPosition))
-            {
-                blackFigures.Remove(figure.CurrentPosition);
-            }
-            if (figure.isKing || blackFigures.Count == 0)
-            {
-                GameStateManager.Instance?.SetGameState(GameStateManager.GameState.BlacksLost);
-            }
-        }
+
         UpdateDebugLists();
     }
 
@@ -82,5 +71,23 @@ public class FiguresRepository : MonoBehaviour
     {
         whiteFiguresDebug = new List<Figure>(whiteFigures.Values);
         blackFiguresDebug = new List<Figure>(blackFigures.Values);
+    }
+    
+
+    private void RemoveFigureFromDict(Dictionary<Vector2Int, Figure> dict, Figure target)
+    {
+        foreach (var kvp in dict)
+        {
+            if (kvp.Value == target)
+            {
+                dict.Remove(kvp.Key);
+                break;
+            }
+        }
+    }
+    
+    private int GetFiguresCount(bool white)
+    {
+        return white ? whiteFigures.Count : blackFigures.Count;
     }
 }

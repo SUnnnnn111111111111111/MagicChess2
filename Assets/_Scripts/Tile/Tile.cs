@@ -1,30 +1,35 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.Serialization;
 
+[RequireComponent(typeof(TileHoverHandler))]
+[RequireComponent(typeof(TileHighlightVisuals))]
+[RequireComponent(typeof(TileFogVisuals))]
+[RequireComponent(typeof(TileIconController))]
 public class Tile : MonoBehaviour
 {
+    [Header("Tile Properties")]
     public bool isWall;
     public bool isSideEventTriggering;
     public bool isMiddleEventTriggering;
     public bool isAPawnMovementPromotion;
     public bool isAPawnMovementRandomPromotion;
-    
+
+    [Header("State")]
     public Vector2Int Position { get; private set; }
-    public List<Tile> Neighbors { get; private set; } = new List<Tile>();
-    public Figure OccupyingFigure { get; private set; } 
+    public List<Tile> Neighbors { get; private set; } = new();
+    public Figure OccupyingFigure { get; private set; }
     public bool IsHighlighted { get; private set; }
     public bool HiddenByFog { get; private set; }
     
-    [SerializeField] private GameObject fogOfWarEffect;
-    [SerializeField] private GameObject highlightEmptyTile;
-    [SerializeField] private GameObject highlightEnemyTile;
-    [SerializeField] private GameObject pawnMovementPromotionIcon;
-    [SerializeField] private GameObject pawnMovementRandomPromotionIcon;
-    
-    
 
     private void Awake()
+    {
+        InitializePosition();
+        TilesRepository.Instance.RegisterTile(this, Position);
+        SetHiddenByFog(true);
+    }
+
+    private void InitializePosition()
     {
         transform.position = new Vector3(
             Mathf.Round(transform.position.x),
@@ -33,20 +38,11 @@ public class Tile : MonoBehaviour
         );
 
         Position = new Vector2Int(
-            (int)transform.position.x,
-            (int)transform.position.z
+            Mathf.RoundToInt(transform.position.x),
+            Mathf.RoundToInt(transform.position.z)
         );
-
-        TilesRepository.Instance.RegisterTile(this, Position);
-
-        if (highlightEmptyTile != null)
-        {
-            highlightEmptyTile.SetActive(false);
-        }
-        SetHiddenByFog(true);
-        UpdatePawnPromotionIcons();
     }
-    
+
     public void SetPosition(Vector3 newPosition)
     {
         newPosition.y = transform.position.y;
@@ -57,76 +53,51 @@ public class Tile : MonoBehaviour
 
     public void SetNeighbors(List<Tile> neighbors)
     {
-        Neighbors = neighbors;
+        Neighbors = neighbors ?? new List<Tile>();
     }
 
     public List<Tile> GetNeighbors(NeighborTilesSelectionSettings settings)
     {
+        if (settings == null) return new List<Tile>();
+
+        var offsets = settings.GetOffsets();
         List<Tile> result = new List<Tile>();
-        foreach (var offset in settings.GetOffsets())
+
+        foreach (var offset in offsets)
         {
             Tile neighbor = TilesRepository.Instance.GetTileAt(Position + offset);
             if (neighbor != null)
                 result.Add(neighbor);
         }
+
         return result;
-    }
-
-    public GameObject GetAvailableHighlightObject()
-    {
-        return highlightEmptyTile;
-    }
-
-    public GameObject GetEnemyHighlightObject()
-    {
-        return highlightEnemyTile;
-    }
-
-    public void SetHighlighted(bool state)
-    {
-        if (highlightEmptyTile != null)
-        {
-            highlightEmptyTile.SetActive(state);
-            IsHighlighted = state;
-        }
     }
 
     public void SetOccupyingFigure(Figure figure)
     {
         OccupyingFigure = figure;
     }
-    
+
     public void SetHiddenByFog(bool value)
     {
         HiddenByFog = value;
-        if (fogOfWarEffect != null)
-            fogOfWarEffect.SetActive(value);
-    }
-    
-    public void UpdatePawnPromotionIcons()
-    {
-        if (pawnMovementRandomPromotionIcon != null)
+
+        var fogVisuals = GetComponent<TileFogVisuals>();
+        if (fogVisuals != null)
         {
-            pawnMovementRandomPromotionIcon.SetActive(isAPawnMovementRandomPromotion);
-        }
-        if (pawnMovementPromotionIcon != null)
-        {
-            pawnMovementPromotionIcon.SetActive(isAPawnMovementPromotion);
+            fogVisuals.SetFog(value);
         }
     }
 
-    private void OnMouseDown()
+    public void SetHighlighted(bool state)
     {
-        if (HiddenByFog) return;
-        
-        if (SelectedFigureManager.Instance.SelectedFigure != null)
-        {
-            FigureMover mover = SelectedFigureManager.Instance.SelectedFigure.GetComponent<FigureMover>();
-            if (mover != null)
-            {
-                mover.MoveToTile(this);
-            }
-        }
+        IsHighlighted = state;
+    }
+
+    public void Clear()
+    {
+        SetOccupyingFigure(null);
+        SetHiddenByFog(true);
+        SetHighlighted(false);
     }
 }
-

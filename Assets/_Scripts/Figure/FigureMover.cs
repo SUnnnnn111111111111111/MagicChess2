@@ -2,26 +2,20 @@
 using DG.Tweening;
 using System.Collections;
 
+[RequireComponent(typeof(Figure))]
 [RequireComponent(typeof(MeshSplitter))]
 public class FigureMover : MonoBehaviour
 {
     private Figure figure;
     private Quaternion originalRotation;
 
-    private void Start()
+    private void Awake()
     {
         figure = GetComponent<Figure>();
-        if (figure != null)
-        {
-            originalRotation = figure.transform.rotation;
-        }
-        else
-        {
-            Debug.LogWarning("[Start] FigureMover не обнаружил компонент Figure на объекте.");
-        }
+        originalRotation = figure.transform.rotation;
     }
 
-    public void MoveToTile(Tile targetTile)
+    public void TryMoveToTile(Tile targetTile)
     {
         if (GameStateManager.Instance.madeAFigureMoveAtThisTurn)
             return;
@@ -29,102 +23,98 @@ public class FigureMover : MonoBehaviour
         if (figure == null || targetTile == null)
             return;
 
-        if (targetTile.OccupyingFigure != null && targetTile.OccupyingFigure.whiteTeamAffiliation == figure.whiteTeamAffiliation)
-            return;
-
         if (!targetTile.IsHighlighted)
             return;
 
-        if (targetTile.OccupyingFigure != null && targetTile.OccupyingFigure.whiteTeamAffiliation != figure.whiteTeamAffiliation)
+        if (targetTile.OccupyingFigure != null)
         {
-            CaptureEnemyAtTile(targetTile);
+            if (targetTile.OccupyingFigure.whiteTeamAffiliation == figure.whiteTeamAffiliation)
+                return;
+
+            CaptureEnemy(targetTile.OccupyingFigure);
         }
 
-        // Получаем настройки анимации через фабрику
-        var animationSettings = AnimationSettingsFactory.GetAnimationSettings(figure.neighborTilesSelectionSettings);
+        ExecuteMoveSequence(targetTile);
+    }
+
+    private void ExecuteMoveSequence(Tile targetTile)
+    {
+        var anim = AnimationSettingsFactory.GetAnimationSettings(figure.neighborTilesSelectionSettings);
 
         GameStateManager.Instance.madeAFigureMoveAtThisTurn = true;
         figure.hasMovedThisTurn = true;
         figure.isFirstMove = true;
 
         if (figure.CurrentTile != null)
+        {
             figure.CurrentTile.SetOccupyingFigure(null);
+        }
 
-        originalRotation = figure.transform.rotation;
         Vector3 direction = (targetTile.transform.position - figure.transform.position).normalized;
-        Vector3 lookAtPosition = figure.transform.position + direction;
+        Vector3 lookAtTarget = figure.transform.position + direction;
 
         HighlightTilesManager.Instance.ClearHighlights();
 
-        // Анимация перемещения
-        figure.transform.DOLookAt(lookAtPosition, animationSettings.rotateDuration, AxisConstraint.Y)
-            .OnComplete(() =>
-            {
-                Vector3 targetPos = targetTile.transform.position;
-                targetPos.x = Mathf.Round(targetPos.x);
-                targetPos.z = Mathf.Round(targetPos.z);
-                targetPos.y = figure.transform.position.y;
+        figure.transform.DOLookAt(lookAtTarget, anim.rotateDuration, AxisConstraint.Y).OnComplete(() =>
+        {
+            Vector3 finalPos = new Vector3(
+                Mathf.Round(targetTile.transform.position.x),
+                figure.transform.position.y,
+                Mathf.Round(targetTile.transform.position.z)
+            );
 
-                figure.transform.DOJump(targetPos, animationSettings.jumpPower, animationSettings.jumpCount, animationSettings.moveDuration)
-                    .SetEase(animationSettings.moveEase)
-                    .OnComplete(() =>
-                    {
-                        Tile previousTile = figure.CurrentTile;
-                        SelectedFigureManager.Instance.SelectedFigure = null;
-                        figure.CurrentTile = targetTile;
-                        targetTile.SetOccupyingFigure(figure);
-
-                        PawnMovementPromotionManager.Instance.HandlePawnMovementPromotion(figure, targetTile);
-
-                        FogOfWarManager.Instance.UpdateFogOfWar();
-
-                        figure.transform.DORotateQuaternion(originalRotation, animationSettings.rotateDuration);
-
-                        DOVirtual.DelayedCall(figure.delayBeforePassingTheMove, () =>
-                        {
-                            GameStateManager.Instance.EndTurn();
-                        });
-                    });
-            });
+            figure.transform.DOJump(finalPos, anim.jumpPower, anim.jumpCount, anim.moveDuration)
+                .SetEase(anim.moveEase)
+                .OnComplete(() =>
+                {
+                    FinalizeMovement(targetTile);
+                });
+        });
     }
 
-    private void CaptureEnemyAtTile(Tile targetTile)
+    private void FinalizeMovement(Tile newTile)
     {
-        Figure enemyFigure = targetTile.OccupyingFigure;
-        if (enemyFigure == null)
-            return;
+        Tile previousTile = figure.CurrentTile;
+        figure.CurrentTile = newTile;
+        newTile.SetOccupyingFigure(figure);
 
-        FigureMover enemyMover = enemyFigure.GetComponent<FigureMover>();
-        if (enemyMover != null)
+        figure.CurrentPosition = new Vector2Int(
+            Mathf.RoundToInt(newTile.transform.position.x),
+            Mathf.RoundToInt(newTile.transform.position.z)
+        );
+
+        SelectedFigureManager.Instance.SelectedFigure = null;
+
+        PawnMovementPromotionManager.Instance.HandlePawnMovementPromotion(figure, newTile);
+
+        FogOfWarManager.Instance.UpdateFogOfWar();
+
+        figure.transform.DORotateQuaternion(originalRotation, 0.2f);
+
+        DOVirtual.DelayedCall(figure.delayBeforePassingTheMove, () =>
         {
-            enemyMover.StartCoroutine(enemyMover.DestroyEnemyFigure(enemyFigure));
-        }
-        else
-        {
-            Destroy(enemyFigure.gameObject);
-        }
+            GameStateManager.Instance.EndTurn();
+        });
     }
 
-    private IEnumerator DestroyEnemyFigure(Figure enemyFigure)
+    private void CaptureEnemy(Figure enemy)
     {
-        if (enemyFigure == null)
-            yield break;
+        DeathEffectFactory.Instance.CreateDeathEffect(enemy.transform);
+        
+        Tile enemyTile = enemy.CurrentTile;
+        enemyTile.SetOccupyingFigure(null);
 
-        // Запуск анимации разрушения через MeshSplitter
-        MeshSplitter meshSplitter = enemyFigure.GetComponent<MeshSplitter>();
-        if (meshSplitter != null)
+        if (FiguresRepository.Instance != null)
+            FiguresRepository.Instance.UnregisterFigure(enemy);
+
+        if (FogOfWarManager.Instance != null)
+            FogOfWarManager.Instance.UpdateFogOfWar();
+
+        if (SelectedFigureManager.Instance.SelectedFigure == enemy)
         {
-            meshSplitter.SplitMeshAndExplode(enemyFigure);
+            SelectedFigureManager.Instance.SelectedFigure = null;
         }
-        else
-        {
-            Debug.LogWarning("MeshSplitter не найден на фигуре.");
-        }
-
-        yield return new WaitForSeconds(enemyFigure.deathDelay);
-
-        if (enemyFigure != null)
-            Destroy(enemyFigure.gameObject);
+        
+        Destroy(enemy.gameObject);
     }
 }
-

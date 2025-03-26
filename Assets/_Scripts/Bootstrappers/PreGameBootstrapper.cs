@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 public class PreGameBootstrapper : MonoBehaviour
 {
@@ -8,113 +7,79 @@ public class PreGameBootstrapper : MonoBehaviour
 
     private void Awake()
     {
-        
-//Instantiate Repositorie
+        InitRepository("Prefabs/Repositories/TilesRepository");
+        InitRepository("Prefabs/Repositories/FiguresRepository");
 
-        if (TilesRepository.Instance == null)
-        {
-            Instantiate(Resources.Load("Prefabs/Repositories/TilesRepository"));
-        }
-        else
-        {
-            Debug.Log("[PreGameBootstrapper] TilesRepository уже существует.");
-        }
+        InitManager("Prefabs/Managers/UIManager");
+        InitManager("Prefabs/Managers/EventTriggeringTileManager");
+        InitManager("Prefabs/Managers/PawnMovementPromotionManager");
+        InitManager("Prefabs/Managers/SelectedFigureManager");
+        InitManager("Prefabs/Managers/GameStateManager");
+        InitManager("Prefabs/Managers/FogOfWarManager");
+        InitManager("Prefabs/Managers/HighlightTilesManager");
 
-        if (FiguresRepository.Instance == null)
-        {
-            Instantiate(Resources.Load("Prefabs/Repositories/FiguresRepository"));
-        }
-        else
-        {
-            Debug.Log("[PreGameBootstrapper] FiguresRepository уже существует.");
-        }
-        
-//Instantiate Managers
+        InitFactory("Prefabs/Factories/BoardFactory");
+        InitFactory("Prefabs/Factories/UIFactory");
+        InitFactory("Prefabs/Factories/DeathEffectFactory");
 
-        if (UIManager.Instance == null)
-        {
-            Instantiate(Resources.Load("Prefabs/Managers/UIManager"));
-        }
-        else
-        {
-            Debug.Log("[PreGameBootstrapper] UIManager уже существует.");
-        }
-        
-        if (EventTriggeringTileManager.Instance == null)
-        {
-            Instantiate(Resources.Load("Prefabs/Managers/EventTriggeringTileManager"));
-        }
-        else
-        {
-            Debug.Log("[PreGameBootstrapper] EventTriggeringTileManager уже существует.");
-        }
-        
-        if (PawnMovementPromotionManager.Instance == null)
-        {
-            Instantiate(Resources.Load("Prefabs/Managers/PawnMovementPromotionManager"));
-        }
-        else
-        {
-            Debug.Log("[PreGameBootstrapper] PawnMovementPromotionManager уже существует.");
-        }
-
-        if (SelectedFigureManager.Instance == null)
-        {
-            Instantiate(Resources.Load("Prefabs/Managers/SelectedFigureManager"));
-        }
-        else
-        {
-            Debug.Log("[PreGameBootstrapper] SelectedFigureManager уже существует.");
-        }
-
-        if (GameStateManager.Instance == null)
-        {
-            Instantiate(Resources.Load("Prefabs/Managers/GameStateManager"));
-        }
-        else
-        {
-            Debug.Log("[PreGameBootstrapper] GameStateManager уже существует.");
-        }
-
-        if (FogOfWarManager.Instance == null)
-        {
-            Instantiate(Resources.Load("Prefabs/Managers/FogOfWarManager"));
-        }
-        else
-        {
-            Debug.Log("[PreGameBootstrapper] FogOfWarManager уже существует.");
-        }
-
-        if (HighlightTilesManager.Instance == null)
-        {
-            Instantiate(Resources.Load("Prefabs/Managers/HighlightTilesManager"));
-        }
-        else
-        {
-            Debug.Log("[PreGameBootstrapper] HighlightTilesManager уже существует.");
-        }
-        
-//Instantiate Factories
-
-        if (BoardFactory.Instance == null)
-        {
-            Instantiate(Resources.Load("Prefabs/Factories/BoardFactory"));
-        }
-        else
-        {
-            Debug.Log("[PreGameBootstrapper] BoardFactory уже существует.");
-        }
-        
-        if (UIFactory.Instance == null)
-        {
-            Instantiate(Resources.Load("Prefabs/Factories/UIFactory"));
-        }
-        else
-        {
-            Debug.Log("[PreGameBootstrapper] UIFactory уже существует.");
-        }
-        
-        
         SceneManager.LoadScene(gameSettingsSceneName);
+    }
+
+    private void InitRepository(string path)
+    {
+        GameObject prefab = Resources.Load<GameObject>(path);
+        if (prefab == null)
+        {
+            Debug.LogError($"[Bootstrapper] Префаб не найден: {path}");
+            return;
+        }
+
+        string name = prefab.name;
+
+        if (GameObject.FindObjectOfType(prefab.GetComponent<MonoBehaviour>().GetType()) == null)
+        {
+            GameObject instance = Instantiate(prefab);
+            instance.name = name;
+            instance.SetActive(true);
+            Debug.Log($"[Bootstrapper] Загружен репозиторий: {name}");
+        }
+        else
+        {
+            Debug.Log($"[Bootstrapper] Репозиторий {name} уже существует.");
+        }
+    }
+
+    private void InitManager(string path)
+    {
+        InitGeneric(path, "менеджер");
+    }
+
+    private void InitFactory(string path)
+    {
+        InitGeneric(path, "фабрика");
+    }
+
+    private void InitGeneric(string path, string typeName)
+    {
+        GameObject prefab = Resources.Load<GameObject>(path);
+        if (prefab == null)
+        {
+            Debug.LogError($"[Bootstrapper] Префаб не найден: {path}");
+            return;
+        }
+
+        string name = prefab.name;
+
+        if (GameObject.FindObjectOfType(prefab.GetComponent<MonoBehaviour>().GetType()) == null)
+        {
+            GameObject instance = Instantiate(prefab);
+            instance.name = name;
+            instance.SetActive(true); // 👈 обязательно активируем
+            Debug.Log($"[Bootstrapper] Загружен {typeName}: {name}");
+        }
+        else
+        {
+            Debug.Log($"[Bootstrapper] {typeName} {name} уже существует.");
+        }
     }
 }

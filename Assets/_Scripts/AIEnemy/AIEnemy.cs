@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AIEnemy : MonoBehaviour
@@ -70,7 +71,9 @@ public class AIEnemy : MonoBehaviour
     /// </summary>
     public void UpdateAvailableFigures()
     {
-        availableFigures = GetFiguresList();
+        availableFigures = GetFiguresList()
+            .Where(f => f != null && f.gameObject != null)
+            .ToList();
     }
     
     /// <summary>
@@ -117,7 +120,7 @@ public class AIEnemy : MonoBehaviour
         FigureMover mover = selectedAIFigure.GetComponent<FigureMover>();
         if (mover != null)
         {
-            mover.MoveToTile(selectedTile);
+            mover.TryMoveToTile(selectedTile);
         }
         else
         {
@@ -132,17 +135,22 @@ public class AIEnemy : MonoBehaviour
     public Figure GetWeightedFigure()
     {
         UpdateAvailableFigures();
-        if (availableFigures == null || availableFigures.Count == 0)
+        
+        if (availableFigures.Count == 0)
         {
             Debug.LogWarning("Нет фигур для команды " + aiTeam);
             return null;
         }
-    
+
         Figure selectedFigure = WeightedFigureSelector.SelectFigure(availableFigures);
+
         if (selectedFigure != null)
         {
-            selectedFigure.HighlightAvailableToMoveTiles(false);
+            var logic = selectedFigure.GetComponent<FigureLogic>();
+            if (logic != null)
+                logic.HighlightAvailableToMoveTiles(includeFog: false);
         }
+
         return selectedFigure;
     }
 }

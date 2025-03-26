@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class WeightedFigureSelector
 {
-    // Константы для оценки ходов
-    private const float kingBonus = 1000f;           // Максимальный бонус для хода, когда цель – король
-    private const float enemyNonKingModifier = 2f;   // Коэффициент для пониженного веса при наличии обычного врага
-
+    private const float kingBonus = 1000f;
+    private const float enemyNonKingModifier = 2f;
+    
     public static Figure SelectFigure(List<Figure> availableFigures)
     {
-        if (availableFigures == null || availableFigures.Count == 0)
+        if (availableFigures.Count == 0)
             return null;
 
         float totalWeight = 0f;
@@ -26,7 +26,7 @@ public class WeightedFigureSelector
 
         foreach (Figure fig in availableFigures)
         {
-            List<Tile> moveTiles = fig.GetAvailableToMoveTiles();
+            List<Tile> moveTiles = fig.GetComponent<FigureLogic>().GetAvailableToMoveTiles();
             float figureWeight = 0f;
 
             foreach (Tile tile in moveTiles)

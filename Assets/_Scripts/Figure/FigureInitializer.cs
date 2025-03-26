@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(Figure))]
 public class FigureInitializer : MonoBehaviour
 {
     private Figure figure;
@@ -11,43 +12,52 @@ public class FigureInitializer : MonoBehaviour
 
     private void Start()
     {
+        InitializeFigurePosition();
+        RegisterFigure();
+        SpawnUI();
+        CloneMovementSettings();
+        FogOfWarManager.Instance.UpdateFogOfWar();
+    }
+    
+    private void InitializeFigurePosition()
+    {
         figure.CurrentPosition = new Vector2Int(
             Mathf.RoundToInt(transform.position.x),
             Mathf.RoundToInt(transform.position.z)
         );
 
-        Tile tile = TilesRepository.Instance.GetTileAt(figure.CurrentPosition);
-        figure.CurrentTile = tile;
-
-        if (tile != null)
+        figure.CurrentTile = TilesRepository.Instance.GetTileAt(figure.CurrentPosition);
+        if (figure.CurrentTile != null)
         {
-            FiguresRepository.Instance.RegisterFigure(figure, figure.CurrentPosition);
-            tile.SetOccupyingFigure(figure);
+            figure.CurrentTile.SetOccupyingFigure(figure);
         }
         else
         {
-            Debug.LogWarning($"[FigureInitializer] {gameObject.name} не нашёл свою клетку.");
+            Debug.LogWarning($"[FigureInitializer] Фигура {gameObject.name} не нашла свою клетку.");
         }
+    }
 
+    private void RegisterFigure()
+    {
+        if (figure.CurrentTile != null)
+        {
+            FiguresRepository.Instance.RegisterFigure(figure, figure.CurrentPosition);
+        }
+    }
+
+    private void CloneMovementSettings()
+    {
         if (figure.neighborTilesSelectionSettings != null)
         {
             figure.neighborTilesSelectionSettings = Instantiate(figure.neighborTilesSelectionSettings);
         }
+    }
 
+    private void SpawnUI()
+    {
         if (figure.uiPrefab != null)
         {
             figure.uiController = Instantiate(figure.uiPrefab, transform.position, Quaternion.identity, transform);
         }
-
-        FogOfWarManager.Instance.UpdateFogOfWar();
-    }
-
-    private void OnDestroy()
-    {
-        if (FiguresRepository.Instance != null)
-            FiguresRepository.Instance.UnregisterFigure(figure);
-
-        if (FogOfWarManager.Instance != null)
-            FogOfWarManager.Instance.UpdateFogOfWar();
     }
 }

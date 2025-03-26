@@ -1,10 +1,9 @@
 using UnityEngine;
 using UltEvents;
 
-public class HandlerForClickingAMouseButtonOnAnFigureObject : MonoBehaviour
+public class FigureClickHandler : MonoBehaviour
 {
     public bool isActive;
-    [SerializeField] private UltEvent WhenClickOnAnObject;
     private Figure figure;
 
     private void Start()
@@ -35,7 +34,7 @@ public class HandlerForClickingAMouseButtonOnAnFigureObject : MonoBehaviour
     
         if (!isActive) return;
 
-        WhenClickOnAnObject.Invoke();
+        figure.GetComponent<FigureLogic>().HighlightAvailableToMoveTiles(includeFog: false);
 
         if (figure != null)
         {
