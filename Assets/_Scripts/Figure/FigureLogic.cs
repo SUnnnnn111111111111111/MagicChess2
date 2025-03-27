@@ -28,7 +28,7 @@ public class FigureLogic : MonoBehaviour
         List<Tile> emptyTiles = moves.Where(tile => tile.OccupyingFigure == null).ToList();
         List<Tile> enemyTiles = moves.Where(tile => tile.OccupyingFigure != null &&
                                                     tile.OccupyingFigure.whiteTeamAffiliation != figure.whiteTeamAffiliation).ToList();
-        
+
         HighlightTilesManager.Instance.HighlightAvailableTiles(emptyTiles);
         HighlightTilesManager.Instance.HighlightEnemyTiles(enemyTiles);
     }

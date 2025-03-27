@@ -43,7 +43,7 @@ public class FigureMover : MonoBehaviour
 
         GameStateManager.Instance.madeAFigureMoveAtThisTurn = true;
         figure.hasMovedThisTurn = true;
-        figure.isFirstMove = true;
+        figure.isFirstMove = false;
 
         if (figure.CurrentTile != null)
         {

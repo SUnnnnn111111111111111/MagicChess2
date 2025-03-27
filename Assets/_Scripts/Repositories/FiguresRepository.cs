@@ -1,18 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
+public enum FigureTeam
+{
+    White,
+    Black
+}
 public class FiguresRepository : MonoBehaviour
 {
     public static FiguresRepository Instance { get; private set; }
-    
+
     private Dictionary<Vector2Int, Figure> whiteFigures = new Dictionary<Vector2Int, Figure>();
     private Dictionary<Vector2Int, Figure> blackFigures = new Dictionary<Vector2Int, Figure>();
-    
+
+#if UNITY_EDITOR
     [SerializeField] private List<Figure> whiteFiguresDebug = new List<Figure>();
     [SerializeField] private List<Figure> blackFiguresDebug = new List<Figure>();
-    
-    
+#endif
+
     private void Awake()
     {
         if (Instance == null)
@@ -26,18 +31,36 @@ public class FiguresRepository : MonoBehaviour
         }
     }
 
+    // ✅ Универсальный доступ
+    public List<Figure> AllFigures
+    {
+        get
+        {
+            List<Figure> all = new List<Figure>();
+            all.AddRange(whiteFigures.Values);
+            all.AddRange(blackFigures.Values);
+            return all;
+        }
+    }
+
+    public List<Figure> GetFiguresByTeam(bool white)
+    {
+        return white ? new List<Figure>(whiteFigures.Values)
+                     : new List<Figure>(blackFigures.Values);
+    }
+
     public void RegisterFigure(Figure figure, Vector2Int position)
     {
         figure.CurrentPosition = position;
+
         if (figure.whiteTeamAffiliation)
-        {
             whiteFigures[position] = figure;
-        }
         else
-        {
             blackFigures[position] = figure;
-        }
+
+#if UNITY_EDITOR
         UpdateDebugLists();
+#endif
     }
 
     public void UnregisterFigure(Figure figure)
@@ -45,6 +68,7 @@ public class FiguresRepository : MonoBehaviour
         RemoveFigureFromDict(whiteFigures, figure);
         RemoveFigureFromDict(blackFigures, figure);
 
+        // Проверка окончания игры
         if (figure.isKing || GetFiguresCount(figure.whiteTeamAffiliation) == 0)
         {
             var state = figure.whiteTeamAffiliation
@@ -54,25 +78,21 @@ public class FiguresRepository : MonoBehaviour
             GameStateManager.Instance?.SetGameState(state);
         }
 
+#if UNITY_EDITOR
         UpdateDebugLists();
+#endif
     }
 
-    public List<Figure> GetWhiteFigures()
+    public void ClearAll()
     {
-        return new List<Figure>(whiteFigures.Values);
-    }
+        whiteFigures.Clear();
+        blackFigures.Clear();
 
-    public List<Figure> GetBlackFigures()
-    {
-        return new List<Figure>(blackFigures.Values);
+#if UNITY_EDITOR
+        whiteFiguresDebug.Clear();
+        blackFiguresDebug.Clear();
+#endif
     }
-    
-    public void UpdateDebugLists()
-    {
-        whiteFiguresDebug = new List<Figure>(whiteFigures.Values);
-        blackFiguresDebug = new List<Figure>(blackFigures.Values);
-    }
-    
 
     private void RemoveFigureFromDict(Dictionary<Vector2Int, Figure> dict, Figure target)
     {
@@ -85,9 +105,17 @@ public class FiguresRepository : MonoBehaviour
             }
         }
     }
-    
+
     private int GetFiguresCount(bool white)
     {
         return white ? whiteFigures.Count : blackFigures.Count;
     }
+
+#if UNITY_EDITOR
+    public void UpdateDebugLists()
+    {
+        whiteFiguresDebug = new List<Figure>(whiteFigures.Values);
+        blackFiguresDebug = new List<Figure>(blackFigures.Values);
+    }
+#endif
 }

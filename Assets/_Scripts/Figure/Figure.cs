@@ -1,8 +1,11 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(FigureInitializer))]
 [RequireComponent(typeof(FigureLogic))]
 [RequireComponent(typeof(FigureMover))]
+[RequireComponent(typeof(EnemyKingDetector))]
+
 public class Figure : MonoBehaviour
 {
     [Header("Командная принадлежность")]
@@ -22,6 +25,9 @@ public class Figure : MonoBehaviour
     [Header("UI")]
     public FigureUIController uiPrefab;
     [HideInInspector] public FigureUIController uiController;
+
+    [Header("UI Alerts")]
+    public FigureAlertUIController alertUIController;
 
     [Header("Длительности")]
     public float delayBeforePassingTheMove = 0.5f;

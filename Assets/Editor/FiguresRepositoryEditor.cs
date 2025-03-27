@@ -10,12 +10,12 @@ public class FiguresRepositoryEditor : Editor
         base.OnInspectorGUI();
 
         FiguresRepository repo = (FiguresRepository)target;
-
+        
         EditorGUILayout.Space();
         EditorGUILayout.LabelField("Debug Info", EditorStyles.boldLabel);
         
-        EditorGUILayout.LabelField("White Figures", repo.GetWhiteFigures().Count.ToString());
-        EditorGUILayout.LabelField("Black Figures", repo.GetBlackFigures().Count.ToString());
+        EditorGUILayout.LabelField("White Figures", repo.GetFiguresByTeam(true).Count.ToString());
+        EditorGUILayout.LabelField("Black Figures", repo.GetFiguresByTeam(false).Count.ToString());
 
         EditorGUILayout.Space();
         if (GUILayout.Button("Update Debug Lists"))
@@ -25,8 +25,8 @@ public class FiguresRepositoryEditor : Editor
 
         if (GUILayout.Button("Clear All Figures"))
         {
-            ClearAllFigures(repo.GetWhiteFigures());
-            ClearAllFigures(repo.GetBlackFigures());
+            ClearAllFigures(repo.GetFiguresByTeam(true));
+            ClearAllFigures(repo.GetFiguresByTeam(false));
         }
 
         if (GUI.changed)

@@ -38,7 +38,7 @@ public class PreGameBootstrapper : MonoBehaviour
 
         string name = prefab.name;
 
-        if (GameObject.FindObjectOfType(prefab.GetComponent<MonoBehaviour>().GetType()) == null)
+        if (GameObject.FindFirstObjectByType(prefab.GetComponent<MonoBehaviour>().GetType()) == null)
         {
             GameObject instance = Instantiate(prefab);
             instance.name = name;
@@ -71,7 +71,7 @@ public class PreGameBootstrapper : MonoBehaviour
 
         string name = prefab.name;
 
-        if (GameObject.FindObjectOfType(prefab.GetComponent<MonoBehaviour>().GetType()) == null)
+        if (GameObject.FindFirstObjectByType(prefab.GetComponent<MonoBehaviour>().GetType()) == null)
         {
             GameObject instance = Instantiate(prefab);
             instance.name = name;

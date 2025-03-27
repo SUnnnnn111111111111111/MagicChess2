@@ -27,7 +27,7 @@ public class PawnMoveCalculator : MoveCalculator
             
             if (isDoubleMove)
             {
-                if (!figure.isFirstMove && IsPathClear(currentTile, tile, isWhite))
+                if (figure.isFirstMove && IsPathClear(currentTile, tile, isWhite))
                     moves.Add(tile);
                 continue;
             }

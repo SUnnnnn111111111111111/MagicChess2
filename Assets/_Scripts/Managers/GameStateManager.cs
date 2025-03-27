@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -76,9 +77,14 @@ public class GameStateManager : MonoBehaviour
 
     public void EndTurn()
     {
+        foreach (var detector in FiguresRepository.Instance.AllFigures.Select(f => f.GetComponent<EnemyKingDetector>()))
+        {
+            if (detector != null)
+                detector.isKingIsUnderAttack();
+        }
         List<Figure> currentTeamFigures = (CurrentState == GameState.WhitesPlaying)
-            ? FiguresRepository.Instance.GetWhiteFigures()
-            : FiguresRepository.Instance.GetBlackFigures();
+            ? FiguresRepository.Instance.GetFiguresByTeam(true) 
+            : FiguresRepository.Instance.GetFiguresByTeam(false);
         
         foreach (var figure in currentTeamFigures)
         {
@@ -92,20 +98,26 @@ public class GameStateManager : MonoBehaviour
         {
             SetGameState(GameState.BlacksPlaying);
             madeAFigureMoveAtThisTurn = false;
-            foreach (var figure in FiguresRepository.Instance.GetBlackFigures())
+            foreach (var figure in FiguresRepository.Instance.GetFiguresByTeam(false))
                 figure.hasMovedThisTurn = false;
         }
         else if (CurrentState == GameState.BlacksPlaying)
         {
             SetGameState(GameState.WhitesPlaying);
             madeAFigureMoveAtThisTurn = false;
-            foreach (var figure in FiguresRepository.Instance.GetWhiteFigures())
+            foreach (var figure in FiguresRepository.Instance.GetFiguresByTeam(true))
             {
                 figure.hasMovedThisTurn = false;
             }
         }
         
         FogOfWarManager.Instance.UpdateFogOfWar();
+        
+        foreach (var detector in FiguresRepository.Instance.AllFigures.Select(f => f.GetComponent<EnemyKingDetector>()))
+        {
+            if (detector != null)
+                detector.isKingIsUnderAttack();
+        }
     }
 
     public void SetPaused(bool isPaused)

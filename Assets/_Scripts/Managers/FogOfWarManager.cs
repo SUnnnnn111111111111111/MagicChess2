@@ -31,15 +31,15 @@ public class FogOfWarManager : MonoBehaviour
         if (GameStateManager.Instance.CurrentGameMode == GameStateManager.GameMode.VsAiEnemy)
         {
             figuresToReveal = GameStateManager.Instance.humanPlaysWhite
-                ? FiguresRepository.Instance.GetWhiteFigures()
-                : FiguresRepository.Instance.GetBlackFigures();
+                ? FiguresRepository.Instance.GetFiguresByTeam(true)
+                : FiguresRepository.Instance.GetFiguresByTeam(false);
         }
         else // Локальный мультиплеер: туман снимается для фигур текущей команды.
         {
             bool isWhiteTurn = GameStateManager.Instance.CurrentState == GameStateManager.GameState.WhitesPlaying;
             figuresToReveal = isWhiteTurn
-                ? FiguresRepository.Instance.GetWhiteFigures()
-                : FiguresRepository.Instance.GetBlackFigures();
+                ? FiguresRepository.Instance.GetFiguresByTeam(true) 
+                : FiguresRepository.Instance.GetFiguresByTeam(false);
         }
 
         // Для выбранных фигур снимаем туман с их клеток и соседних.

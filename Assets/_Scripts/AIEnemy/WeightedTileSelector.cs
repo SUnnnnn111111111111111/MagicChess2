@@ -40,8 +40,8 @@ public class WeightedTileSelector
         Vector2 enemyKingPosition = Vector2.zero;
         bool enemyKingFound = false;
         List<Figure> enemyFigures = figure.whiteTeamAffiliation 
-                                        ? FiguresRepository.Instance.GetBlackFigures() 
-                                        : FiguresRepository.Instance.GetWhiteFigures();
+                                        ? FiguresRepository.Instance.GetFiguresByTeam(true) 
+                                        : FiguresRepository.Instance.GetFiguresByTeam(false);
         foreach (Figure enemy in enemyFigures)
         {
             if (enemy.isKing)

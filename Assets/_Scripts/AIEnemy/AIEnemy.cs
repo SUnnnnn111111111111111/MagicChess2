@@ -62,8 +62,8 @@ public class AIEnemy : MonoBehaviour
         }
         
         return aiTeam == AITeam.White 
-            ? FiguresRepository.Instance.GetWhiteFigures() 
-            : FiguresRepository.Instance.GetBlackFigures();
+            ? FiguresRepository.Instance.GetFiguresByTeam(true) 
+            : FiguresRepository.Instance.GetFiguresByTeam(false);
     }
     
     /// <summary>
