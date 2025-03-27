@@ -1,11 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public enum FigureTeam
-{
-    White,
-    Black
-}
 public class FiguresRepository : MonoBehaviour
 {
     public static FiguresRepository Instance { get; private set; }
@@ -68,15 +63,6 @@ public class FiguresRepository : MonoBehaviour
         RemoveFigureFromDict(whiteFigures, figure);
         RemoveFigureFromDict(blackFigures, figure);
 
-        // Проверка окончания игры
-        if (figure.isKing || GetFiguresCount(figure.whiteTeamAffiliation) == 0)
-        {
-            var state = figure.whiteTeamAffiliation
-                ? GameStateManager.GameState.WhitesLost
-                : GameStateManager.GameState.BlacksLost;
-
-            GameStateManager.Instance?.SetGameState(state);
-        }
 
 #if UNITY_EDITOR
         UpdateDebugLists();

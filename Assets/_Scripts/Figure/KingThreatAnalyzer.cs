@@ -21,10 +21,9 @@ public static class KingThreatAnalyzer
 
         foreach (var enemy in allEnemies)
         {
-            var logic = enemy.GetComponent<FigureLogic>();
-            if (logic == null) continue;
+            if (enemy.CurrentTile == null) continue;
 
-            List<Tile> moves = logic.GetAvailableToMoveTiles();
+            List<Tile> moves = FigureMoveService.GetAvailableToMoveTiles(enemy);
             bool canAttack = moves.Any(t => t.Position == kingPos && !t.HiddenByFog);
 
             if (!canAttack) continue;
@@ -47,10 +46,9 @@ public static class KingThreatAnalyzer
 
         foreach (var ally in allAllies)
         {
-            var logic = ally.GetComponent<FigureLogic>();
-            if (logic == null) continue;
+            if (ally.CurrentTile == null) continue;
 
-            List<Tile> allyMoves = logic.GetAvailableToMoveTiles();
+            List<Tile> allyMoves = FigureMoveService.GetAvailableToMoveTiles(ally);
             if (allyMoves.Any(t => result.blockableTiles.Any(b => b.Position == t.Position)))
                 result.coveringPieces.Add(ally);
         }
@@ -86,4 +84,4 @@ public static class KingThreatAnalyzer
 
         return intermediate;
     }
-}
+} 

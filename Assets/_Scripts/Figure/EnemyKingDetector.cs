@@ -34,39 +34,28 @@ public class EnemyKingDetector : MonoBehaviour
 
         var result = KingThreatAnalyzer.Analyze(king, enemies, allies);
 
-        // UI
-        if (result.isUnderAttack)
-        {
-            if (result.isDirect)
-            {
-                king.alertUIController?.ShowKingUnderDirectAttackText(true);
-                king.alertUIController?.ShowKingUnderAttackText(false);
-            }
-            else
-            {
-                king.alertUIController?.ShowKingUnderAttackText(true);
-                king.alertUIController?.ShowKingUnderDirectAttackText(false);
-            }
-
-            foreach (var attacker in result.attackers)
-                attacker.alertUIController?.ShowKingDiscoveryText(true);
-
-            foreach (var protector in result.coveringPieces)
-                protector.alertUIController?.ShowKingProtectingText(true);
-        }
-        else
-        {
-            king.alertUIController?.HideAll();
-            foreach (var enemy in enemies)
-                enemy.alertUIController?.ShowKingDiscoveryText(false);
-
-            foreach (var ally in allies)
-                ally.alertUIController?.ShowKingProtectingText(false);
-        }
-
         kingUnderAttack = result.isUnderAttack;
         blockableTiles = result.blockableTiles;
         coveringPieces = result.coveringPieces;
+
+        EnemyKingDetectorUIController.UpdateAlerts(result, king, enemies, allies);
+
+        // Проверка мата
+        if (kingUnderAttack)
+        {
+            List<Tile> kingMoves = FigureMoveService.GetAvailableToMoveTiles(king)
+                .Where(t => !TileThreatAnalyzer.IsTileUnderThreat(t, king.whiteTeamAffiliation))
+                .ToList();
+
+            if (kingMoves.Count == 0)
+            {
+                var state = figure.whiteTeamAffiliation
+                    ? GameStateManager.GameState.WhitesLost
+                    : GameStateManager.GameState.BlacksLost;
+
+                GameStateManager.Instance?.SetGameState(state);
+            }
+        }
 
         return kingUnderAttack;
     }

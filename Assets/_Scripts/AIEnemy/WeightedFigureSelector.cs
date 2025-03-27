@@ -26,7 +26,7 @@ public class WeightedFigureSelector
 
         foreach (Figure fig in availableFigures)
         {
-            List<Tile> moveTiles = fig.GetComponent<FigureLogic>().GetAvailableToMoveTiles();
+            List<Tile> moveTiles = FigureMoveService.GetAvailableToMoveTiles(fig);
             float figureWeight = 0f;
 
             foreach (Tile tile in moveTiles)

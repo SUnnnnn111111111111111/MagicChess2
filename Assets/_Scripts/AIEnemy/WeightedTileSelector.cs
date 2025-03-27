@@ -18,7 +18,7 @@ public class WeightedTileSelector
     public static (Tile tile, float weight) SelectGlobalTargetTileWithWeight(Figure figure)
     {
         // Получаем список доступных для перемещения клеток
-        List<Tile> availableTiles = figure.GetComponent<FigureLogic>().GetAvailableToMoveTiles();
+        List<Tile> availableTiles = FigureMoveService.GetAvailableToMoveTiles(figure);
         if (availableTiles == null || availableTiles.Count == 0)
         {
             Debug.LogWarning("Нет доступных клеток для перемещения фигуры");
