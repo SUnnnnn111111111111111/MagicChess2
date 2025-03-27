@@ -39,6 +39,23 @@ public class FigureMover : MonoBehaviour
 
     private void ExecuteMoveSequence(Tile targetTile)
     {
+        if (figure.isKing)
+        {
+            if (CastlingService.IsCastlingPossibleInDirection(figure, new Vector2Int(6, 0), out var rook1, out var kingTarget1)
+                && targetTile.Position == kingTarget1.Position)
+            {
+                CastlingService.ExecuteCastlingWithAnimation(figure, kingTarget1, rook1);
+                return;
+            }
+            
+            if (CastlingService.IsCastlingPossibleInDirection(figure, new Vector2Int(-8, 0), out var rook2, out var kingTarget2)
+                && targetTile.Position == kingTarget2.Position)
+            {
+                CastlingService.ExecuteCastlingWithAnimation(figure, kingTarget2, rook2);
+                return;
+            }
+        }
+        
         var anim = AnimationSettingsFactory.GetAnimationSettings(figure.neighborTilesSelectionSettings);
 
         GameStateManager.Instance.madeAFigureMoveAtThisTurn = true;
@@ -71,6 +88,42 @@ public class FigureMover : MonoBehaviour
                 });
         });
     }
+    
+    public void MoveWithAnimationTo(Tile targetTile, System.Action onComplete = null)
+    {
+        var anim = AnimationSettingsFactory.GetAnimationSettings(figure.neighborTilesSelectionSettings);
+
+        figure.hasMovedThisTurn = true;
+        figure.isFirstMove = false;
+
+        if (figure.CurrentTile != null)
+            figure.CurrentTile.SetOccupyingFigure(null);
+
+        Vector3 direction = (targetTile.transform.position - figure.transform.position).normalized;
+        Vector3 lookAtTarget = figure.transform.position + direction;
+
+        figure.transform.DOLookAt(lookAtTarget, anim.rotateDuration, AxisConstraint.Y).OnComplete(() =>
+        {
+            Vector3 finalPos = new Vector3(
+                Mathf.Round(targetTile.transform.position.x),
+                figure.transform.position.y,
+                Mathf.Round(targetTile.transform.position.z)
+            );
+
+            figure.transform.DOJump(finalPos, anim.jumpPower, anim.jumpCount, anim.moveDuration)
+                .SetEase(anim.moveEase)
+                .OnComplete(() =>
+                {
+                    figure.CurrentTile = targetTile;
+                    targetTile.SetOccupyingFigure(figure);
+                    figure.CurrentPosition = targetTile.Position;
+
+                    figure.transform.DORotateQuaternion(originalRotation, 0.2f);
+                    onComplete?.Invoke();
+                });
+        });
+    }
+
 
     private void FinalizeMovement(Tile newTile)
     {

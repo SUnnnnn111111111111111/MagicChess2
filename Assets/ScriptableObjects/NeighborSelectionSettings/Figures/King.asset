@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: King
   m_EditorClassIdentifier: 
   neighborRules:
-  - neighborType: 0
-    maxDistance: 0
-    rectangleWidth: 2
-    rectangleHeight: 2
+  - neighborType: 8
+    maxDistance: 4
+    rectangleWidth: 0
+    rectangleHeight: 0

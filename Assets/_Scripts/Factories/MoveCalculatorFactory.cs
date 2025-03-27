@@ -18,6 +18,8 @@
 
         if (rules.Exists(r => r.neighborType is NeighborType.PawnWhite or NeighborType.PawnBlack))
             return new PawnMoveCalculator();
+        if (rules.Exists(r => r.neighborType is NeighborType.King))
+            return new KingMoveCalculator();
 
         return new DefaultMoveCalculator();
     }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Knight
   m_EditorClassIdentifier: 
   neighborRules:
-  - neighborType: 8
+  - neighborType: 9
     maxDistance: 0
     rectangleWidth: 0
     rectangleHeight: 0

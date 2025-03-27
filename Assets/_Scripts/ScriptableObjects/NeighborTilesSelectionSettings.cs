@@ -10,7 +10,8 @@ public enum NeighborType
     Diagonal, 
     HorizontalVerticalDiagonal, 
     PawnWhite, 
-    PawnBlack, 
+    PawnBlack,
+    King,
     Knight,
     KnightDouble,
     ZigZag,
@@ -101,6 +102,21 @@ public class NeighborTilesSelectionSettings : ScriptableObject
                         offsets.Add(new Vector2Int(-i, i));
                     }
                     break;
+                case NeighborType.King:
+                    for (int i = 1; i <= rule.maxDistance; i++)
+                    {
+                        offsets.Add(new Vector2Int(2, 0));
+                        offsets.Add(new Vector2Int(-2, 0));
+                        offsets.Add(new Vector2Int(0, 2));
+                        offsets.Add(new Vector2Int(0, -2));
+                        offsets.Add(new Vector2Int(2, 2));
+                        offsets.Add(new Vector2Int(-2, -2));
+                        offsets.Add(new Vector2Int(2, -2));
+                        offsets.Add(new Vector2Int(-2, 2));
+                        offsets.Add(new Vector2Int(4, 0));
+                        offsets.Add(new Vector2Int(-4, 0));
+                    }
+                    break;
                 case NeighborType.PawnWhite:
                     offsets.Add(new Vector2Int(0, 2));
                     offsets.Add(new Vector2Int(0, 4));
@@ -124,7 +140,6 @@ public class NeighborTilesSelectionSettings : ScriptableObject
                     offsets.Add(new Vector2Int(-2, -4));
                     break;
                 case NeighborType.KnightDouble:
-                    // Двойной ход конём (все смещения умножены на 2)
                     offsets.Add(new Vector2Int(8, 4));
                     offsets.Add(new Vector2Int(8, -4));
                     offsets.Add(new Vector2Int(-8, 4));
@@ -135,7 +150,6 @@ public class NeighborTilesSelectionSettings : ScriptableObject
                     offsets.Add(new Vector2Int(-4, -8));
                     break;
                 case NeighborType.ZigZag:
-                    // Зигзагообразное перемещение
                     offsets.Add(new Vector2Int(2, 2));
                     offsets.Add(new Vector2Int(4, 0));
                     offsets.Add(new Vector2Int(2, -2));
@@ -144,7 +158,6 @@ public class NeighborTilesSelectionSettings : ScriptableObject
                     offsets.Add(new Vector2Int(-2, 2));
                     break;
                 case NeighborType.Circular:
-                    // Перемещения по кругу (все 8 направлений)
                     offsets.Add(new Vector2Int(0, 4));
                     offsets.Add(new Vector2Int(4, 0));
                     offsets.Add(new Vector2Int(0, -4));
@@ -155,7 +168,6 @@ public class NeighborTilesSelectionSettings : ScriptableObject
                     offsets.Add(new Vector2Int(-4, -4));
                     break;
                 case NeighborType.KnightPlus:
-                    // Классический ход конём + кардинальные направления
                     offsets.Add(new Vector2Int(4, 2));
                     offsets.Add(new Vector2Int(4, -2));
                     offsets.Add(new Vector2Int(-4, 2));
@@ -164,24 +176,20 @@ public class NeighborTilesSelectionSettings : ScriptableObject
                     offsets.Add(new Vector2Int(2, -4));
                     offsets.Add(new Vector2Int(-2, 4));
                     offsets.Add(new Vector2Int(-2, -4));
-                    // Кардинальные направления
                     offsets.Add(new Vector2Int(2, 0));
                     offsets.Add(new Vector2Int(-2, 0));
                     offsets.Add(new Vector2Int(0, 2));
                     offsets.Add(new Vector2Int(0, -2));
                     break;
                 case NeighborType.Star:
-                    // Кардинальные направления
                     offsets.Add(new Vector2Int(2, 0));
                     offsets.Add(new Vector2Int(-2, 0));
                     offsets.Add(new Vector2Int(0, 2));
                     offsets.Add(new Vector2Int(0, -2));
-                    // Диагонали
                     offsets.Add(new Vector2Int(2, 2));
                     offsets.Add(new Vector2Int(2, -2));
                     offsets.Add(new Vector2Int(-2, 2));
                     offsets.Add(new Vector2Int(-2, -2));
-                    // Дополнительные конёчные смещения
                     offsets.Add(new Vector2Int(2, 4));
                     offsets.Add(new Vector2Int(-2, 4));
                     offsets.Add(new Vector2Int(2, -4));
