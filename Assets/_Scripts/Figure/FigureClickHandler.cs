@@ -1,5 +1,6 @@
 using UnityEngine;
 using UltEvents;
+using System.Linq;
 
 public class FigureClickHandler : MonoBehaviour
 {
@@ -18,21 +19,7 @@ public class FigureClickHandler : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (GameStateManager.Instance.CurrentState == GameStateManager.GameState.Paused || 
-            GameStateManager.Instance.CurrentState == GameStateManager.GameState.WhitesLost || 
-            GameStateManager.Instance.CurrentState == GameStateManager.GameState.BlacksLost)
-            return;
-
-        if (GameStateManager.Instance.CurrentGameMode == GameStateManager.GameMode.VsAiEnemy)
-        {
-            if (!GameStateManager.Instance.IsPlayersTurn())
-                return;
-        }
-    
-        bool isWhiteTurn = GameStateManager.Instance.CurrentState == GameStateManager.GameState.WhitesPlaying;
-        if (isWhiteTurn != figure.whiteTeamAffiliation) return;
-    
-        if (!isActive) return;
+        if (!FigureSelector.CanSelect(figure)) return;
 
         figure.GetComponent<FigureLogic>().HighlightAvailableToMoveTiles(includeFog: false);
 

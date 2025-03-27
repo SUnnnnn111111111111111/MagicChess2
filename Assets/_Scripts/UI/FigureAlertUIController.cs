@@ -6,6 +6,7 @@ public class FigureAlertUIController : MonoBehaviour
     [Header("UI References (Text Alerts)")]
     [SerializeField] private TextMeshProUGUI kingDiscoveryText;
     [SerializeField] private TextMeshProUGUI kingUnderAttackText;
+    [SerializeField] private TextMeshProUGUI kingProtectingText;
     [SerializeField] private TextMeshProUGUI kingUnderDirectAttackText;
 
     private void Awake()
@@ -14,6 +15,8 @@ public class FigureAlertUIController : MonoBehaviour
             kingDiscoveryText.gameObject.SetActive(false);
         if (kingUnderAttackText != null)
             kingUnderAttackText.gameObject.SetActive(false);
+        if (kingProtectingText != null)
+            kingProtectingText.gameObject.SetActive(false);
         if (kingUnderDirectAttackText != null)
             kingUnderDirectAttackText.gameObject.SetActive(false);
     }
@@ -29,6 +32,12 @@ public class FigureAlertUIController : MonoBehaviour
         if (kingUnderAttackText == null) return;
         kingUnderAttackText.gameObject.SetActive(show);
     }
+    
+    public void ShowKingProtectingText(bool show)
+    {
+        if (kingProtectingText == null) return;
+        kingProtectingText.gameObject.SetActive(show);
+    }
 
     public void ShowKingUnderDirectAttackText(bool show)
     {
@@ -40,6 +49,7 @@ public class FigureAlertUIController : MonoBehaviour
     {
         ShowKingDiscoveryText(false);
         ShowKingUnderAttackText(false);
+        ShowKingProtectingText(false);
         ShowKingUnderDirectAttackText(false);
     }
 }

@@ -22,6 +22,23 @@ public class FigureLogic : MonoBehaviour
 
         List<Tile> moves = GetAvailableToMoveTiles();
 
+        // 🔍 Проверка шаха
+        var kingDetector = FiguresRepository.Instance
+            .GetFiguresByTeam(figure.whiteTeamAffiliation)
+            .FirstOrDefault(f => f.isKing)
+            ?.GetComponent<EnemyKingDetector>();
+
+        bool kingUnderAttack = kingDetector != null && kingDetector.kingUnderAttack;
+
+        if (kingUnderAttack && !figure.isKing)
+        {
+            if (!kingDetector.coveringPieces.Contains(figure))
+                return;
+
+            moves = moves.Where(tile =>
+                kingDetector.blockableTiles.Any(b => b.Position == tile.Position)).ToList();
+        }
+
         if (includeFog)
             moves = moves.Where(tile => !tile.HiddenByFog).ToList();
 
@@ -49,4 +66,4 @@ public class FigureLogic : MonoBehaviour
             tile.OccupyingFigure == null ||
             tile.OccupyingFigure.whiteTeamAffiliation != figure.whiteTeamAffiliation).ToList();
     }
-}
+} 
