@@ -104,7 +104,7 @@ public class AIEnemy : MonoBehaviour
         }
 
         // Выбираем глобальную цель с учетом новых критериев и получаем рассчитанный вес
-        var evaluationResult = WeightedTileSelector.SelectGlobalTargetTileWithWeight(selectedAIFigure);
+        var evaluationResult = TileScoringService.SelectBestTile(selectedAIFigure);
         Tile selectedTile = evaluationResult.tile;
         float selectedTileWeight = evaluationResult.weight;
 
@@ -113,9 +113,6 @@ public class AIEnemy : MonoBehaviour
             Debug.LogWarning("Нет подходящей глобальной клетки для хода AI");
             yield break;
         }
-    
-        // Логируем информацию о выбранной клетке и ее весе
-        Debug.Log($"AI выбрал клетку с позицией {selectedTile.Position} и весом {selectedTileWeight}");
     
         FigureMover mover = selectedAIFigure.GetComponent<FigureMover>();
         if (mover != null)
@@ -142,7 +139,7 @@ public class AIEnemy : MonoBehaviour
             return null;
         }
 
-        Figure selectedFigure = WeightedFigureSelector.SelectFigure(availableFigures);
+        Figure selectedFigure = FigureScoringService.SelectFigure(availableFigures);
 
         if (selectedFigure != null)
         {

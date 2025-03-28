@@ -4,10 +4,11 @@ using UnityEngine;
 
 public static class FigureScoringService
 {
-    private const float kingBonus = 1000f;
-    private const float enemyNonKingModifier = 2f;
-    private const float coverKingBonus = 100f;
-    private const float givesCheckBonus = 120f;
+    private const float kingBonus = 10000f;
+    private const float coverKingBonus = 150f;
+    private const float givesCheckBonus = 250f;
+    
+    private const bool debug = false;
 
     public static float EvaluateFigure(Figure fig)
     {
@@ -26,6 +27,7 @@ public static class FigureScoringService
         {
             if (!detector.coveringPieces.Contains(fig) && !fig.isKing)
                 return 0f;
+
             if (detector.coveringPieces.Contains(fig))
                 figureWeight += coverKingBonus;
         }
@@ -47,22 +49,36 @@ public static class FigureScoringService
             Vector2 tilePos = new Vector2(tile.Position.x, tile.Position.y);
             float minDistance = centralCells.Min(center => Vector2.Distance(tilePos, center));
 
+            // Бонус за шах
             if (enemyKing != null && tile.Position == enemyKing.CurrentTile?.Position)
+            {
                 figureWeight += givesCheckBonus;
+            }
 
+            // Атака фигуры
             if (tile.OccupyingFigure != null)
             {
                 if (tile.OccupyingFigure.isKing)
+                {
                     figureWeight += kingBonus;
+                }
                 else
-                    figureWeight += (1f / (minDistance + 1f)) * enemyNonKingModifier;
+                {
+                    int value = FigureValueUtility.GetFigureValue(tile.OccupyingFigure);
+                    figureWeight += (1f / (minDistance + 1f)) * value;
+                }
             }
             else
             {
                 figureWeight += 1f / (minDistance + 1f);
             }
         }
-
+        
+        if (debug)
+        {
+            Debug.Log($"[AI] {fig.name} ({fig.CurrentTile?.Position}) = {figureWeight:F1} очков");
+        }
+        
         return figureWeight;
     }
 
@@ -86,7 +102,14 @@ public static class FigureScoringService
         {
             random -= entry.weight;
             if (random <= 0f)
+            {
+                if (debug)
+                {
+                    Debug.Log($"[AI] 👉 Выбрана фигура: {entry.figure.name} с весом {entry.weight:F1}");
+                }
+                
                 return entry.figure;
+            }
         }
 
         return scored.Last().figure;
