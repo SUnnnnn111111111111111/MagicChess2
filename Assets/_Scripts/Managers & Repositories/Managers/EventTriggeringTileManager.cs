@@ -150,57 +150,54 @@ public class EventTriggeringTileManager : MonoBehaviour
     /// Если фигура стоит на боковом event‑тайле, после 3 ходов флаг сбрасывается, счётчик обнуляется и материал возвращается.
     /// Если фигура стоит на центральном тайле, после 5 ходов выводится лог, флаг сбрасывается, соответствующий счетчик обнуляется и материал возвращается.
     /// </summary>
-    public void HandleEventTrigger(Figure figure, Tile previousTile, Tile newTile)
+    public void HandleEventTrigger(Figure figure, Tile newTile)
     {
-        if (previousTile == null || previousTile != newTile)
+        if (figure.hasMovedThisTurn)
         {
             figure.countOfMovesIsOnEventTriggeringTile = 0;
         }
-
-        if (newTile.isSideEventTriggering)
+        else if (newTile.isSideEventTriggering || newTile.isMiddleEventTriggering)
         {
             figure.countOfMovesIsOnEventTriggeringTile++;
-
-            UIManager.Instance?.ShowFigureMoveCount(
-                figure,
-                figure.countOfMovesIsOnEventTriggeringTile,
-                maxCountOfMovesIsOnSideEventTriggeringTile
-            );
-
-            if (figure.countOfMovesIsOnEventTriggeringTile >= maxCountOfMovesIsOnSideEventTriggeringTile)
+            
+            if (newTile.isSideEventTriggering)
             {
-                newTile.isSideEventTriggering = false;
-                figure.countOfMovesIsOnEventTriggeringTile = 0;
-
-                Renderer rend = newTile.GetComponentInChildren<Renderer>();
-                if (rend != null && originalMaterials.ContainsKey(newTile))
+                UIManager.Instance?.ShowFigureMoveCount(
+                    figure,
+                    figure.countOfMovesIsOnEventTriggeringTile,
+                    maxCountOfMovesIsOnSideEventTriggeringTile
+                );
+                // Если достигнут лимит ходов на боковом тайле – сбрасываем флаг и восстанавливаем материал
+                if (figure.countOfMovesIsOnEventTriggeringTile >= maxCountOfMovesIsOnSideEventTriggeringTile)
                 {
-                    rend.material = originalMaterials[newTile];
-                    originalMaterials.Remove(newTile);
+                    newTile.isSideEventTriggering = false;
+                    figure.countOfMovesIsOnEventTriggeringTile = 0;
+                    Renderer rend = newTile.GetComponentInChildren<Renderer>();
+                    if (rend != null && originalMaterials.ContainsKey(newTile))
+                    {
+                        rend.material = originalMaterials[newTile];
+                        originalMaterials.Remove(newTile);
+                    }
                 }
             }
-        }
-
-        if (newTile.isMiddleEventTriggering)
-        {
-            figure.countOfMovesIsOnEventTriggeringTile++;
-
-            UIManager.Instance?.ShowFigureMoveCount(
-                figure,
-                figure.countOfMovesIsOnEventTriggeringTile,
-                maxCountOfMovesIsOnMiddleEventTriggeringTile
-            );
-
-            if (figure.countOfMovesIsOnEventTriggeringTile >= maxCountOfMovesIsOnMiddleEventTriggeringTile)
+            if (newTile.isMiddleEventTriggering)
             {
-                newTile.isMiddleEventTriggering = false;
-                figure.countOfMovesIsOnEventTriggeringTile = 0;
-
-                Renderer rend = newTile.GetComponentInChildren<Renderer>();
-                if (rend != null && originalMaterials.ContainsKey(newTile))
+                UIManager.Instance?.ShowFigureMoveCount(
+                    figure,
+                    figure.countOfMovesIsOnEventTriggeringTile,
+                    maxCountOfMovesIsOnMiddleEventTriggeringTile
+                );
+                // Если достигнут лимит ходов на центральном тайле – сбрасываем флаг и восстанавливаем материал
+                if (figure.countOfMovesIsOnEventTriggeringTile >= maxCountOfMovesIsOnMiddleEventTriggeringTile)
                 {
-                    rend.material = originalMaterials[newTile];
-                    originalMaterials.Remove(newTile);
+                    newTile.isMiddleEventTriggering = false;
+                    figure.countOfMovesIsOnEventTriggeringTile = 0;
+                    Renderer rend = newTile.GetComponentInChildren<Renderer>();
+                    if (rend != null && originalMaterials.ContainsKey(newTile))
+                    {
+                        rend.material = originalMaterials[newTile];
+                        originalMaterials.Remove(newTile);
+                    }
                 }
             }
         }

@@ -20,26 +20,34 @@ public class FigureLogic : MonoBehaviour
             return;
         }
 
-        // 💡 Получаем возможные ходы из внешнего сервиса
         List<Tile> moves = FigureMoveService.GetAvailableToMoveTiles(figure);
 
-        // 🛡️ Фильтрация по шаху
         if (!figure.isKing)
         {
             moves = MoveFilterService.FilterByCheck(figure, moves);
         }
         else
         {
-            moves = moves
-                .Where(tile => !TileThreatAnalyzer.IsTileUnderThreat(tile, figure.whiteTeamAffiliation))
-                .ToList();
+            Vector2Int kingPos = figure.CurrentTile.Position;
+            List<Tile> filteredMoves = new();
+
+            foreach (Tile move in moves)
+            {
+                if (TileThreatAnalyzer.IsTileUnderThreat(move, figure.whiteTeamAffiliation))
+                    continue;
+
+                if (TileThreatAnalyzer.IsTileUnderFutureThreat(move, figure))
+                    continue;
+
+                filteredMoves.Add(move);
+            }
+
+            moves = filteredMoves;
         }
 
-        // 🌫️ Фильтрация по туману
         if (includeFog)
             moves = moves.Where(tile => !tile.HiddenByFog).ToList();
 
-        // ✨ Подсвечиваем
         TileHighlightService.HighlightTiles(figure, moves);
     }
 }

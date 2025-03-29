@@ -127,7 +127,6 @@ public class FigureMover : MonoBehaviour
 
     private void FinalizeMovement(Tile newTile)
     {
-        Tile previousTile = figure.CurrentTile;
         figure.CurrentTile = newTile;
         newTile.SetOccupyingFigure(figure);
 
