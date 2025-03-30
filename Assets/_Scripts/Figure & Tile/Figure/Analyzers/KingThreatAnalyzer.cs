@@ -40,6 +40,12 @@ public static class KingThreatAnalyzer
                 result.blockableTiles.AddRange(between);
                 result.blockableTiles.Add(king.CurrentTile);
             }
+            
+            foreach (var attacker in result.attackers)
+            {
+                if (attacker.CurrentTile != null)
+                    result.blockableTiles.Add(attacker.CurrentTile);
+            }
         }
 
         result.blockableTiles = result.blockableTiles.Distinct().ToList();

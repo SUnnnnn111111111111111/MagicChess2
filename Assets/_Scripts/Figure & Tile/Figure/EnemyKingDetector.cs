@@ -10,6 +10,7 @@ public class EnemyKingDetector : MonoBehaviour
     public bool kingUnderAttack { get; private set; }
     public List<Tile> blockableTiles { get; private set; } = new();
     public List<Figure> coveringPieces { get; private set; } = new();
+    public List<Figure> attackers { get; private set; } = new();
 
     private void Awake()
     {
@@ -37,6 +38,7 @@ public class EnemyKingDetector : MonoBehaviour
         kingUnderAttack = result.isUnderAttack;
         blockableTiles = result.blockableTiles;
         coveringPieces = result.coveringPieces;
+        attackers = result.attackers;
 
         EnemyKingDetectorUIController.UpdateAlerts(result, king, enemies, allies);
 
