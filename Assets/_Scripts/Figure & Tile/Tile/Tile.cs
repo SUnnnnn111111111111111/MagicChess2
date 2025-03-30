@@ -17,7 +17,7 @@ public class Tile : MonoBehaviour
     [Header("State")]
     public Vector2Int Position { get; private set; }
     public List<Tile> Neighbors { get; private set; } = new();
-    public Figure OccupyingFigure { get; private set; }
+    public Figure OccupyingFigure { get; set; }
     public bool IsHighlighted { get; private set; }
     public bool HiddenByFog { get; private set; }
     

@@ -10,7 +10,6 @@ public class EnemyKingDetector : MonoBehaviour
     public bool kingUnderAttack { get; private set; }
     public List<Tile> blockableTiles { get; private set; } = new();
     public List<Figure> coveringPieces { get; private set; } = new();
-    public List<Figure> attackers { get; private set; } = new();
 
     private void Awake()
     {
@@ -38,7 +37,6 @@ public class EnemyKingDetector : MonoBehaviour
         kingUnderAttack = result.isUnderAttack;
         blockableTiles = result.blockableTiles;
         coveringPieces = result.coveringPieces;
-        attackers = result.attackers;
 
         EnemyKingDetectorUIController.UpdateAlerts(result, king, enemies, allies);
 
@@ -51,11 +49,35 @@ public class EnemyKingDetector : MonoBehaviour
 
             if (kingMoves.Count == 0)
             {
-                var state = figure.whiteTeamAffiliation
-                    ? GameStateManager.GameState.WhitesLost
-                    : GameStateManager.GameState.BlacksLost;
+                bool someoneCanBlockOrCapture = false;
 
-                GameStateManager.Instance?.SetGameState(state);
+                foreach (var ally in coveringPieces)
+                {
+                    var allyMoves = FigureMoveService.GetAvailableToMoveTiles(ally);
+
+                    bool canBlock = allyMoves.Any(t =>
+                        blockableTiles.Any(b => b.Position == t.Position)
+                    );
+
+                    bool canCapture = allyMoves.Any(t =>
+                        result.attackers.Any(a => a.CurrentTile != null && a.CurrentTile.Position == t.Position)
+                    );
+
+                    if (canBlock || canCapture)
+                    {
+                        someoneCanBlockOrCapture = true;
+                        break;
+                    }
+                }
+
+                if (!someoneCanBlockOrCapture)
+                {
+                    var state = figure.whiteTeamAffiliation
+                        ? GameStateManager.GameState.WhitesLost
+                        : GameStateManager.GameState.BlacksLost;
+
+                    GameStateManager.Instance?.SetGameState(state);
+                }
             }
         }
 
