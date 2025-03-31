@@ -29,21 +29,7 @@ public class FigureLogic : MonoBehaviour
         }
         else
         {
-            Vector2Int kingPos = figure.CurrentTile.Position;
-            List<Tile> filteredMoves = new();
-
-            foreach (Tile move in moves)
-            {
-                if (TileThreatAnalyzer.IsTileUnderThreat(move, figure.whiteTeamAffiliation))
-                    continue;
-
-                if (TileThreatAnalyzer.IsTileUnderFutureThreat(move, figure))
-                    continue;
-
-                filteredMoves.Add(move);
-            }
-
-            moves = filteredMoves;
+            moves = TileThreatAnalyzer.FilterKingMoves(moves, figure);
         }
 
         if (includeFog)

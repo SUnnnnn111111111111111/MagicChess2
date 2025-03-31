@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿﻿using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -17,6 +17,19 @@ public static class TileThreatAnalyzer
                 return true;
         }
         return false;
+    }
+
+    public static bool IsTileUnderThreatAfterCapture(Tile tile, Figure capturingFigure)
+    {
+        if (tile == null || capturingFigure == null || tile.OccupyingFigure == null)
+            return IsTileUnderThreat(tile, capturingFigure?.whiteTeamAffiliation ?? true);
+
+        var from = capturingFigure.CurrentTile;
+        MoveSimulationHelper.SimulateMove(capturingFigure, from, tile, out var original);
+        bool result = IsTileUnderThreat(tile, capturingFigure.whiteTeamAffiliation);
+        MoveSimulationHelper.RestoreMove(capturingFigure, from, tile, original);
+
+        return result;
     }
 
     public static bool IsTileUnderFutureThreat(Tile tile, Figure potentialBlocker)
@@ -58,5 +71,26 @@ public static class TileThreatAnalyzer
         }
 
         return false;
+    }
+
+    public static List<Tile> FilterKingMoves(List<Tile> input, Figure king)
+    {
+        var filtered = new List<Tile>();
+        foreach (var tile in input)
+        {
+            bool isEnemy = tile.OccupyingFigure != null && tile.OccupyingFigure.whiteTeamAffiliation != king.whiteTeamAffiliation;
+
+            if (isEnemy && IsTileUnderThreatAfterCapture(tile, king))
+                continue;
+
+            if (IsTileUnderThreat(tile, king.whiteTeamAffiliation))
+                continue;
+
+            if (IsTileUnderFutureThreat(tile, king))
+                continue;
+
+            filtered.Add(tile);
+        }
+        return filtered;
     }
 }
