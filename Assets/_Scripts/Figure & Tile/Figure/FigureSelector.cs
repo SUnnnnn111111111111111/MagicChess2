@@ -24,17 +24,21 @@ public static class FigureSelector
         if (!figure.GetComponentInChildren<FigureClickHandler>().isActive)
             return false;
 
-        // Проверка шаха
-        var kingDetector = FiguresRepository.Instance
+        // Проверка шаха через кэш
+        var king = FiguresRepository.Instance
             .GetFiguresByTeam(figure.whiteTeamAffiliation)
-            .FirstOrDefault(f => f.isKing)
-            ?.GetComponent<EnemyKingDetector>();
+            .FirstOrDefault(f => f.isKing);
 
-        if (kingDetector != null && kingDetector.isKingIsUnderAttack())
+        var result = KingThreatStateCache.Instance.GetThreatState(king);
+
+        if (result != null && result.isUnderAttack)
         {
-            bool isKing = figure.isKing;
-            bool isCovering = kingDetector.coveringPieces.Contains(figure);
-            return isKing || isCovering;
+            if (result.isDoubleCheck)
+            {
+                return figure.isKing; // 👈 Только король может ходить при двойном шахе
+            }
+
+            return figure.isKing || result.coveringPieces.Contains(figure);
         }
 
         return true;

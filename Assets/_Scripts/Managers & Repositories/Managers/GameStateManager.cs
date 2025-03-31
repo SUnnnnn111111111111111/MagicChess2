@@ -55,10 +55,10 @@ public class GameStateManager : MonoBehaviour
         switch (state)
         {
             case GameState.WhitesLost:
-                // Debug.Log("Белые проиграли! Завершаем игру для белых.");
+                Debug.Log("Белые проиграли! Завершаем игру для белых.");
                 break;
             case GameState.BlacksLost:
-                // Debug.Log("Чёрные проиграли! Завершаем игру для чёрных.");
+                Debug.Log("Чёрные проиграли! Завершаем игру для чёрных.");
                 break;
             case GameState.Paused:
                 Debug.Log("Игра на паузе.");
@@ -77,6 +77,8 @@ public class GameStateManager : MonoBehaviour
 
     public void EndTurn()
     {
+        KingThreatStateCache.Instance.UpdateThreats();
+        
         foreach (var detector in FiguresRepository.Instance.AllFigures.Select(f => f.GetComponent<EnemyKingDetector>()))
         {
             if (detector != null)

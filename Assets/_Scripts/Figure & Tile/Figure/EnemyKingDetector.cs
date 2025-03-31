@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿﻿﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -29,28 +29,29 @@ public class EnemyKingDetector : MonoBehaviour
 
         if (king == null) return false;
 
-        var enemies = FiguresRepository.Instance.GetFiguresByTeam(!figure.whiteTeamAffiliation);
-        var allies = FiguresRepository.Instance.GetFiguresByTeam(figure.whiteTeamAffiliation).Where(f => !f.isKing).ToList();
-
-        var result = KingThreatAnalyzer.Analyze(king, enemies, allies);
+        var result = KingThreatStateCache.Instance.GetThreatState(king);
+        if (result == null) return false;
 
         kingUnderAttack = result.isUnderAttack;
         blockableTiles = result.blockableTiles;
         coveringPieces = result.coveringPieces;
 
+        var enemies = FiguresRepository.Instance.GetFiguresByTeam(!figure.whiteTeamAffiliation);
+        var allies = FiguresRepository.Instance.GetFiguresByTeam(figure.whiteTeamAffiliation).Where(f => !f.isKing).ToList();
         EnemyKingDetectorUIController.UpdateAlerts(result, king, enemies, allies);
 
-        // Проверка мата
         if (kingUnderAttack)
         {
-            List<Tile> kingMoves = FigureMoveService.GetAvailableToMoveTiles(king)
-                .Where(t => !TileThreatAnalyzer.IsTileUnderThreat(t, king.whiteTeamAffiliation))
-                .ToList();
+            List<Tile> kingMoves = TileThreatAnalyzer.FilterKingMoves(
+                FigureMoveService.GetAvailableToMoveTiles(king),
+                king
+            );
 
-            if (kingMoves.Count == 0)
+            bool kingCanEscape = kingMoves.Count > 0;
+            bool someoneCanBlockOrCapture = false;
+
+            if (!result.isDoubleCheck)
             {
-                bool someoneCanBlockOrCapture = false;
-
                 foreach (var ally in coveringPieces)
                 {
                     var allyMoves = FigureMoveService.GetAvailableToMoveTiles(ally);
@@ -69,15 +70,15 @@ public class EnemyKingDetector : MonoBehaviour
                         break;
                     }
                 }
+            }
 
-                if (!someoneCanBlockOrCapture)
-                {
-                    var state = figure.whiteTeamAffiliation
-                        ? GameStateManager.GameState.WhitesLost
-                        : GameStateManager.GameState.BlacksLost;
+            if (!kingCanEscape && !someoneCanBlockOrCapture)
+            {
+                var state = figure.whiteTeamAffiliation
+                    ? GameStateManager.GameState.WhitesLost
+                    : GameStateManager.GameState.BlacksLost;
 
-                    GameStateManager.Instance?.SetGameState(state);
-                }
+                GameStateManager.Instance?.SetGameState(state);
             }
         }
 

@@ -7,6 +7,7 @@ public static class KingThreatAnalyzer
     public class Result
     {
         public bool isUnderAttack;
+        public bool isDoubleCheck;
         public bool isDirect;
         public Figure king;
         public List<Figure> attackers = new();
@@ -60,10 +61,13 @@ public static class KingThreatAnalyzer
         }
 
         result.isUnderAttack = result.attackers.Count > 0;
+        result.isDoubleCheck = result.attackers.Count >= 2;
         result.isDirect = result.isUnderAttack && result.coveringPieces.Count == 0;
 
         return result;
     }
+    
+    
 
     private static List<Tile> CalculateIntermediateTiles(Tile from, Tile to)
     {

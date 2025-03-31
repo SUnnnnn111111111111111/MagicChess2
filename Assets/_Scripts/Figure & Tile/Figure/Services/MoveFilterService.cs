@@ -1,29 +1,33 @@
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public static class MoveFilterService
 {
-    public static List<Tile> FilterByCheck(Figure figure, List<Tile> inputMoves)
+    public static List<Tile> FilterAll(Figure figure, List<Tile> inputMoves)
     {
         if (figure.isKing) return inputMoves;
 
-        var kingDetector = FiguresRepository.Instance
+        var king = FiguresRepository.Instance
             .GetFiguresByTeam(figure.whiteTeamAffiliation)
-            .FirstOrDefault(f => f.isKing)
-            ?.GetComponent<EnemyKingDetector>();
+            .FirstOrDefault(f => f.isKing && f.CurrentTile != null);
 
-        if (kingDetector == null || !kingDetector.kingUnderAttack)
-            return inputMoves;
+        if (king == null) return inputMoves;
 
-        if (!kingDetector.coveringPieces.Contains(figure))
-            return new(); // не может защищать — нет доступных клеток
+        var result = KingThreatStateCache.Instance.GetThreatState(king);
+        if (result == null) return inputMoves; // 👈 защита от null в кэше
+
+        if (result.isDoubleCheck)
+            return new(); // 👈 Только король может двигаться
+
+        if (!result.coveringPieces.Contains(figure))
+            return new(); // 👈 Фигура не может защищать короля
 
         return inputMoves
-            .Where(t => kingDetector.blockableTiles.Any(b => b.Position == t.Position))
+            .Where(t => result.blockableTiles.Any(b => b.Position == t.Position))
             .ToList();
     }
-    
+
     public static List<Tile> FilterByRayThreatProtection(Figure figure, List<Tile> inputMoves)
     {
         if (figure.isKing || figure.CurrentTile == null)

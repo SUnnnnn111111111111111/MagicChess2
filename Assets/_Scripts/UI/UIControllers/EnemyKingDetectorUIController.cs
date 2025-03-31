@@ -8,6 +8,20 @@ public static class EnemyKingDetectorUIController
         List<Figure> enemies,
         List<Figure> allies)
     {
+        if (result.isDoubleCheck)
+        {
+            king.alertUIController?.ShowKingUnderDirectAttackText(true);
+            king.alertUIController?.ShowKingUnderAttackText(false);
+
+            foreach (var attacker in result.attackers)
+                attacker.alertUIController?.ShowKingDiscoveryText(true);
+
+            foreach (var protector in allies)
+                protector.alertUIController?.ShowKingProtectingText(false);
+
+            return;
+        }
+
         if (result.isUnderAttack)
         {
             if (result.isDirect)

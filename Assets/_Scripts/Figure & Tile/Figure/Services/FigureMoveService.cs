@@ -21,4 +21,6 @@ public static class FigureMoveService
                            tile.OccupyingFigure.whiteTeamAffiliation != figure.whiteTeamAffiliation)
             .ToList();
     }
+    
+    
 }
