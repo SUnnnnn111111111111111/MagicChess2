@@ -28,14 +28,6 @@ public static class MoveFilterService
     {
         if (figure.isKing || figure.CurrentTile == null)
             return inputMoves;
-        
-        var kingDetector = FiguresRepository.Instance
-            .GetFiguresByTeam(figure.whiteTeamAffiliation)
-            .FirstOrDefault(f => f.isKing)
-            ?.GetComponent<EnemyKingDetector>();
-
-        if (kingDetector != null && kingDetector.kingUnderAttack)
-            return inputMoves;
 
         var king = FiguresRepository.Instance
             .GetFiguresByTeam(figure.whiteTeamAffiliation)
@@ -47,7 +39,7 @@ public static class MoveFilterService
         var originalTile = figure.CurrentTile;
         var originalOccupant = originalTile.OccupyingFigure;
 
-        // Временно убираем фигуру с клетки
+        // Симулируем исчезновение фигуры с клетки
         originalTile.OccupyingFigure = null;
 
         bool kingNowUnderThreat = TileThreatAnalyzer.IsTileUnderThreat(
@@ -55,16 +47,14 @@ public static class MoveFilterService
             king.whiteTeamAffiliation
         );
 
-        // Возвращаем фигуру на место
+        // Откат
         originalTile.OccupyingFigure = originalOccupant;
 
-        // Если фигура НЕ прикрывает короля — возвращаем все ходы
         if (!kingNowUnderThreat)
             return inputMoves;
 
         Debug.Log($"[RayBlock] {figure.name} прикрывает короля. Проверка, какие ходы допустимы...");
 
-        // Если прикрывает — проверим каждый потенциальный ход
         List<Tile> safeMoves = new();
 
         foreach (var move in inputMoves)
@@ -76,25 +66,49 @@ public static class MoveFilterService
             move.OccupyingFigure = figure;
             figure.CurrentTile = move;
 
+            // Получаем врагов
+            var enemies = FiguresRepository.Instance.GetFiguresByTeam(!figure.whiteTeamAffiliation);
+
+            // Проверка: уничтожаем ли потенциального рентген-угрожателя?
+            bool destroyedThreatSource = enemies.Any(enemy =>
+            {
+                if (!FigureTypeHelper.IsLongRange(enemy)) return false;
+                if (enemy.CurrentTile == null || king.CurrentTile == null) return false;
+                if (enemy.CurrentTile.Position != move.Position) return false;
+
+                // Проверка: стоял ли враг на линии рентгена
+                var path = KingThreatAnalyzer.Analyze(king, new() { enemy }, new() { figure }).blockableTiles;
+                return path.Any(t => t.Position == king.CurrentTile.Position);
+            });
+
+            if (destroyedThreatSource)
+            {
+                Debug.Log($"[RayBlock] Ход на {move.Position} ДОПУЩЕН — уничтожает потенциальную рентген-угрозу.");
+                safeMoves.Add(move);
+                goto Restore;
+            }
+
+            // Обычная проверка угрозы после ухода
             bool threatAfterMove = TileThreatAnalyzer.IsTileUnderThreat(
                 king.CurrentTile,
                 king.whiteTeamAffiliation
             );
 
-            // Откат
-            figure.CurrentTile = originalTile;
-            originalTile.OccupyingFigure = figure;
-            move.OccupyingFigure = moveOriginalOccupant;
-
             if (!threatAfterMove)
             {
-                Debug.Log($"[RayBlock] Ход на {move.Position} допустим — король в безопасности.");
+                Debug.Log($"[RayBlock] Ход на {move.Position} ДОПУЩЕН — король в безопасности.");
                 safeMoves.Add(move);
             }
             else
             {
                 Debug.Log($"[RayBlock] Ход на {move.Position} ЗАПРЕЩЁН — откроется угроза королю.");
             }
+
+        Restore:
+            // Откат состояния
+            figure.CurrentTile = originalTile;
+            originalTile.OccupyingFigure = figure;
+            move.OccupyingFigure = moveOriginalOccupant;
         }
 
         return safeMoves;
