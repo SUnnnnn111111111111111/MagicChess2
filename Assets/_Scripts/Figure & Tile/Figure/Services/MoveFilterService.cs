@@ -39,7 +39,6 @@ public static class MoveFilterService
         var originalTile = figure.CurrentTile;
         var originalOccupant = originalTile.OccupyingFigure;
 
-        // Симулируем исчезновение фигуры с клетки
         originalTile.OccupyingFigure = null;
 
         bool kingNowUnderThreat = TileThreatAnalyzer.IsTileUnderThreat(
@@ -47,7 +46,6 @@ public static class MoveFilterService
             king.whiteTeamAffiliation
         );
 
-        // Откат
         originalTile.OccupyingFigure = originalOccupant;
 
         if (!kingNowUnderThreat)
@@ -59,24 +57,16 @@ public static class MoveFilterService
 
         foreach (var move in inputMoves)
         {
-            var moveOriginalOccupant = move.OccupyingFigure;
+            MoveSimulationHelper.SimulateMove(figure, originalTile, move, out var moveOriginalOccupant);
 
-            // Симуляция хода
-            originalTile.OccupyingFigure = null;
-            move.OccupyingFigure = figure;
-            figure.CurrentTile = move;
-
-            // Получаем врагов
             var enemies = FiguresRepository.Instance.GetFiguresByTeam(!figure.whiteTeamAffiliation);
 
-            // Проверка: уничтожаем ли потенциального рентген-угрожателя?
             bool destroyedThreatSource = enemies.Any(enemy =>
             {
                 if (!FigureTypeHelper.IsLongRange(enemy)) return false;
                 if (enemy.CurrentTile == null || king.CurrentTile == null) return false;
                 if (enemy.CurrentTile.Position != move.Position) return false;
 
-                // Проверка: стоял ли враг на линии рентгена
                 var path = KingThreatAnalyzer.Analyze(king, new() { enemy }, new() { figure }).blockableTiles;
                 return path.Any(t => t.Position == king.CurrentTile.Position);
             });
@@ -85,10 +75,10 @@ public static class MoveFilterService
             {
                 Debug.Log($"[RayBlock] Ход на {move.Position} ДОПУЩЕН — уничтожает потенциальную рентген-угрозу.");
                 safeMoves.Add(move);
-                goto Restore;
+                MoveSimulationHelper.RestoreMove(figure, originalTile, move, moveOriginalOccupant);
+                continue;
             }
 
-            // Обычная проверка угрозы после ухода
             bool threatAfterMove = TileThreatAnalyzer.IsTileUnderThreat(
                 king.CurrentTile,
                 king.whiteTeamAffiliation
@@ -104,11 +94,7 @@ public static class MoveFilterService
                 Debug.Log($"[RayBlock] Ход на {move.Position} ЗАПРЕЩЁН — откроется угроза королю.");
             }
 
-        Restore:
-            // Откат состояния
-            figure.CurrentTile = originalTile;
-            originalTile.OccupyingFigure = figure;
-            move.OccupyingFigure = moveOriginalOccupant;
+            MoveSimulationHelper.RestoreMove(figure, originalTile, move, moveOriginalOccupant);
         }
 
         return safeMoves;
