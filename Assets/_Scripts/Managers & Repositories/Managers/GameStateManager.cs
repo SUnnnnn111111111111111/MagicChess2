@@ -37,7 +37,6 @@ public class GameStateManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             OnGameStateChanged = new UnityEvent<GameState>();
-            CurrentState = GameState.WhitesPlaying;
         }
         else
         {
@@ -77,23 +76,6 @@ public class GameStateManager : MonoBehaviour
 
     public void EndTurn()
     {
-        KingThreatStateCache.Instance.UpdateThreats();
-        
-        foreach (var detector in FiguresRepository.Instance.AllFigures.Select(f => f.GetComponent<EnemyKingDetector>()))
-        {
-            if (detector != null)
-                detector.isKingIsUnderAttack();
-        }
-
-        List<Figure> currentTeamFigures = (CurrentState == GameState.WhitesPlaying)
-            ? FiguresRepository.Instance.GetFiguresByTeam(true) 
-            : FiguresRepository.Instance.GetFiguresByTeam(false);
-        
-        foreach (var figure in currentTeamFigures)
-        {
-            EventTriggeringTileManager.Instance.HandleEventTrigger(figure, figure.CurrentTile);
-        }
-
         if (CurrentState == GameState.WhitesPlaying) 
         {
             SetGameState(GameState.BlacksPlaying);
@@ -108,14 +90,25 @@ public class GameStateManager : MonoBehaviour
             foreach (var figure in FiguresRepository.Instance.GetFiguresByTeam(true))
                 figure.hasMovedThisTurn = false;
         }
-
-        FogOfWarManager.Instance.UpdateFogOfWar();
-
+        
+        KingThreatStateCache.Instance.UpdateThreats();
+        
         foreach (var detector in FiguresRepository.Instance.AllFigures.Select(f => f.GetComponent<EnemyKingDetector>()))
         {
             if (detector != null)
                 detector.isKingIsUnderAttack();
         }
+        
+        List<Figure> currentTeamFigures = (CurrentState == GameState.WhitesPlaying)
+            ? FiguresRepository.Instance.GetFiguresByTeam(true) 
+            : FiguresRepository.Instance.GetFiguresByTeam(false);
+        
+        foreach (var figure in currentTeamFigures)
+        {
+            EventTriggeringTileManager.Instance.HandleEventTrigger(figure, figure.CurrentTile);
+        }
+
+        FogOfWarManager.Instance.UpdateFogOfWar();
     }
 
 

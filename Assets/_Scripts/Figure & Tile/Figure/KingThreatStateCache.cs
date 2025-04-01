@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class KingThreatStateCache
 {
     public static KingThreatStateCache Instance { get; } = new();
 
     private Dictionary<Figure, KingThreatAnalyzer.Result> cache = new();
+    
 
     public void UpdateThreats()
     {
@@ -27,10 +29,19 @@ public class KingThreatStateCache
 
     public KingThreatAnalyzer.Result GetThreatState(Figure king)
     {
-        if (king == null || !king.isKing) return null;
+        if (king == null || !king.isKing || king.CurrentTile == null)
+        {
+            Debug.LogWarning($"[KTS] ❌ Пропущен {king.name} — CurrentTile == null");
+            return null;
+        }
 
         cache.TryGetValue(king, out var result);
         return result;
+    }
+    
+    public void InvalidateCache()
+    {
+        cache.Clear();
     }
 
     public bool IsKingUnderAttack(Figure king)

@@ -10,7 +10,7 @@ public static class EnemyKingDetectorUIController
     {
         if (result.isDoubleCheck)
         {
-            king.alertUIController?.ShowKingUnderDirectAttackText(true);
+            king.alertUIController?.ShowKingUnderCheckmateText(true);
             king.alertUIController?.ShowKingUnderAttackText(false);
 
             foreach (var attacker in result.attackers)

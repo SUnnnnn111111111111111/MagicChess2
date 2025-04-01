@@ -29,6 +29,8 @@ public class GameSettingsBootstrapper : MonoBehaviour
         UIFactory.Instance.LoadGameStateUI();
         UIManager.Instance.BindToGameStateManager();
         EventTriggeringTileManager.Instance.ReplaseTiles();
+        GameStateManager.Instance.SetGameState(GameStateManager.GameState.WhitesPlaying);
+        KingThreatStateCache.Instance.InvalidateCache();
 
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }

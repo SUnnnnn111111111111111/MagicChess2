@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using UnityEngine;
 
 public static class FigureSelector
 {
@@ -30,17 +31,17 @@ public static class FigureSelector
             .FirstOrDefault(f => f.isKing);
 
         var result = KingThreatStateCache.Instance.GetThreatState(king);
-
+        
         if (result != null && result.isUnderAttack)
         {
             if (result.isDoubleCheck)
             {
-                return figure.isKing; // 👈 Только король может ходить при двойном шахе
+                return figure.isKing;
             }
-
+        
             return figure.isKing || result.coveringPieces.Contains(figure);
         }
-
+        
         return true;
     }
 }

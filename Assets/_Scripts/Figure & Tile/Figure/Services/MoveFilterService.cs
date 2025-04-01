@@ -1,4 +1,4 @@
-﻿﻿using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -15,13 +15,16 @@ public static class MoveFilterService
         if (king == null) return inputMoves;
 
         var result = KingThreatStateCache.Instance.GetThreatState(king);
-        if (result == null) return inputMoves; // 👈 защита от null в кэше
+        if (result == null) return inputMoves;
+        
+        if (!result.isUnderAttack)
+            return inputMoves;
 
         if (result.isDoubleCheck)
-            return new(); // 👈 Только король может двигаться
+            return new();
 
         if (!result.coveringPieces.Contains(figure))
-            return new(); // 👈 Фигура не может защищать короля
+            return new();
 
         return inputMoves
             .Where(t => result.blockableTiles.Any(b => b.Position == t.Position))
@@ -55,8 +58,6 @@ public static class MoveFilterService
         if (!kingNowUnderThreat)
             return inputMoves;
 
-        Debug.Log($"[RayBlock] {figure.name} прикрывает короля. Проверка, какие ходы допустимы...");
-
         List<Tile> safeMoves = new();
 
         foreach (var move in inputMoves)
@@ -77,7 +78,6 @@ public static class MoveFilterService
 
             if (destroyedThreatSource)
             {
-                Debug.Log($"[RayBlock] Ход на {move.Position} ДОПУЩЕН — уничтожает потенциальную рентген-угрозу.");
                 safeMoves.Add(move);
                 MoveSimulationHelper.RestoreMove(figure, originalTile, move, moveOriginalOccupant);
                 continue;
@@ -88,16 +88,8 @@ public static class MoveFilterService
                 king.whiteTeamAffiliation
             );
 
-            if (!threatAfterMove)
-            {
-                Debug.Log($"[RayBlock] Ход на {move.Position} ДОПУЩЕН — король в безопасности.");
-                safeMoves.Add(move);
-            }
-            else
-            {
-                Debug.Log($"[RayBlock] Ход на {move.Position} ЗАПРЕЩЁН — откроется угроза королю.");
-            }
-
+            if (!threatAfterMove) safeMoves.Add(move);
+            
             MoveSimulationHelper.RestoreMove(figure, originalTile, move, moveOriginalOccupant);
         }
 

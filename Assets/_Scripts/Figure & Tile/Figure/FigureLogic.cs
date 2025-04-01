@@ -24,7 +24,7 @@ public class FigureLogic : MonoBehaviour
 
         if (!figure.isKing)
         {
-            moves = MoveFilterService.FilterAll(figure, moves); // 👈 вот тут
+            moves = MoveFilterService.FilterAll(figure, moves);
         }
         else
         {

@@ -1,4 +1,4 @@
-﻿﻿﻿using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -74,6 +74,7 @@ public class EnemyKingDetector : MonoBehaviour
 
             if (!kingCanEscape && !someoneCanBlockOrCapture)
             {
+                king.alertUIController?.ShowKingUnderCheckmateText(true);
                 var state = figure.whiteTeamAffiliation
                     ? GameStateManager.GameState.WhitesLost
                     : GameStateManager.GameState.BlacksLost;
