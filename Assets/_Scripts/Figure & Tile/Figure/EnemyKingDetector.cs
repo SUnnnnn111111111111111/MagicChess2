@@ -74,7 +74,9 @@ public class EnemyKingDetector : MonoBehaviour
 
             if (!kingCanEscape && !someoneCanBlockOrCapture)
             {
+                king.alertUIController?.ShowKingUnderDirectAttackText(false);
                 king.alertUIController?.ShowKingUnderCheckmateText(true);
+                
                 var state = figure.whiteTeamAffiliation
                     ? GameStateManager.GameState.WhitesLost
                     : GameStateManager.GameState.BlacksLost;

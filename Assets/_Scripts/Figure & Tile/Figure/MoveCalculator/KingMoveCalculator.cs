@@ -46,7 +46,6 @@ public class KingMoveCalculator : MoveCalculator
                 }
                 else
                 {
-                    // Проверка на рокировку (offset 4,0 и -4,0): разрешаем только если isFirstMove == true
                     Vector2Int relative = tile.Position - currentTile.Position;
                     if ((relative == new Vector2Int(4, 0) || relative == new Vector2Int(-4, 0)) && !figure.isFirstMove)
                         continue;
