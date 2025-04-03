@@ -88,6 +88,7 @@ public static class CastlingService
                 rook.CurrentTile = rookTargetTile;
                 rook.CurrentPosition = rookTargetTile.Position;
                 rook.isFirstMove = false;
+                king.isFirstMove = false;
 
                 FogOfWarManager.Instance.UpdateFogOfWar();
                 SelectedFigureManager.Instance.SelectedFigure = null;
@@ -116,5 +117,25 @@ public static class CastlingService
         }
 
         return between;
+    }
+    
+    public static List<Tile> GetCastlingTilesForKing(Figure king)
+    {
+        List<Tile> castlingTiles = new();
+
+        if (!king.isKing || !king.isFirstMove || king.CurrentTile == null)
+            return castlingTiles;
+
+        // Жестко: король белых смотрит вправо (по +X), чёрных — в ту же сторону, доска не крутится
+        Vector2Int shortOffset = new Vector2Int(6, 0); // 3 клетки вправо = ладья для короткой
+        Vector2Int longOffset  = new Vector2Int(-8, 0); // 4 клетки влево = ладья для длинной
+
+        if (IsCastlingPossibleInDirection(king, shortOffset, out _, out var shortTarget))
+            castlingTiles.Add(shortTarget);
+
+        if (IsCastlingPossibleInDirection(king, longOffset, out _, out var longTarget))
+            castlingTiles.Add(longTarget);
+
+        return castlingTiles;
     }
 }

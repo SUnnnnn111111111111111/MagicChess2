@@ -15,12 +15,12 @@ public class TileFactoryEditor : Editor
 
         if (GUILayout.Button("🔄 Сгенерировать доску"))
         {
-            factory.GenerateBoard();
+            // factory.GenerateBoard();
         }
 
         if (GUILayout.Button("🧹 Очистить доску"))
         {
-            factory.ClearBoard();
+            // factory.ClearBoard();
         }
     }
 }

@@ -135,6 +135,10 @@ PrefabInstance:
       propertyPath: mainGameSceneName
       value: Pre-GameScene
       objectReference: {fileID: 0}
+    - target: {fileID: 6170139803599220064, guid: d12d9a96b43cf1942b4bd964c7a6dcdb, type: 3}
+      propertyPath: gameSettingsSceneName
+      value: PregameSettingsBootstrapper
+      objectReference: {fileID: 0}
     - target: {fileID: 8600935539800675042, guid: d12d9a96b43cf1942b4bd964c7a6dcdb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

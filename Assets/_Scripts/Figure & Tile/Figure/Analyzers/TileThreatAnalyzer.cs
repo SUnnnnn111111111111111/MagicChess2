@@ -9,6 +9,8 @@ public static class TileThreatAnalyzer
         var enemies = FiguresRepository.Instance.GetFiguresByTeam(!whiteTeamAffiliation);
         foreach (var enemy in enemies)
         {
+            if (enemy.isKing) continue;
+            
             var logic = enemy.GetComponent<FigureLogic>();
             if (logic == null) continue;
 
@@ -75,21 +77,16 @@ public static class TileThreatAnalyzer
 
     public static List<Tile> FilterKingMoves(List<Tile> input, Figure king)
     {
+        var from = king.CurrentTile;
         var filtered = new List<Tile>();
         foreach (var tile in input)
         {
-            bool isEnemy = tile.OccupyingFigure != null && tile.OccupyingFigure.whiteTeamAffiliation != king.whiteTeamAffiliation;
-
-            if (isEnemy && IsTileUnderThreatAfterCapture(tile, king))
-                continue;
-
-            if (IsTileUnderThreat(tile, king.whiteTeamAffiliation))
-                continue;
-
-            if (IsTileUnderFutureThreat(tile, king))
-                continue;
-
-            filtered.Add(tile);
+            MoveSimulationHelper.SimulateMove(king, from, tile, out var occupantOnTo);
+            bool threatened = TileThreatAnalyzer.IsTileUnderThreat(king.CurrentTile, king.whiteTeamAffiliation);
+            MoveSimulationHelper.RestoreMove(king, from, tile, occupantOnTo);
+        
+            if (!threatened) 
+                filtered.Add(tile);
         }
         return filtered;
     }

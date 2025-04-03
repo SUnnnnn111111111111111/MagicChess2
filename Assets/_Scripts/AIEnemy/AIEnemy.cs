@@ -96,12 +96,12 @@ public class AIEnemy : MonoBehaviour
     {
         yield return new WaitForSeconds(delayBeforeMove);
     
-        // selectedAIFigure = GetWeightedFigure();
-        // if (selectedAIFigure == null)
-        // {
-        //     Debug.LogWarning("Нет выбранной фигуры для хода AI");
-        //     yield break;
-        // }
+        selectedAIFigure = GetWeightedFigure();
+        if (selectedAIFigure == null)
+        {
+            Debug.LogWarning("Нет выбранной фигуры для хода AI");
+            yield break;
+        }
 
         // Выбираем глобальную цель с учетом новых критериев и получаем рассчитанный вес
         var evaluationResult = TileScoringService.SelectBestTile(selectedAIFigure);
@@ -129,25 +129,25 @@ public class AIEnemy : MonoBehaviour
     /// <summary>
     /// Выбирает фигуру для хода AI с учетом веса. При выборе происходит подсветка доступных ходов.
     /// </summary>
-    // public Figure GetWeightedFigure()
-    // {
-    //     UpdateAvailableFigures();
-    //     
-    //     if (availableFigures.Count == 0)
-    //     {
-    //         Debug.LogWarning("Нет фигур для команды " + aiTeam);
-    //         return null;
-    //     }
-    //
-    //     // Figure selectedFigure = FigureScoringService.SelectFigure(availableFigures);
-    //     //
-    //     // if (selectedFigure != null)
-    //     // {
-    //     //     var logic = selectedFigure.GetComponent<FigureLogic>();
-    //     //     if (logic != null)
-    //     //         logic.HighlightAvailableToMoveTiles(includeFog: false);
-    //     // }
-    //     //
-    //     // return selectedFigure;
-    // // }
+    public Figure GetWeightedFigure()
+    {
+        UpdateAvailableFigures();
+        
+        if (availableFigures.Count == 0)
+        {
+            Debug.LogWarning("Нет фигур для команды " + aiTeam);
+            return null;
+        }
+    
+        Figure selectedFigure = FigureScoringService.SelectFigure(availableFigures);
+        
+        if (selectedFigure != null)
+        {
+            var logic = selectedFigure.GetComponent<FigureLogic>();
+            if (logic != null)
+                logic.HighlightAvailableToMoveTiles(includeFog: false);
+        }
+        
+        return selectedFigure;
+    }
 }

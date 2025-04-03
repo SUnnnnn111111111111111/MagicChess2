@@ -46,12 +46,15 @@ public class KingMoveCalculator : MoveCalculator
                 }
                 else
                 {
-                    Vector2Int relative = tile.Position - currentTile.Position;
-                    if ((relative == new Vector2Int(4, 0) || relative == new Vector2Int(-4, 0)) && !figure.isFirstMove)
-                        continue;
                     moves.Add(tile);
                 }
             }
+        }
+        
+        if (figure.isKing)
+        {
+            var castlingMoves = CastlingService.GetCastlingTilesForKing(figure);
+            moves.AddRange(castlingMoves);
         }
 
         return moves;

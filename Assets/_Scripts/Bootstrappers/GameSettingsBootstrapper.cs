@@ -52,7 +52,7 @@ public class GameSettingsBootstrapper : MonoBehaviour
 
         if (AIEnemy.Instance == null)
         {
-            GameObject aiObj = Instantiate(Resources.Load("Prefabs/AIEnemy")) as GameObject;
+            GameObject aiObj = Instantiate(Resources.Load("Prefabs/AIEnemy/AIEnemy")) as GameObject;
             AIEnemy ai = aiObj.GetComponent<AIEnemy>();
             if (ai != null)
             {
@@ -83,7 +83,7 @@ public class GameSettingsBootstrapper : MonoBehaviour
 
         if (AIEnemy.Instance == null)
         {
-            GameObject aiObj = Instantiate(Resources.Load("Prefabs/AIEnemy")) as GameObject;
+            GameObject aiObj = Instantiate(Resources.Load("Prefabs/AIEnemy/AIEnemy")) as GameObject;
             AIEnemy ai = aiObj.GetComponent<AIEnemy>();
             if (ai != null)
             {

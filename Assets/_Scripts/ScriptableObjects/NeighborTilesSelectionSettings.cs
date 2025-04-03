@@ -113,8 +113,6 @@ public class NeighborTilesSelectionSettings : ScriptableObject
                         offsets.Add(new Vector2Int(-2, -2));
                         offsets.Add(new Vector2Int(2, -2));
                         offsets.Add(new Vector2Int(-2, 2));
-                        offsets.Add(new Vector2Int(4, 0));
-                        offsets.Add(new Vector2Int(-4, 0));
                     }
                     break;
                 case NeighborType.PawnWhite:
