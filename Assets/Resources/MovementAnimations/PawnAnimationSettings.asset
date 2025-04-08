@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa63bce711fe46d7992d5a42253f619d, type: 3}
-  m_Name: PawnWhiteAnimationSettings
+  m_Name: PawnAnimationSettings
   m_EditorClassIdentifier: 
   moveDuration: 0.5
   rotateDuration: 0.2

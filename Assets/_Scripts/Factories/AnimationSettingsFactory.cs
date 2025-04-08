@@ -12,7 +12,9 @@ public class AnimationSettingsFactory
             switch (neighborType)
             {
                 case NeighborType.PawnWhite:
-                    return Resources.Load<AnimationSettings>("MovementAnimations/PawnWhiteAnimationSettings");
+                    return Resources.Load<AnimationSettings>("MovementAnimations/PawnAnimationSettings");
+                case NeighborType.PawnBlack:
+                    return Resources.Load<AnimationSettings>("MovementAnimations/PawnAnimationSettings");
                 case NeighborType.Knight:
                     return Resources.Load<AnimationSettings>("MovementAnimations/KnightAnimationSettings");
                 // Добавьте другие типы фигур по аналогии

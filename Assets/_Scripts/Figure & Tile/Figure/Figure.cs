@@ -34,15 +34,4 @@ public class Figure : MonoBehaviour
 
     public Vector2Int CurrentPosition { get; set; }
     public Tile CurrentTile { get; set; }
-
-    // public int GetAvailableMovesCount()
-    // {
-    //     if (CurrentTile == null) return 0;
-    //
-    //     var calculator = MoveCalculatorFactory.Create(neighborTilesSelectionSettings);
-    //     return calculator.CalculateMoves(CurrentTile, neighborTilesSelectionSettings, whiteTeamAffiliation).Count;
-    // }
-    //
-    // public bool IsCurrentTileHighlighted() => CurrentTile?.IsHighlighted ?? false;
-    // public string GetCurrentTilePosition() => CurrentTile?.Position.ToString() ?? "None";
 }
