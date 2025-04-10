@@ -7,14 +7,13 @@
         var rules = settings.neighborRules;
 
         if (rules.Exists(r => r.neighborType is
-                NeighborType.Rectangle or
                 NeighborType.Knight or 
                 NeighborType.KnightDouble or
                 NeighborType.KnightPlus or 
                 NeighborType.ZigZag or 
                 NeighborType.Circular or 
                 NeighborType.Star))
-            return new RectangleMoveCalculator();
+            return new UnblockableMoveCalculator();
 
         if (rules.Exists(r => r.neighborType is NeighborType.PawnWhite or NeighborType.PawnBlack))
             return new PawnMoveCalculator();

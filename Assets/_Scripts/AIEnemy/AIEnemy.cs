@@ -25,18 +25,18 @@ public class AIEnemy : MonoBehaviour
         if (availableFigures == null)
             availableFigures = new List<Figure>();
     }
+    
+    private void OnEnable()
+    {
+        if (GameStateManager.Instance != null)
+            GameStateManager.Instance.OnGameStateChanged.AddListener(HandleGameStateChanged);
+    }
 
     private IEnumerator Start()
     {
         yield return null;
         UpdateAvailableFigures();
         HandleGameStateChanged(GameStateManager.Instance.CurrentState);
-    }
-    
-    private void OnEnable()
-    {
-        if (GameStateManager.Instance != null)
-            GameStateManager.Instance.OnGameStateChanged.AddListener(HandleGameStateChanged);
     }
     
     private void OnDisable()

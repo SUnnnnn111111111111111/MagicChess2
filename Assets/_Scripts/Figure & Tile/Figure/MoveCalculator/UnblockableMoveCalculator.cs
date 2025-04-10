@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class RectangleMoveCalculator : MoveCalculator
+public class UnblockableMoveCalculator : MoveCalculator
 {
     public override List<Tile> CalculateMoves(Tile currentTile, NeighborTilesSelectionSettings settings, bool isWhite)
     {

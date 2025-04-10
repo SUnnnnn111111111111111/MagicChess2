@@ -34,4 +34,6 @@ public class Figure : MonoBehaviour
 
     public Vector2Int CurrentPosition { get; set; }
     public Tile CurrentTile { get; set; }
+    
+    
 }
