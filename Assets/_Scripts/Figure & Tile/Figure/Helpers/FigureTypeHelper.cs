@@ -4,10 +4,10 @@ public static class FigureTypeHelper
 {
     public static bool IsShortRange(Figure figure)
     {
-        if (figure.neighborTilesSelectionSettings == null)
+        if (figure.TilesSelectionSettings == null)
             return false;
 
-        return figure.neighborTilesSelectionSettings.neighborRules.Any(rule =>
+        return figure.TilesSelectionSettings.neighborRules.Any(rule =>
             rule.neighborType == NeighborType.PawnWhite ||
             rule.neighborType == NeighborType.PawnBlack ||
             rule.neighborType == NeighborType.Knight);
@@ -15,6 +15,6 @@ public static class FigureTypeHelper
 
     public static bool IsLongRange(Figure figure)
     {
-        return !IsShortRange(figure);
+        return IsShortRange(figure) == false;
     }
 }

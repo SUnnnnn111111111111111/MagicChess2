@@ -15,7 +15,7 @@ public class KingMoveCalculator : MoveCalculator
         foreach (var offset in settings.GetOffsets())
         {
             Vector2Int dir = GetDirection(Vector2Int.zero, offset);
-            if (!directionalMoves.ContainsKey(dir))
+            if (directionalMoves.ContainsKey(dir) == false)
                 directionalMoves[dir] = new List<Tile>();
         }
 
@@ -33,14 +33,14 @@ public class KingMoveCalculator : MoveCalculator
             foreach (var tile in entry.Value)
             {
                 if (blocked) break;
-                if (tile.isWall)
+                if (tile.IsWall)
                 {
                     blocked = true;
                     continue;
                 }
                 if (tile.OccupyingFigure != null)
                 {
-                    if (tile.OccupyingFigure.whiteTeamAffiliation != isWhite)
+                    if (tile.OccupyingFigure.WhiteTeamAffiliation != isWhite)
                         moves.Add(tile);
                     blocked = true;
                 }
@@ -51,7 +51,7 @@ public class KingMoveCalculator : MoveCalculator
             }
         }
         
-        if (figure.isKing)
+        if (figure.IsKing)
         {
             var castlingMoves = CastlingService.GetCastlingTilesForKing(figure);
             moves.AddRange(castlingMoves);

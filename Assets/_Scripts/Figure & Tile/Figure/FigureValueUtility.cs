@@ -21,13 +21,13 @@ public static class FigureValueUtility
 
     public static int GetFigureValue(Figure figure)
     {
-        if (figure == null || figure.neighborTilesSelectionSettings == null)
+        if (figure == null || figure.TilesSelectionSettings == null)
             return 0;
 
-        if (figure.isKing)
+        if (figure.IsKing)
             return values[NeighborType.King];
 
-        foreach (var rule in figure.neighborTilesSelectionSettings.neighborRules)
+        foreach (var rule in figure.TilesSelectionSettings.neighborRules)
         {
             if (values.TryGetValue(rule.neighborType, out int value))
                 return value;

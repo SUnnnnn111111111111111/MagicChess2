@@ -7,8 +7,7 @@ public class AnimationSettingsFactory
         if (neighborTilesSelectionSettings != null && neighborTilesSelectionSettings.neighborRules.Count > 0)
         {
             var neighborType = neighborTilesSelectionSettings.neighborRules[0].neighborType;
-
-            // Здесь вы выбираете нужные настройки анимации на основе neighborType
+            
             switch (neighborType)
             {
                 case NeighborType.PawnWhite:
@@ -17,7 +16,6 @@ public class AnimationSettingsFactory
                     return Resources.Load<AnimationSettings>("MovementAnimations/PawnAnimationSettings");
                 case NeighborType.Knight:
                     return Resources.Load<AnimationSettings>("MovementAnimations/KnightAnimationSettings");
-                // Добавьте другие типы фигур по аналогии
                 default:
                     return Resources.Load<AnimationSettings>("MovementAnimations/DefaultAnimationSettings");
             }

@@ -6,7 +6,12 @@ public class GameSettingsBootstrapper : MonoBehaviour
 {
     [SerializeField] private string mainGameSceneName = "MainGameScene";
 
-    private enum BoardType { Default, Test }
+    private enum BoardType
+    {
+        Default, 
+        Test
+    }
+    
     private static BoardType boardToLoad = BoardType.Default;
 
     private void Start()

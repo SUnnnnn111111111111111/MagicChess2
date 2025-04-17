@@ -81,28 +81,28 @@ public class GameStateManager : MonoBehaviour
             SetGameState(GameState.BlacksPlaying);
             madeAFigureMoveAtThisTurn = false;
             foreach (var figure in FiguresRepository.Instance.GetFiguresByTeam(false))
-                figure.hasMovedThisTurn = false;
+                figure.HasMovedThisTurn = false;
         }
         else if (CurrentState == GameState.BlacksPlaying)
         {
             SetGameState(GameState.WhitesPlaying);
             madeAFigureMoveAtThisTurn = false;
             foreach (var figure in FiguresRepository.Instance.GetFiguresByTeam(true))
-                figure.hasMovedThisTurn = false;
+                figure.HasMovedThisTurn = false;
         }
-        
+    
         KingThreatStateCache.Instance.UpdateThreats();
         
-        foreach (var detector in FiguresRepository.Instance.AllFigures.Select(f => f.GetComponent<EnemyKingDetector>()))
+        foreach (var figure in FiguresRepository.Instance.AllFigures)
         {
-            if (detector != null)
-                detector.isKingIsUnderAttack();
+            if (figure.KingDetector != null)
+                figure.KingDetector.IsKingUnderAttack();
         }
-        
+    
         List<Figure> currentTeamFigures = (CurrentState == GameState.WhitesPlaying)
             ? FiguresRepository.Instance.GetFiguresByTeam(true) 
             : FiguresRepository.Instance.GetFiguresByTeam(false);
-        
+    
         foreach (var figure in currentTeamFigures)
         {
             EventTriggeringTileManager.Instance.HandleEventTrigger(figure, figure.CurrentTile);
@@ -110,6 +110,7 @@ public class GameStateManager : MonoBehaviour
 
         FogOfWarManager.Instance.UpdateFogOfWar();
     }
+
 
 
     public void SetPaused(bool isPaused)

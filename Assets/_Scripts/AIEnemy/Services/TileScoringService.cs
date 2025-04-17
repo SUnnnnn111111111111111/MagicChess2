@@ -27,12 +27,12 @@ public static class TileScoringService
             weight += globalKingBonus / (distToKing + 1f);
         }
 
-        if (tile.isSideEventTriggering && !figure.isKing && figure.countOfMovesIsOnEventTriggeringTile < 3)
+        if (tile.IsSideEventTriggering && !figure.IsKing && figure.CountOfMovesIsOnEventTriggeringTile < 3)
         {
             weight += eventTileBonus;
         }
 
-        if (figure.whiteTeamAffiliation)
+        if (figure.WhiteTeamAffiliation)
         {
             if (tile.Position.x >= -17 && tile.Position.x <= -3 &&
                 tile.Position.y >= -9 && tile.Position.y <= 17)
@@ -50,14 +50,14 @@ public static class TileScoringService
         }
 
         if (tile.OccupyingFigure != null &&
-            !tile.OccupyingFigure.isKing &&
-            tile.OccupyingFigure.whiteTeamAffiliation != figure.whiteTeamAffiliation)
+            tile.OccupyingFigure.IsKing == false &&
+            tile.OccupyingFigure.WhiteTeamAffiliation != figure.WhiteTeamAffiliation)
         {
             weight += enemyFigureBonus;
         }
 
-        // ❗ Наказание за опасную клетку
-        if (TileThreatAnalyzer.IsTileUnderThreat(tile, figure.whiteTeamAffiliation))
+        // Наказание за опасную клетку
+        if (TileThreatAnalyzer.IsTileUnderThreat(tile, figure.WhiteTeamAffiliation))
         {
             weight -= threatenedTilePenalty;
         }
@@ -74,8 +74,8 @@ public static class TileScoringService
         foreach (var tile in availableTiles)
         {
             if (tile.OccupyingFigure != null &&
-                tile.OccupyingFigure.isKing &&
-                tile.OccupyingFigure.whiteTeamAffiliation != figure.whiteTeamAffiliation)
+                tile.OccupyingFigure.IsKing &&
+                tile.OccupyingFigure.WhiteTeamAffiliation != figure.WhiteTeamAffiliation)
             {
                 return (tile, immediateKingWeight);
             }
@@ -83,8 +83,8 @@ public static class TileScoringService
 
         Vector2 enemyKingPos = Vector2.zero;
         Figure enemyKing = FiguresRepository.Instance
-            .GetFiguresByTeam(!figure.whiteTeamAffiliation)
-            .FirstOrDefault(f => f.isKing);
+            .GetFiguresByTeam(!figure.WhiteTeamAffiliation)
+            .FirstOrDefault(f => f.IsKing);
         if (enemyKing != null && enemyKing.CurrentTile != null)
         {
             enemyKingPos = new Vector2(enemyKing.CurrentTile.Position.x, enemyKing.CurrentTile.Position.y);
@@ -105,7 +105,7 @@ public static class TileScoringService
                     log += $" (атакует: {tile.OccupyingFigure.name})";
                 }
 
-                if (TileThreatAnalyzer.IsTileUnderThreat(tile, figure.whiteTeamAffiliation))
+                if (TileThreatAnalyzer.IsTileUnderThreat(tile, figure.WhiteTeamAffiliation))
                 {
                     log += " [⚠ под угрозой]";
                 }

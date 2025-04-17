@@ -14,10 +14,10 @@ public static class CastlingService
         rookTile = null;
         kingTargetTile = null;
 
-        if (!king.isKing || !king.isFirstMove || king.CurrentTile == null)
+        if (king.IsKing == false || king.IsFirstMove == false || king.CurrentTile == null)
             return false;
 
-        bool isWhite = king.whiteTeamAffiliation;
+        bool isWhite = king.WhiteTeamAffiliation;
         Vector2Int kingPos = king.CurrentTile.Position;
         Vector2Int rookPos = kingPos + rookOffset;
 
@@ -26,7 +26,7 @@ public static class CastlingService
             return false;
 
         Figure rook = candidateRookTile.OccupyingFigure;
-        if (rook == null || !rook.isFirstMove || rook.whiteTeamAffiliation != isWhite)
+        if (rook == null || rook.IsFirstMove == false || rook.WhiteTeamAffiliation != isWhite)
             return false;
 
         var between = GetIntermediateTiles(king.CurrentTile, candidateRookTile);
@@ -59,7 +59,7 @@ public static class CastlingService
         bool isKingside = rookTile.Position.x > king.CurrentTile.Position.x;
 
         Figure rook = rookTile.OccupyingFigure;
-        if (rook == null || !rook.isFirstMove)
+        if (rook == null || rook.IsFirstMove == false)
         {
             return;
         }
@@ -71,32 +71,26 @@ public static class CastlingService
             return;
         }
 
-        FigureMover kingMover = king.GetComponent<FigureMover>();
-        FigureMover rookMover = rook.GetComponent<FigureMover>();
-
         GameStateManager.Instance.madeAFigureMoveAtThisTurn = true;
         HighlightTilesManager.Instance.ClearHighlights();
 
         rookTile.SetOccupyingFigure(null);
         king.CurrentTile.SetOccupyingFigure(null);
 
-        kingMover.MoveWithAnimationTo(kingTargetTile, () =>
+        king.Mover.MoveWithAnimationTo(kingTargetTile, () =>
         {
-            rookMover.MoveWithAnimationTo(rookTargetTile, () =>
+            rook.Mover.MoveWithAnimationTo(rookTargetTile, () =>
             {
                 rookTargetTile.SetOccupyingFigure(rook);
                 rook.CurrentTile = rookTargetTile;
                 rook.CurrentPosition = rookTargetTile.Position;
-                rook.isFirstMove = false;
-                king.isFirstMove = false;
+                rook.IsFirstMove = false;
+                king.IsFirstMove = false;
 
                 FogOfWarManager.Instance.UpdateFogOfWar();
                 SelectedFigureManager.Instance.SelectedFigure = null;
-
-                DOVirtual.DelayedCall(king.delayBeforePassingTheMove, () =>
-                {
-                    GameStateManager.Instance.EndTurn();
-                });
+                GameStateManager.Instance.EndTurn();
+                
             });
         });
     }
@@ -123,10 +117,9 @@ public static class CastlingService
     {
         List<Tile> castlingTiles = new();
 
-        if (!king.isKing || !king.isFirstMove || king.CurrentTile == null)
+        if (king.IsKing == false || king.IsFirstMove == false || king.CurrentTile == null)
             return castlingTiles;
-
-        // Жестко: король белых смотрит вправо (по +X), чёрных — в ту же сторону, доска не крутится
+        
         Vector2Int shortOffset = new Vector2Int(6, 0); // 3 клетки вправо = ладья для короткой
         Vector2Int longOffset  = new Vector2Int(-8, 0); // 4 клетки влево = ладья для длинной
 

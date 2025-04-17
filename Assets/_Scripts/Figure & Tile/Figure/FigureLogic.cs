@@ -2,27 +2,26 @@
 using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(Figure))]
-public class FigureLogic : MonoBehaviour
+public class FigureLogic
 {
     private Figure figure;
 
-    private void Awake()
+    public FigureLogic(Figure owner)
     {
-        figure = GetComponent<Figure>();
+        figure = owner;
     }
 
     public void HighlightAvailableToMoveTiles(bool includeFog)
     {
         if (figure.CurrentTile == null)
         {
-            Debug.LogWarning($"[FigureLogic] Фигура {gameObject.name} не может найти текущую клетку!");
+            Debug.LogWarning($"[FigureLogic] Фигура {figure.gameObject.name} не может найти текущую клетку!");
             return;
         }
 
         List<Tile> moves = FigureMoveService.GetAvailableToMoveTiles(figure);
 
-        if (!figure.isKing)
+        if (figure.IsKing == false)
         {
             moves = MoveFilterService.FilterAll(figure, moves);
         }
@@ -32,7 +31,7 @@ public class FigureLogic : MonoBehaviour
         }
 
         if (includeFog)
-            moves = moves.Where(tile => !tile.HiddenByFog).ToList();
+            moves = moves.Where(tile => tile.HiddenByFog == false).ToList();
 
         TileHighlightService.HighlightTiles(figure, moves);
     }

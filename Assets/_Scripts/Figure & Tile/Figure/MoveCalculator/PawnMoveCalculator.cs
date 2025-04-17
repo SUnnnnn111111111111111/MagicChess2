@@ -18,7 +18,7 @@ public class PawnMoveCalculator : MoveCalculator
 
         foreach (var tile in possibleMoves)
         {
-            if (tile == null || tile.isWall) continue;
+            if (tile == null || tile.IsWall) continue;
 
             Vector2Int direction = tile.Position - currentTile.Position;
             bool isForward = direction.y == (isWhite ? 2 : -2) && direction.x == 0;
@@ -27,7 +27,7 @@ public class PawnMoveCalculator : MoveCalculator
             
             if (isDoubleMove)
             {
-                if (figure.isFirstMove && IsPathClear(currentTile, tile, isWhite))
+                if (figure.IsFirstMove && IsPathClear(currentTile, tile, isWhite))
                     moves.Add(tile);
                 continue;
             }
@@ -36,7 +36,7 @@ public class PawnMoveCalculator : MoveCalculator
                 moves.Add(tile);
             
             else if (tile.OccupyingFigure != null && isDiagonalAttack)
-                if (tile.OccupyingFigure.whiteTeamAffiliation != isWhite)
+                if (tile.OccupyingFigure.WhiteTeamAffiliation != isWhite)
                     moves.Add(tile);
         }
         return moves;

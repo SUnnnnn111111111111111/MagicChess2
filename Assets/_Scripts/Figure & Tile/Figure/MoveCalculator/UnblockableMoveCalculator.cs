@@ -10,9 +10,9 @@ public class UnblockableMoveCalculator : MoveCalculator
         foreach (var tile in possibleMoves)
         {
             if (tile == null) continue;
-            if (tile.isWall) continue; 
+            if (tile.IsWall) continue; 
             if (tile.OccupyingFigure == null 
-                || tile.OccupyingFigure.whiteTeamAffiliation != isWhite)
+                || tile.OccupyingFigure.WhiteTeamAffiliation != isWhite)
             {
                 moves.Add(tile);
             }

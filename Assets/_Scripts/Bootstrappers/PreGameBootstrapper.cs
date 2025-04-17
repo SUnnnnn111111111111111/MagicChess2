@@ -18,6 +18,7 @@ public class PreGameBootstrapper : MonoBehaviour
         InitManager("Prefabs/Managers/GameStateManager");
         InitManager("Prefabs/Managers/FogOfWarManager");
         InitManager("Prefabs/Managers/HighlightTilesManager");
+        InitManager("Prefabs/Managers/InputManager");
 
         InitFactory("Prefabs/Factories/BoardFactory");
         InitFactory("Prefabs/Factories/UIFactory");

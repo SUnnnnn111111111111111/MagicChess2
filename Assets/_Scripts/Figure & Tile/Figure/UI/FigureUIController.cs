@@ -4,13 +4,15 @@ using DG.Tweening;
 
 public class FigureUIController : MonoBehaviour
 {
-    public TMP_Text movesText;
-    public CanvasGroup canvasGroup;
-
-    public bool isHiddenOnStart;
-    public float fadeInDuration = 0.5f;
-    public float visibleDuration = 1.0f;
-    public float fadeOutDuration = 0.5f;
+    [Header("UI Elements")]
+    [SerializeField] private TMP_Text movesText;
+    [SerializeField] private CanvasGroup canvasGroup;
+    
+    [Header("Animation Settings")]
+    [SerializeField] private bool isHiddenOnStart = true;
+    [SerializeField] private float fadeInDuration = 0.5f;
+    [SerializeField] private float visibleDuration = 1.0f;
+    [SerializeField] private float fadeOutDuration = 0.5f;
 
     private int lastCount = -1;
 
@@ -21,14 +23,19 @@ public class FigureUIController : MonoBehaviour
             canvasGroup.alpha = 0;
         }
     }
-
-    public void UpdateCount(int currentCount, int maxCount)
+    
+    public void UpdateMoveCount(int currentCount, int maxCount)
     {
         if (currentCount == lastCount)
             return;
 
         lastCount = currentCount;
-        movesText.text = $"{currentCount}/{maxCount}";
+        
+        if(movesText != null)
+            movesText.text = $"{currentCount}/{maxCount}";
+
+        if(canvasGroup == null)
+            return;
 
         canvasGroup.DOKill();
         canvasGroup.alpha = 0;

@@ -8,7 +8,7 @@ public static class TileHighlightService
         List<Tile> emptyTiles = moves.Where(t => t.OccupyingFigure == null).ToList();
         List<Tile> enemyTiles = moves.Where(t =>
             t.OccupyingFigure != null &&
-            t.OccupyingFigure.whiteTeamAffiliation != figure.whiteTeamAffiliation).ToList();
+            t.OccupyingFigure.WhiteTeamAffiliation != figure.WhiteTeamAffiliation).ToList();
 
         HighlightTilesManager.Instance.HighlightAvailableTiles(emptyTiles);
         HighlightTilesManager.Instance.HighlightEnemyTiles(enemyTiles);

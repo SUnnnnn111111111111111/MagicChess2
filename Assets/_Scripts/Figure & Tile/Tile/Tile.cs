@@ -7,12 +7,12 @@ using System.Collections.Generic;
 [RequireComponent(typeof(TileIconController))]
 public class Tile : MonoBehaviour
 {
-    [Header("Tile Properties")]
-    public bool isWall;
-    public bool isSideEventTriggering;
-    public bool isMiddleEventTriggering;
-    public bool isAPawnMovementPromotion;
-    public bool isAPawnMovementRandomPromotion;
+    [field: Header("Tile Properties")] 
+    [field: SerializeField] public bool IsWall { get; private set; }
+    [field: SerializeField] public bool IsSideEventTriggering { get; set; }
+    [field: SerializeField] public bool IsMiddleEventTriggering { get; set; }
+    [field: SerializeField] public bool IsAPawnMovementPromotion { get; set; }
+    [field: SerializeField] public bool IsAPawnMovementRandomPromotion { get; set; }
 
     [Header("State")]
     public Vector2Int Position { get; private set; }

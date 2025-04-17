@@ -1,4 +1,4 @@
-﻿﻿using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -6,16 +6,16 @@ public static class TileThreatAnalyzer
 {
     public static bool IsTileUnderThreat(Tile tile, bool whiteTeamAffiliation)
     {
-        var enemies = FiguresRepository.Instance.GetFiguresByTeam(!whiteTeamAffiliation);
+        var enemies = FiguresRepository.Instance.GetFiguresByTeam(whiteTeamAffiliation == false);
         foreach (var enemy in enemies)
         {
-            if (enemy.isKing) continue;
+            if (enemy.IsKing) continue;
             
-            var logic = enemy.GetComponent<FigureLogic>();
-            if (logic == null) continue;
+            if (enemy.Logic == null)
+                continue;
 
             var moves = FigureMoveService.GetAvailableToMoveTiles(enemy);
-            if (moves.Any(t => t.Position == tile.Position && !t.HiddenByFog))
+            if (moves.Any(t => t.Position == tile.Position && t.HiddenByFog == false))
                 return true;
         }
         return false;
@@ -24,11 +24,11 @@ public static class TileThreatAnalyzer
     public static bool IsTileUnderThreatAfterCapture(Tile tile, Figure capturingFigure)
     {
         if (tile == null || capturingFigure == null || tile.OccupyingFigure == null)
-            return IsTileUnderThreat(tile, capturingFigure?.whiteTeamAffiliation ?? true);
+            return IsTileUnderThreat(tile, capturingFigure?.WhiteTeamAffiliation ?? true);
 
         var from = capturingFigure.CurrentTile;
         MoveSimulationHelper.SimulateMove(capturingFigure, from, tile, out var original);
-        bool result = IsTileUnderThreat(tile, capturingFigure.whiteTeamAffiliation);
+        bool result = IsTileUnderThreat(tile, capturingFigure.WhiteTeamAffiliation);
         MoveSimulationHelper.RestoreMove(capturingFigure, from, tile, original);
 
         return result;
@@ -49,19 +49,23 @@ public static class TileThreatAnalyzer
             var fig = checkTile.OccupyingFigure;
             if (fig != null)
             {
-                if (fig.whiteTeamAffiliation != potentialBlocker.whiteTeamAffiliation && FigureTypeHelper.IsLongRange(fig))
+                if (fig.WhiteTeamAffiliation != potentialBlocker.WhiteTeamAffiliation && FigureTypeHelper.IsLongRange(fig))
                 {
                     Vector2Int attackVector = checkTile.Position - tilePos;
                     Vector2Int normalized = new(
                         attackVector.x == 0 ? 0 : attackVector.x / Mathf.Abs(attackVector.x),
                         attackVector.y == 0 ? 0 : attackVector.y / Mathf.Abs(attackVector.y));
 
-                    List<NeighborType> types = fig.neighborTilesSelectionSettings.neighborRules.Select(r => r.neighborType).ToList();
+                    List<NeighborType> types = fig.TilesSelectionSettings.neighborRules.Select(r => r.neighborType).ToList();
 
                     bool valid =
-                        (normalized.x == 0 || normalized.y == 0) && (types.Contains(NeighborType.Horizontal) || types.Contains(NeighborType.Vertical) || types.Contains(NeighborType.HorizontalVertical) || types.Contains(NeighborType.HorizontalVerticalDiagonal))
+                        (normalized.x == 0 || normalized.y == 0) &&
+                        (types.Contains(NeighborType.Horizontal) || types.Contains(NeighborType.Vertical)
+                         || types.Contains(NeighborType.HorizontalVertical)
+                         || types.Contains(NeighborType.HorizontalVerticalDiagonal))
                         ||
-                        (Mathf.Abs(normalized.x) == Mathf.Abs(normalized.y)) && (types.Contains(NeighborType.Diagonal) || types.Contains(NeighborType.HorizontalVerticalDiagonal));
+                        (Mathf.Abs(normalized.x) == Mathf.Abs(normalized.y)) &&
+                        (types.Contains(NeighborType.Diagonal) || types.Contains(NeighborType.HorizontalVerticalDiagonal));
 
                     if (valid)
                         return true;
@@ -82,10 +86,10 @@ public static class TileThreatAnalyzer
         foreach (var tile in input)
         {
             MoveSimulationHelper.SimulateMove(king, from, tile, out var occupantOnTo);
-            bool threatened = TileThreatAnalyzer.IsTileUnderThreat(king.CurrentTile, king.whiteTeamAffiliation);
+            bool threatened = TileThreatAnalyzer.IsTileUnderThreat(king.CurrentTile, king.WhiteTeamAffiliation);
             MoveSimulationHelper.RestoreMove(king, from, tile, occupantOnTo);
         
-            if (!threatened) 
+            if (threatened == false)
                 filtered.Add(tile);
         }
         return filtered;

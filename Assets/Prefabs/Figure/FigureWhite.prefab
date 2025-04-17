@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: whiteTeamAffiliation
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5098165892479961486, guid: 2cc89ea35632135489ed0ce537c86724, type: 3}
+      propertyPath: <WhiteTeamAffiliation>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7089545583060090016, guid: 2cc89ea35632135489ed0ce537c86724, type: 3}
       propertyPath: m_Name
       value: FigureWhite

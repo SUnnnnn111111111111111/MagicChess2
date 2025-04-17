@@ -6,24 +6,24 @@ public static class MoveFilterService
 {
     public static List<Tile> FilterAll(Figure figure, List<Tile> inputMoves)
     {
-        if (figure.isKing) return inputMoves;
+        if (figure.IsKing) return inputMoves;
 
         var king = FiguresRepository.Instance
-            .GetFiguresByTeam(figure.whiteTeamAffiliation)
-            .FirstOrDefault(f => f.isKing && f.CurrentTile != null);
+            .GetFiguresByTeam(figure.WhiteTeamAffiliation)
+            .FirstOrDefault(f => f.IsKing && f.CurrentTile != null);
 
         if (king == null) return inputMoves;
 
         var result = KingThreatStateCache.Instance.GetThreatState(king);
         if (result == null) return inputMoves;
         
-        if (!result.isUnderAttack)
+        if (result.isUnderAttack == false)
             return inputMoves;
 
         if (result.isDoubleCheck)
             return new();
 
-        if (!result.coveringPieces.Contains(figure))
+        if (result.coveringPieces.Contains(figure) == false)
             return new();
 
         return inputMoves
@@ -33,12 +33,12 @@ public static class MoveFilterService
 
     public static List<Tile> FilterByRayThreatProtection(Figure figure, List<Tile> inputMoves)
     {
-        if (figure.isKing || figure.CurrentTile == null)
+        if (figure.IsKing || figure.CurrentTile == null)
             return inputMoves;
 
         var king = FiguresRepository.Instance
-            .GetFiguresByTeam(figure.whiteTeamAffiliation)
-            .FirstOrDefault(f => f.isKing && f.CurrentTile != null);
+            .GetFiguresByTeam(figure.WhiteTeamAffiliation)
+            .FirstOrDefault(f => f.IsKing && f.CurrentTile != null);
 
         if (king == null)
             return inputMoves;
@@ -50,12 +50,12 @@ public static class MoveFilterService
 
         bool kingNowUnderThreat = TileThreatAnalyzer.IsTileUnderThreat(
             king.CurrentTile,
-            king.whiteTeamAffiliation
+            king.WhiteTeamAffiliation
         );
 
         originalTile.OccupyingFigure = originalOccupant;
 
-        if (!kingNowUnderThreat)
+        if (kingNowUnderThreat == false)
             return inputMoves;
 
         List<Tile> safeMoves = new();
@@ -64,11 +64,11 @@ public static class MoveFilterService
         {
             MoveSimulationHelper.SimulateMove(figure, originalTile, move, out var moveOriginalOccupant);
 
-            var enemies = FiguresRepository.Instance.GetFiguresByTeam(!figure.whiteTeamAffiliation);
+            var enemies = FiguresRepository.Instance.GetFiguresByTeam(figure.WhiteTeamAffiliation == false);
 
             bool destroyedThreatSource = enemies.Any(enemy =>
             {
-                if (!FigureTypeHelper.IsLongRange(enemy)) return false;
+                if (FigureTypeHelper.IsLongRange(enemy) == false) return false;
                 if (enemy.CurrentTile == null || king.CurrentTile == null) return false;
                 if (enemy.CurrentTile.Position != move.Position) return false;
 
@@ -85,10 +85,10 @@ public static class MoveFilterService
 
             bool threatAfterMove = TileThreatAnalyzer.IsTileUnderThreat(
                 king.CurrentTile,
-                king.whiteTeamAffiliation
+                king.WhiteTeamAffiliation
             );
 
-            if (!threatAfterMove) safeMoves.Add(move);
+            if (threatAfterMove == false) safeMoves.Add(move);
             
             MoveSimulationHelper.RestoreMove(figure, originalTile, move, moveOriginalOccupant);
         }

@@ -8361,6 +8361,10 @@ PrefabInstance:
       propertyPath: isAPawnMovementPromotion
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: <IsAPawnMovementPromotion>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
       value: WhiteTile (94)
@@ -8983,6 +8987,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: isAPawnMovementPromotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: <IsAPawnMovementPromotion>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
@@ -9807,6 +9815,10 @@ PrefabInstance:
       propertyPath: isAPawnMovementPromotion
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: <IsAPawnMovementPromotion>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
       value: WhiteTile (95)
@@ -10059,6 +10071,10 @@ PrefabInstance:
       propertyPath: isAPawnMovementRandomPromotion
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: <IsAPawnMovementRandomPromotion>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
       value: BlackTile (31)
@@ -10183,6 +10199,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: <IsMiddleEventTriggering>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
       value: WhiteTile (137)
@@ -10247,6 +10267,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: isAPawnMovementPromotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: <IsAPawnMovementPromotion>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
@@ -10375,6 +10399,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: isAPawnMovementPromotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: <IsAPawnMovementPromotion>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
@@ -11005,6 +11033,10 @@ PrefabInstance:
       propertyPath: isAPawnMovementPromotion
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: <IsAPawnMovementPromotion>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
       value: WhiteTile (33)
@@ -11255,6 +11287,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: isAPawnMovementRandomPromotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: <IsAPawnMovementRandomPromotion>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
@@ -12833,6 +12869,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: isAPawnMovementPromotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: <IsAPawnMovementPromotion>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
@@ -15639,6 +15679,10 @@ PrefabInstance:
       propertyPath: isAPawnMovementPromotion
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: <IsAPawnMovementPromotion>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
       value: BlackTile (33)
@@ -16075,6 +16119,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: isAPawnMovementRandomPromotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: <IsAPawnMovementRandomPromotion>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
@@ -17011,6 +17059,10 @@ PrefabInstance:
       propertyPath: isAPawnMovementPromotion
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: <IsAPawnMovementPromotion>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
       value: WhiteTile (34)
@@ -17261,6 +17313,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: isAPawnMovementRandomPromotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: <IsAPawnMovementRandomPromotion>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
@@ -18626,6 +18682,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: <IsMiddleEventTriggering>k__BackingField
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
@@ -20415,6 +20475,10 @@ PrefabInstance:
       propertyPath: isAPawnMovementPromotion
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: <IsAPawnMovementPromotion>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
       value: WhiteTile (93)
@@ -20605,6 +20669,10 @@ PrefabInstance:
       propertyPath: isAPawnMovementRandomPromotion
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: <IsAPawnMovementRandomPromotion>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
       value: BlackTile (96)
@@ -20669,6 +20737,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: isAPawnMovementRandomPromotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: <IsAPawnMovementRandomPromotion>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
@@ -21517,6 +21589,10 @@ PrefabInstance:
       propertyPath: isAPawnMovementPromotion
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: <IsAPawnMovementPromotion>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
       value: WhiteTile (35)
@@ -22017,6 +22093,10 @@ PrefabInstance:
       propertyPath: isAPawnMovementRandomPromotion
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: <IsAPawnMovementRandomPromotion>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
       value: WhiteTile (96)
@@ -22388,6 +22468,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: <IsMiddleEventTriggering>k__BackingField
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
@@ -23011,6 +23095,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: isAPawnMovementRandomPromotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: <IsAPawnMovementRandomPromotion>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
@@ -23835,6 +23923,10 @@ PrefabInstance:
       propertyPath: isAPawnMovementRandomPromotion
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: <IsAPawnMovementRandomPromotion>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
       value: BlackTile (28)
@@ -23899,6 +23991,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: isAPawnMovementPromotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: <IsAPawnMovementPromotion>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
@@ -24163,6 +24259,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: isAPawnMovementRandomPromotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: <IsAPawnMovementRandomPromotion>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
@@ -24603,6 +24703,10 @@ PrefabInstance:
       propertyPath: isAPawnMovementRandomPromotion
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: <IsAPawnMovementRandomPromotion>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
       value: WhiteTile (99)
@@ -24791,6 +24895,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: isAPawnMovementRandomPromotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: <IsAPawnMovementRandomPromotion>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
@@ -26173,6 +26281,10 @@ PrefabInstance:
       propertyPath: isAPawnMovementRandomPromotion
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: <IsAPawnMovementRandomPromotion>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
       value: BlackTile (99)
@@ -26237,6 +26349,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: isAPawnMovementPromotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: <IsAPawnMovementPromotion>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
@@ -26489,6 +26605,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: isAPawnMovementRandomPromotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: <IsAPawnMovementRandomPromotion>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
@@ -26865,6 +26985,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: isAPawnMovementRandomPromotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: <IsAPawnMovementRandomPromotion>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
@@ -27801,6 +27925,10 @@ PrefabInstance:
       propertyPath: isAPawnMovementPromotion
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
+      propertyPath: <IsAPawnMovementPromotion>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: cb55985270e9bfa4e9bec41d4ae669d4, type: 3}
       propertyPath: m_Name
       value: WhiteTile (32)
@@ -27989,6 +28117,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: isAPawnMovementPromotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: <IsAPawnMovementPromotion>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
@@ -29331,6 +29463,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: isAPawnMovementPromotion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: <IsAPawnMovementPromotion>k__BackingField
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
@@ -30837,6 +30973,10 @@ PrefabInstance:
       propertyPath: isAPawnMovementRandomPromotion
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: <IsAPawnMovementRandomPromotion>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name
       value: BlackTile (29)
@@ -32026,6 +32166,10 @@ PrefabInstance:
     - target: {fileID: 1865027045259622489, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2426569636783066132, guid: f36cec5354aa440469fb001816c72f68, type: 3}
+      propertyPath: <IsMiddleEventTriggering>k__BackingField
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3446765884558934016, guid: f36cec5354aa440469fb001816c72f68, type: 3}
       propertyPath: m_Name

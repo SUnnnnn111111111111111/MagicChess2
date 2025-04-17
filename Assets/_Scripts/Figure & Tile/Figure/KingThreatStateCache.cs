@@ -14,13 +14,13 @@ public class KingThreatStateCache
         cache.Clear();
 
         var kings = FiguresRepository.Instance.AllFigures
-            .Where(f => f.isKing && f.CurrentTile != null);
+            .Where(f => f.IsKing && f.CurrentTile != null);
 
         foreach (var king in kings)
         {
-            var enemies = FiguresRepository.Instance.GetFiguresByTeam(!king.whiteTeamAffiliation);
-            var allies = FiguresRepository.Instance.GetFiguresByTeam(king.whiteTeamAffiliation)
-                .Where(f => !f.isKing).ToList();
+            var enemies = FiguresRepository.Instance.GetFiguresByTeam(king.WhiteTeamAffiliation == false);
+            var allies = FiguresRepository.Instance.GetFiguresByTeam(king.WhiteTeamAffiliation)
+                .Where(f => f.IsKing == false).ToList();
 
             var result = KingThreatAnalyzer.Analyze(king, enemies, allies);
             cache[king] = result;
@@ -29,7 +29,7 @@ public class KingThreatStateCache
 
     public KingThreatAnalyzer.Result GetThreatState(Figure king)
     {
-        if (king == null || !king.isKing || king.CurrentTile == null)
+        if (king == null || king.IsKing == false || king.CurrentTile == null)
         {
             Debug.LogWarning($"[KTS] ❌ Пропущен {king.name} — CurrentTile == null");
             return null;

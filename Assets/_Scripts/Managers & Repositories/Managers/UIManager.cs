@@ -37,9 +37,9 @@ public class UIManager : MonoBehaviour
 
     public void ShowFigureMoveCount(Figure figure, int current, int max)
     {
-        if (figure.uiController != null)
+        if (figure.UIController != null)
         {
-            figure.uiController.UpdateCount(current, max);
+            figure.UIController.UpdateMoveCount(current, max);
         }
     }
 }

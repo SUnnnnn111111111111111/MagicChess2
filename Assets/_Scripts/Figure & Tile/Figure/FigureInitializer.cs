@@ -1,29 +1,31 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(Figure))]
-public class FigureInitializer : MonoBehaviour
+[System.Serializable]
+public class FigureInitializer
 {
     private Figure figure;
 
-    private void Awake()
+    public FigureInitializer(Figure owner)
     {
-        figure = GetComponent<Figure>();
+        figure = owner;
     }
-
-    private void Start()
+    
+    public void Initialize()
     {
         InitializeFigurePosition();
         RegisterFigure();
         SpawnUI();
         CloneMovementSettings();
+        
+        figure.IsFirstMove = true;
         FogOfWarManager.Instance.UpdateFogOfWar();
     }
-    
+
     private void InitializeFigurePosition()
     {
         figure.CurrentPosition = new Vector2Int(
-            Mathf.RoundToInt(transform.position.x),
-            Mathf.RoundToInt(transform.position.z)
+            Mathf.RoundToInt(figure.transform.position.x),
+            Mathf.RoundToInt(figure.transform.position.z)
         );
 
         figure.CurrentTile = TilesRepository.Instance.GetTileAt(figure.CurrentPosition);
@@ -33,7 +35,7 @@ public class FigureInitializer : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning($"[FigureInitializer] Фигура {gameObject.name} не нашла свою клетку.");
+            Debug.LogWarning($"[FigureInitializer] Фигура {figure.gameObject.name} не нашла свою клетку.");
         }
     }
 
@@ -47,17 +49,17 @@ public class FigureInitializer : MonoBehaviour
 
     private void CloneMovementSettings()
     {
-        if (figure.neighborTilesSelectionSettings != null)
+        if (figure.TilesSelectionSettings != null)
         {
-            figure.neighborTilesSelectionSettings = Instantiate(figure.neighborTilesSelectionSettings);
+            figure.TilesSelectionSettings = Object.Instantiate(figure.TilesSelectionSettings);
         }
     }
 
     private void SpawnUI()
     {
-        if (figure.uiPrefab != null)
+        if (figure.UIPrefab  != null)
         {
-            figure.uiController = Instantiate(figure.uiPrefab, transform.position, Quaternion.identity, transform);
+            figure.UIController = Object.Instantiate(figure.UIPrefab , figure.transform.position, Quaternion.identity, figure.transform);
         }
     }
 }

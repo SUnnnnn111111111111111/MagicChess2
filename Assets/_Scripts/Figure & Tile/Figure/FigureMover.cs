@@ -1,34 +1,36 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 using System.Collections;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Object = UnityEngine.Object;
 
-[RequireComponent(typeof(Figure))]
-[RequireComponent(typeof(MeshSplitter))]
-public class FigureMover : MonoBehaviour
+public class FigureMover
 {
     private Figure figure;
     private Quaternion originalRotation;
 
-    private void Awake()
+    public FigureMover(Figure owner)
     {
-        figure = GetComponent<Figure>();
+        figure = owner;
         originalRotation = figure.transform.rotation;
     }
 
     public void TryMoveToTile(Tile targetTile)
     {
-        if (GameStateManager.Instance.madeAFigureMoveAtThisTurn)
+        if (GameStateManager.Instance.madeAFigureMoveAtThisTurn) 
             return;
 
         if (figure == null || targetTile == null)
             return;
 
-        if (!targetTile.IsHighlighted)
+        if (targetTile.IsHighlighted == false)
             return;
 
         if (targetTile.OccupyingFigure != null)
         {
-            if (targetTile.OccupyingFigure.whiteTeamAffiliation == figure.whiteTeamAffiliation)
+            if (targetTile.OccupyingFigure.WhiteTeamAffiliation == figure.WhiteTeamAffiliation)
                 return;
 
             CaptureEnemy(targetTile.OccupyingFigure);
@@ -39,7 +41,8 @@ public class FigureMover : MonoBehaviour
 
     private void ExecuteMoveSequence(Tile targetTile)
     {
-        if (figure.isKing)
+        // Обработка рокировки для короля
+        if (figure.IsKing)
         {
             if (CastlingService.IsCastlingPossibleInDirection(figure, new Vector2Int(6, 0), out var rook1, out var kingTarget1)
                 && targetTile.Position == kingTarget1.Position)
@@ -47,7 +50,6 @@ public class FigureMover : MonoBehaviour
                 CastlingService.ExecuteCastlingWithAnimation(figure, kingTarget1, rook1);
                 return;
             }
-            
             if (CastlingService.IsCastlingPossibleInDirection(figure, new Vector2Int(-8, 0), out var rook2, out var kingTarget2)
                 && targetTile.Position == kingTarget2.Position)
             {
@@ -55,12 +57,12 @@ public class FigureMover : MonoBehaviour
                 return;
             }
         }
-        
-        var anim = AnimationSettingsFactory.GetAnimationSettings(figure.neighborTilesSelectionSettings);
+
+        var anim = AnimationSettingsFactory.GetAnimationSettings(figure.TilesSelectionSettings);
 
         GameStateManager.Instance.madeAFigureMoveAtThisTurn = true;
-        figure.hasMovedThisTurn = true;
-        figure.isFirstMove = false;
+        figure.HasMovedThisTurn = true;
+        figure.IsFirstMove = false;
 
         if (figure.CurrentTile != null)
         {
@@ -88,13 +90,13 @@ public class FigureMover : MonoBehaviour
                 });
         });
     }
-    
-    public void MoveWithAnimationTo(Tile targetTile, System.Action onComplete = null)
-    {
-        var anim = AnimationSettingsFactory.GetAnimationSettings(figure.neighborTilesSelectionSettings);
 
-        figure.hasMovedThisTurn = true;
-        figure.isFirstMove = false;
+    public void MoveWithAnimationTo(Tile targetTile, Action onComplete = null)
+    {
+        var anim = AnimationSettingsFactory.GetAnimationSettings(figure.TilesSelectionSettings);
+
+        figure.HasMovedThisTurn = true;
+        figure.IsFirstMove = false;
 
         if (figure.CurrentTile != null)
             figure.CurrentTile.SetOccupyingFigure(null);
@@ -124,7 +126,6 @@ public class FigureMover : MonoBehaviour
         });
     }
 
-
     private void FinalizeMovement(Tile newTile)
     {
         figure.CurrentTile = newTile;
@@ -142,17 +143,15 @@ public class FigureMover : MonoBehaviour
         FogOfWarManager.Instance.UpdateFogOfWar();
 
         figure.transform.DORotateQuaternion(originalRotation, 0.2f);
-
-        DOVirtual.DelayedCall(figure.delayBeforePassingTheMove, () =>
-        {
-            GameStateManager.Instance.EndTurn();
-        });
+        
+        GameStateManager.Instance.EndTurn();
+        
     }
 
     private void CaptureEnemy(Figure enemy)
     {
         DeathEffectFactory.Instance.CreateDeathEffect(enemy.transform);
-        
+
         Tile enemyTile = enemy.CurrentTile;
         enemyTile.SetOccupyingFigure(null);
 
@@ -166,7 +165,7 @@ public class FigureMover : MonoBehaviour
         {
             SelectedFigureManager.Instance.SelectedFigure = null;
         }
-        
-        Destroy(enemy.gameObject);
+
+        Object.Destroy(enemy.gameObject);
     }
 }

@@ -1,39 +1,63 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
-[RequireComponent(typeof(FigureInitializer))]
-[RequireComponent(typeof(FigureLogic))]
-[RequireComponent(typeof(FigureMover))]
-[RequireComponent(typeof(EnemyKingDetector))]
-
 public class Figure : MonoBehaviour
 {
-    [Header("Командная принадлежность")]
-    public bool whiteTeamAffiliation;
-    public bool isKing;
-    public bool isPawn;
+    [field: Header("Командная принадлежность")]
+    [field: SerializeField]
+    public bool WhiteTeamAffiliation { get; private set; }
+    [field: SerializeField] 
+    public bool IsKing { get; private set; }
+    [field: SerializeField] 
+    public bool IsPawn { get; private set; }
 
-    [Header("Состояние фигуры")]
-    public bool isFirstMove = true;
-    public bool hasMovedThisTurn;
-    public int countOfMovesIsOnEventTriggeringTile;
+    [field: Header("Состояние фигуры")] 
+    [field: SerializeField] 
+    public bool IsFirstMove { get; set; }
 
-    [Header("Настройки движения")]
-    public NeighborTilesSelectionSettings neighborTilesSelectionSettings;
-    public NeighborTilesSelectionSettings fogNeighborTilesSelectionSettings;
+    [field: SerializeField] 
+    public bool HasMovedThisTurn { get; set; }
+    [field: SerializeField] 
+    public int CountOfMovesIsOnEventTriggeringTile { get; set; }
 
-    [Header("UI")]
-    public FigureUIController uiPrefab;
-    [HideInInspector] public FigureUIController uiController;
+    [field: Header("Настройки движения")] 
+    [field: SerializeField] 
+    public NeighborTilesSelectionSettings TilesSelectionSettings { get; set; }
 
-    [Header("UI Alerts")]
-    public FigureAlertUIController alertUIController;
+    [field: SerializeField] 
+    public NeighborTilesSelectionSettings FogNeighborTilesSelectionSettings { get; private set; }
 
-    [Header("Длительности")]
-    public float delayBeforePassingTheMove = 0.5f;
+    [field: Header("UI")] 
+    [field: SerializeField] 
+    public FigureUIController UIPrefab { get; private set; }
+    [field: SerializeField] 
+    public FigureUIController UIController { get; set; }
+    [field: SerializeField] 
+    public FigureAlertUIController AlertUIController { get; private set; }
 
     public Vector2Int CurrentPosition { get; set; }
     public Tile CurrentTile { get; set; }
     
-    
+    public FigureInitializer Initializer { get; private set; }
+    public FigureLogic Logic { get; private set; }
+    public FigureMover Mover { get; private set; }
+    public EnemyKingDetector KingDetector { get; private set; }
+
+    private void Awake()
+    {
+        Initializer = new FigureInitializer(this);
+        Logic = new FigureLogic(this);
+        Mover = new FigureMover(this);
+        KingDetector = new EnemyKingDetector(this);
+    }
+
+    private void Start()
+    {
+        Initializer.Initialize();
+    }
+
+    private void OnDisable()
+    {
+        KingDetector.HideAlertsOnDisable();
+    }
 }

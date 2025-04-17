@@ -2,82 +2,69 @@
 using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(Figure))]
-public class EnemyKingDetector : MonoBehaviour
+public class EnemyKingDetector
 {
-    private Figure figure;
+    private readonly Figure _owner;
+    public bool KingUnderAttack { get; private set; }
+    public List<Tile> BlockableTiles { get; private set; } = new List<Tile>();
+    public List<Figure> CoveringPieces { get; private set; } = new List<Figure>();
 
-    public bool kingUnderAttack { get; private set; }
-    public List<Tile> blockableTiles { get; private set; } = new();
-    public List<Figure> coveringPieces { get; private set; } = new();
-
-    private void Awake()
+    public EnemyKingDetector(Figure owner)
     {
-        figure = GetComponent<Figure>();
+        _owner = owner;
     }
 
-    private void OnDisable()
-    {
-        figure.alertUIController?.HideAll();
-    }
-
-    public bool isKingIsUnderAttack()
+    public bool IsKingUnderAttack()
     {
         var king = FiguresRepository.Instance
-            .GetFiguresByTeam(figure.whiteTeamAffiliation)
-            .FirstOrDefault(f => f.isKing && f.CurrentTile != null);
+            .GetFiguresByTeam(_owner.WhiteTeamAffiliation)
+            .FirstOrDefault(f => f.IsKing && f.CurrentTile != null);
 
-        if (king == null) return false;
-
+        if (king == null)
+            return false;
+        
         var result = KingThreatStateCache.Instance.GetThreatState(king);
-        if (result == null) return false;
+        if (result == null)
+            return false;
 
-        kingUnderAttack = result.isUnderAttack;
-        blockableTiles = result.blockableTiles;
-        coveringPieces = result.coveringPieces;
+        KingUnderAttack = result.isUnderAttack;
+        BlockableTiles   = result.blockableTiles;
+        CoveringPieces   = result.coveringPieces;
 
-        var enemies = FiguresRepository.Instance.GetFiguresByTeam(!figure.whiteTeamAffiliation);
-        var allies = FiguresRepository.Instance.GetFiguresByTeam(figure.whiteTeamAffiliation).Where(f => !f.isKing).ToList();
-        EnemyKingDetectorUIController.UpdateAlerts(result, king, enemies, allies);
+        // Обновляем UI
+        EnemyKingDetectorUIController.UpdateAlerts(result, king,
+            FiguresRepository.Instance.GetFiguresByTeam(_owner.WhiteTeamAffiliation == false).ToList(),
+            FiguresRepository.Instance.GetFiguresByTeam(_owner.WhiteTeamAffiliation).Where(f => f.IsKing == false).ToList()
+        );
 
-        if (kingUnderAttack)
+        // Если король под атакой, проверяем условия пата/матa
+        if (KingUnderAttack)
         {
-            List<Tile> kingMoves = TileThreatAnalyzer.FilterKingMoves(
-                FigureMoveService.GetAvailableToMoveTiles(king),
-                king
-            );
+            var kingMoves = TileThreatAnalyzer.FilterKingMoves(
+                FigureMoveService.GetAvailableToMoveTiles(king), king);
+            bool canEscape = kingMoves.Count > 0;
+            bool canBlockOrCapture = false;
 
-            bool kingCanEscape = kingMoves.Count > 0;
-            bool someoneCanBlockOrCapture = false;
-
-            if (!result.isDoubleCheck)
+            if (result.isDoubleCheck == false)
             {
-                foreach (var ally in coveringPieces)
+                foreach (var ally in CoveringPieces)
                 {
                     var allyMoves = FigureMoveService.GetAvailableToMoveTiles(ally);
-
-                    bool canBlock = allyMoves.Any(t =>
-                        blockableTiles.Any(b => b.Position == t.Position)
-                    );
-
-                    bool canCapture = allyMoves.Any(t =>
-                        result.attackers.Any(a => a.CurrentTile != null && a.CurrentTile.Position == t.Position)
-                    );
-
-                    if (canBlock || canCapture)
+                    if (allyMoves.Any(t => BlockableTiles.Any(b => b.Position == t.Position)) ||
+                        allyMoves.Any(t => result.attackers.Any(a => a.CurrentTile?.Position == t.Position)))
                     {
-                        someoneCanBlockOrCapture = true;
+                        canBlockOrCapture = true;
                         break;
                     }
                 }
             }
 
-            if (!kingCanEscape && !someoneCanBlockOrCapture)
+            if (canEscape == false && canBlockOrCapture == false)
             {
-                king.alertUIController?.ShowKingUnderDirectAttackText(false);
-                king.alertUIController?.ShowKingUnderCheckmateText(true);
-                
-                var state = figure.whiteTeamAffiliation
+                king.AlertUIController?.HideAllAlerts();
+                king.AlertUIController?.SetAlertVisibility(AlertType.KingUnderCheckmate, true);
+
+                var state = _owner.WhiteTeamAffiliation
                     ? GameStateManager.GameState.WhitesLost
                     : GameStateManager.GameState.BlacksLost;
 
@@ -85,6 +72,11 @@ public class EnemyKingDetector : MonoBehaviour
             }
         }
 
-        return kingUnderAttack;
+        return KingUnderAttack;
+    }
+
+    public void HideAlertsOnDisable()
+    {
+        _owner.AlertUIController?.HideAllAlerts();
     }
 }

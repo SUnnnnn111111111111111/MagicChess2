@@ -25,9 +25,9 @@ public static class KingThreatAnalyzer
             if (enemy.CurrentTile == null) continue;
 
             List<Tile> moves = FigureMoveService.GetAvailableToMoveTiles(enemy);
-            bool canAttack = moves.Any(t => t.Position == kingPos && !t.HiddenByFog);
+            bool canAttack = moves.Any(t => t.Position == kingPos && t.HiddenByFog == false);
 
-            if (!canAttack) continue;
+            if (canAttack == false) continue;
 
             result.attackers.Add(enemy);
 

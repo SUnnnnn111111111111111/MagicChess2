@@ -791,11 +791,19 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3600387470799785659, guid: 3974e57b782cd7c42918cd62eeb899d4, type: 3}
+      propertyPath: <IsKing>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3600387470799785659, guid: 3974e57b782cd7c42918cd62eeb899d4, type: 3}
       propertyPath: neighborSelectionSettings
       value: 
       objectReference: {fileID: 11400000, guid: 6314978e844dabb4bb458715fd35407b, type: 2}
     - target: {fileID: 3600387470799785659, guid: 3974e57b782cd7c42918cd62eeb899d4, type: 3}
       propertyPath: neighborTilesSelectionSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: 205a35552af4f0844b2a79fa0af53f5d, type: 2}
+    - target: {fileID: 3600387470799785659, guid: 3974e57b782cd7c42918cd62eeb899d4, type: 3}
+      propertyPath: <TilesSelectionSettings>k__BackingField
       value: 
       objectReference: {fileID: 11400000, guid: 205a35552af4f0844b2a79fa0af53f5d, type: 2}
     - target: {fileID: 7341690228429134874, guid: 3974e57b782cd7c42918cd62eeb899d4, type: 3}

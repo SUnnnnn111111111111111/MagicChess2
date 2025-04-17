@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6298311060019460980}
   - component: {fileID: 5228671099217048922}
-  - component: {fileID: 8049444515374112108}
   - component: {fileID: 7053951710455516815}
+  - component: {fileID: 541931766915582888}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -55,19 +55,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &8049444515374112108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1629243701159592164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9728e52ce4457f94d9defa73705ba16d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isActive: 1
 --- !u!114 &7053951710455516815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,6 +94,18 @@ MonoBehaviour:
         _Z: 1
         _W: 0
         _Object: {fileID: 0}
+--- !u!114 &541931766915582888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629243701159592164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5804260c27744011be010b7362568f34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2554840870046549271
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,11 +268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1357162212287290159}
   - component: {fileID: 5098165892479961486}
-  - component: {fileID: 5304053741665056959}
-  - component: {fileID: 6429181906313410447}
-  - component: {fileID: 8818771738053839986}
   - component: {fileID: 8960104385785460405}
-  - component: {fileID: 4358976469702406060}
   m_Layer: 0
   m_Name: _Figure
   m_TagString: Untagged
@@ -312,54 +307,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52902fda56450a4fb6cb954f88da837, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whiteTeamAffiliation: 0
-  isKing: 0
-  isPawn: 0
-  isFirstMove: 1
-  hasMovedThisTurn: 0
-  countOfMovesIsOnEventTriggeringTile: 0
-  neighborTilesSelectionSettings: {fileID: 0}
-  fogNeighborTilesSelectionSettings: {fileID: 11400000, guid: 92845ff1f5826fb46a8af581b1c10e02, type: 2}
-  uiPrefab: {fileID: 7120197752831858337}
-  uiController: {fileID: 0}
-  alertUIController: {fileID: 1335498552155195667}
-  delayBeforePassingTheMove: 0.5
---- !u!114 &5304053741665056959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7089545583060090016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f816adbfb7ce4dc5ae23cbf3d0e506c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6429181906313410447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7089545583060090016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffff98ef85474a72a167bc35efda5753, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8818771738053839986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7089545583060090016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9153eb47aa754d8082b5e92a59815d9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  <WhiteTeamAffiliation>k__BackingField: 0
+  <IsKing>k__BackingField: 0
+  <IsPawn>k__BackingField: 0
+  <IsFirstMove>k__BackingField: 0
+  <HasMovedThisTurn>k__BackingField: 0
+  <CountOfMovesIsOnEventTriggeringTile>k__BackingField: 0
+  <TilesSelectionSettings>k__BackingField: {fileID: 0}
+  <FogNeighborTilesSelectionSettings>k__BackingField: {fileID: 11400000, guid: 92845ff1f5826fb46a8af581b1c10e02, type: 2}
+  <UIPrefab>k__BackingField: {fileID: 8603725808692098184}
+  <UIController>k__BackingField: {fileID: 8603725808692098184}
+  <AlertUIController>k__BackingField: {fileID: 502257497176224989}
 --- !u!114 &8960104385785460405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -377,18 +335,6 @@ MonoBehaviour:
   maxParts: 40
   cubeSize: 0.1
   positionOffset: {x: 0, y: 0.25, z: 0}
---- !u!114 &4358976469702406060
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7089545583060090016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e435e58e863d49e1936ed6697156a77b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7736452806140158231
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,9 +456,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 14cc8d0970d96bb4aa57cbe86af120b1, type: 3}
---- !u!114 &1335498552155195667 stripped
+--- !u!114 &502257497176224989 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1215430812228685625, guid: 14cc8d0970d96bb4aa57cbe86af120b1, type: 3}
+  m_CorrespondingSourceObject: {fileID: 337444179259028215, guid: 14cc8d0970d96bb4aa57cbe86af120b1, type: 3}
   m_PrefabInstance: {fileID: 168523492264166954}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -526,9 +472,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5824008353559328780, guid: 14cc8d0970d96bb4aa57cbe86af120b1, type: 3}
   m_PrefabInstance: {fileID: 168523492264166954}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7120197752831858337 stripped
+--- !u!114 &8603725808692098184 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6955441393584377995, guid: 14cc8d0970d96bb4aa57cbe86af120b1, type: 3}
+  m_CorrespondingSourceObject: {fileID: 8444289094045217442, guid: 14cc8d0970d96bb4aa57cbe86af120b1, type: 3}
   m_PrefabInstance: {fileID: 168523492264166954}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

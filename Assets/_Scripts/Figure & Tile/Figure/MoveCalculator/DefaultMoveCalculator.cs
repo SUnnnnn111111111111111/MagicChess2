@@ -32,14 +32,14 @@ public class DefaultMoveCalculator : MoveCalculator
             foreach (var tile in entry.Value)
             {
                 if (foundObstacle) break;
-                if (tile.isWall)
+                if (tile.IsWall)
                 {
                     foundObstacle = true;
                     break;
                 }
                 if (tile.OccupyingFigure != null)
                 {
-                    if (tile.OccupyingFigure.whiteTeamAffiliation != isWhite)
+                    if (tile.OccupyingFigure.WhiteTeamAffiliation != isWhite)
                     {
                         moves.Add(tile);
                     }

@@ -708,6 +708,14 @@ PrefabInstance:
       propertyPath: neighborTilesSelectionSettings
       value: 
       objectReference: {fileID: 11400000, guid: 39790332b0f76df40b38bd9e18e40520, type: 2}
+    - target: {fileID: 3600387470799785659, guid: 1bda4c78e7e12894189ec3aa6c9c61ab, type: 3}
+      propertyPath: <TilesSelectionSettings>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 39790332b0f76df40b38bd9e18e40520, type: 2}
+    - target: {fileID: 3600387470799785659, guid: 1bda4c78e7e12894189ec3aa6c9c61ab, type: 3}
+      propertyPath: <FogNeighborTilesSelectionSettings>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 92845ff1f5826fb46a8af581b1c10e02, type: 2}
     - target: {fileID: 7341690228429134874, guid: 1bda4c78e7e12894189ec3aa6c9c61ab, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

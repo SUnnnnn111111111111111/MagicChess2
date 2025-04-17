@@ -25,8 +25,7 @@ public class FiguresRepository : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    // ✅ Универсальный доступ
+    
     public List<Figure> AllFigures
     {
         get
@@ -48,7 +47,7 @@ public class FiguresRepository : MonoBehaviour
     {
         figure.CurrentPosition = position;
 
-        if (figure.whiteTeamAffiliation)
+        if (figure.WhiteTeamAffiliation)
             whiteFigures[position] = figure;
         else
             blackFigures[position] = figure;

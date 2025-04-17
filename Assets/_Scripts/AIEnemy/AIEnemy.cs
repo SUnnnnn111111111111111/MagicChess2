@@ -44,6 +44,18 @@ public class AIEnemy : MonoBehaviour
         if (GameStateManager.Instance != null)
             GameStateManager.Instance.OnGameStateChanged.RemoveListener(HandleGameStateChanged);
     }
+    
+    /// <summary>
+    /// Обработчик изменения игрового состояния. При наступлении хода для AI инициируется выполнение хода.
+    /// </summary>
+    private void HandleGameStateChanged(GameStateManager.GameState newState)
+    {
+        if ((aiTeam == AITeam.Black && newState == GameStateManager.GameState.BlacksPlaying) ||
+            (aiTeam == AITeam.White && newState == GameStateManager.GameState.WhitesPlaying))
+        {
+            StartCoroutine(AIMoveRoutine());
+        }
+    }
 
     public void SetTeam(AITeam team)
     {
@@ -77,20 +89,7 @@ public class AIEnemy : MonoBehaviour
     }
     
     /// <summary>
-    /// Обработчик изменения игрового состояния. При наступлении хода для AI инициируется выполнение хода.
-    /// </summary>
-    private void HandleGameStateChanged(GameStateManager.GameState newState)
-    {
-        if ((aiTeam == AITeam.Black && newState == GameStateManager.GameState.BlacksPlaying) ||
-            (aiTeam == AITeam.White && newState == GameStateManager.GameState.WhitesPlaying))
-        {
-            StartCoroutine(AIMoveRoutine());
-        }
-    }
-    
-    /// <summary>
     /// Основной цикл выполнения хода AI с задержкой.
-    /// Теперь вместо локального выбора клетки (с использованием WeightedTileSelector) используется глобальная оценка клетки.
     /// </summary>
     private IEnumerator AIMoveRoutine()
     {
@@ -102,8 +101,7 @@ public class AIEnemy : MonoBehaviour
             Debug.LogWarning("Нет выбранной фигуры для хода AI");
             yield break;
         }
-
-        // Выбираем глобальную цель с учетом новых критериев и получаем рассчитанный вес
+        
         var evaluationResult = TileScoringService.SelectBestTile(selectedAIFigure);
         Tile selectedTile = evaluationResult.tile;
         float selectedTileWeight = evaluationResult.weight;
@@ -113,18 +111,9 @@ public class AIEnemy : MonoBehaviour
             Debug.LogWarning("Нет подходящей глобальной клетки для хода AI");
             yield break;
         }
-    
-        FigureMover mover = selectedAIFigure.GetComponent<FigureMover>();
-        if (mover != null)
-        {
-            mover.TryMoveToTile(selectedTile);
-        }
-        else
-        {
-            Debug.LogWarning("Не найден компонент FigureMover на выбранной фигуре");
-        }
+        
+        selectedAIFigure.Mover.TryMoveToTile(selectedTile);
     }
-
     
     /// <summary>
     /// Выбирает фигуру для хода AI с учетом веса. При выборе происходит подсветка доступных ходов.
@@ -143,9 +132,7 @@ public class AIEnemy : MonoBehaviour
         
         if (selectedFigure != null)
         {
-            var logic = selectedFigure.GetComponent<FigureLogic>();
-            if (logic != null)
-                logic.HighlightAvailableToMoveTiles(includeFog: false);
+            selectedFigure.Logic.HighlightAvailableToMoveTiles(includeFog: false);
         }
         
         return selectedFigure;

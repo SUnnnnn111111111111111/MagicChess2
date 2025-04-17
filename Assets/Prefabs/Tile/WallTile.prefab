@@ -56,6 +56,10 @@ PrefabInstance:
       propertyPath: isWall
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4115211553564373032, guid: d34d9bba6d6493240a51ff1d0e349bb5, type: 3}
+      propertyPath: <IsWall>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

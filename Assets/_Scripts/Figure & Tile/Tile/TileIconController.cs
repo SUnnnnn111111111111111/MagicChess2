@@ -17,9 +17,9 @@ public class TileIconController : MonoBehaviour
     public void UpdateIcons()
     {
         if (pawnPromotionIcon != null)
-            pawnPromotionIcon.SetActive(tile.isAPawnMovementPromotion);
+            pawnPromotionIcon.SetActive(tile.IsAPawnMovementPromotion);
 
         if (randomPromotionIcon != null)
-            randomPromotionIcon.SetActive(tile.isAPawnMovementRandomPromotion);
+            randomPromotionIcon.SetActive(tile.IsAPawnMovementRandomPromotion);
     }
 }

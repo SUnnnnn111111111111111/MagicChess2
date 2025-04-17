@@ -12,8 +12,6 @@ GameObject:
   - component: {fileID: 7514043826946260295}
   - component: {fileID: 7594601381490415169}
   - component: {fileID: 4232060509556772204}
-  - component: {fileID: 6955441393584377995}
-  - component: {fileID: 1215430812228685625}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -109,41 +107,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &6955441393584377995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 595935970181677901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04983612f92b4d1aaa4989aadb3a6889, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movesText: {fileID: 4774968009634506916}
-  canvasGroup: {fileID: 6311676868047977198}
-  isHiddenOnStart: 1
-  fadeInDuration: 0.5
-  visibleDuration: 1
-  fadeOutDuration: 0.5
---- !u!114 &1215430812228685625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 595935970181677901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33dbba52d0a44cc5a98d0bf034233aad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  kingDiscoveryText: {fileID: 1949419556895926651}
-  kingUnderAttackText: {fileID: 567359615766202420}
-  kingProtectingText: {fileID: 2344495598601378199}
-  kingUnderDirectAttackText: {fileID: 2313399658338330202}
-  kingUnderCheckmateText: {fileID: 915525152651480894}
 --- !u!1 &780530674226638456
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,6 +279,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5824008353559328780}
+  - component: {fileID: 8444289094045217442}
+  - component: {fileID: 337444179259028215}
   m_Layer: 0
   m_Name: FigureUI
   m_TagString: Untagged
@@ -339,6 +304,41 @@ Transform:
   - {fileID: 1065860708540868783}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8444289094045217442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053800171709223060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04983612f92b4d1aaa4989aadb3a6889, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movesText: {fileID: 4774968009634506916}
+  canvasGroup: {fileID: 6311676868047977198}
+  isHiddenOnStart: 1
+  fadeInDuration: 0.5
+  visibleDuration: 1
+  fadeOutDuration: 0.5
+--- !u!114 &337444179259028215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1053800171709223060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33dbba52d0a44cc5a98d0bf034233aad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kingDiscoveryText: {fileID: 1949419556895926651}
+  kingUnderAttackText: {fileID: 567359615766202420}
+  kingProtectingText: {fileID: 2344495598601378199}
+  kingUnderDirectAttackText: {fileID: 2313399658338330202}
+  kingUnderCheckmateText: {fileID: 915525152651480894}
 --- !u!1 &1655311393143346441
 GameObject:
   m_ObjectHideFlags: 0

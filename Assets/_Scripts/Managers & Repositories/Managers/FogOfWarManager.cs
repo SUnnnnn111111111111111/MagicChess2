@@ -46,11 +46,11 @@ public class FogOfWarManager : MonoBehaviour
         foreach (var fig in figuresToReveal)
         {
             if (fig == null) continue;
-            if (fig.CurrentTile == null || fig.fogNeighborTilesSelectionSettings == null)
+            if (fig.CurrentTile == null || fig.FogNeighborTilesSelectionSettings == null)
                 continue;
 
             fig.CurrentTile.SetHiddenByFog(false);
-            List<Tile> fogTiles = fig.CurrentTile.GetNeighbors(fig.fogNeighborTilesSelectionSettings);
+            List<Tile> fogTiles = fig.CurrentTile.GetNeighbors(fig.FogNeighborTilesSelectionSettings);
             foreach (var tile in fogTiles)
             {
                 tile.SetHiddenByFog(false);

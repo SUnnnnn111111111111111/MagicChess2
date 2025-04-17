@@ -536,6 +536,10 @@ PrefabInstance:
       propertyPath: neighborTilesSelectionSettings
       value: 
       objectReference: {fileID: 11400000, guid: 6d0ad3ff159ed144cae9ef1fe2de22a9, type: 2}
+    - target: {fileID: 3600387470799785659, guid: 3974e57b782cd7c42918cd62eeb899d4, type: 3}
+      propertyPath: <TilesSelectionSettings>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 6d0ad3ff159ed144cae9ef1fe2de22a9, type: 2}
     - target: {fileID: 7341690228429134874, guid: 3974e57b782cd7c42918cd62eeb899d4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

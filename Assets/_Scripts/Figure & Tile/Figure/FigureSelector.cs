@@ -15,20 +15,17 @@ public static class FigureSelector
             return false;
 
         if (GameStateManager.Instance.CurrentGameMode == GameStateManager.GameMode.VsAiEnemy &&
-            !GameStateManager.Instance.IsPlayersTurn())
+            GameStateManager.Instance.IsPlayersTurn() == false)
             return false;
 
         bool isWhiteTurn = gameState == GameStateManager.GameState.WhitesPlaying;
-        if (isWhiteTurn != figure.whiteTeamAffiliation)
-            return false;
-
-        if (!figure.GetComponentInChildren<FigureClickHandler>().isActive)
+        if (isWhiteTurn != figure.WhiteTeamAffiliation)
             return false;
 
         // Проверка шаха через кэш
         var king = FiguresRepository.Instance
-            .GetFiguresByTeam(figure.whiteTeamAffiliation)
-            .FirstOrDefault(f => f.isKing);
+            .GetFiguresByTeam(figure.WhiteTeamAffiliation)
+            .FirstOrDefault(f => f.IsKing);
 
         var result = KingThreatStateCache.Instance.GetThreatState(king);
         
@@ -36,10 +33,10 @@ public static class FigureSelector
         {
             if (result.isDoubleCheck)
             {
-                return figure.isKing;
+                return figure.IsKing;
             }
         
-            return figure.isKing || result.coveringPieces.Contains(figure);
+            return figure.IsKing || result.coveringPieces.Contains(figure);
         }
         
         return true;
